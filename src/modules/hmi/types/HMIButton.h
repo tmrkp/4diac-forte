@@ -33,13 +33,13 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     CIEC_ANY *getDI(size_t) override;
     CIEC_ANY *getDO(size_t) override;
 
-    FORTE_HMIBusAdapter &var_BusAdapterIn() {
-      return *static_cast<FORTE_HMIBusAdapter *>(mAdapters[0]);
-    };
-
-    FORTE_HMIBusAdapter &var_BusAdapterOut() {
-      return *static_cast<FORTE_HMIBusAdapter *>(mAdapters[1]);
-    };
+    // FORTE_HMIBusAdapter &var_BusAdapterIn() {
+    //   return *static_cast<FORTE_HMIBusAdapter *>(mAdapters[0]);
+    // };
+    //
+    // FORTE_HMIBusAdapter &var_BusAdapterOut() {
+    //   return *static_cast<FORTE_HMIBusAdapter *>(mAdapters[1]);
+    // };
 
     CEventConnection *getEOConUnchecked(TPortId) override;
     CDataConnection **getDIConUnchecked(TPortId) override;

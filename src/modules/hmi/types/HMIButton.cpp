@@ -39,8 +39,8 @@ const TForteInt16 FORTE_HMIButton::scmEOWithIndexes[] = {0, 2};
 const CStringDictionary::TStringId FORTE_HMIButton::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
 const CStringDictionary::TStringId FORTE_HMIButton::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
 const SAdapterInstanceDef FORTE_HMIButton::scmAdapterInstances[] = {
+    {STRID(HMIBusAdapter), STRID(BusAdapterOut), true},
     {STRID(HMIBusAdapter), STRID(BusAdapterIn), false},
-    {STRID(HMIBusAdapter), STRID(BusAdapterOut), true}
 };
 const SFBInterfaceSpec FORTE_HMIButton::scmFBInterfaceSpec = {
     1, scmEventInputNames, nullptr, scmEIWith, scmEIWithIndexes,
