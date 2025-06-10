@@ -38,6 +38,8 @@ void callOnExit() {
   CForteArchitecture::deinitialize();
 }
 
+extern void hmiMainFunctionHook();
+
 int main(int argc, char *arg[]) {
 
   checkEndianess();
@@ -63,6 +65,9 @@ int main(int argc, char *arg[]) {
   }
 
   DEVLOG_INFO("FORTE is up and running\n");
+
+  hmiMainFunctionHook();
+
   g4diacForteInstance.awaitDeviceShutdown();
   DEVLOG_INFO("FORTE finished\n");
 
