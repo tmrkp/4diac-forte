@@ -1,7 +1,7 @@
 #include "HMIBusAdapter.h"
 
 USE_STRING_ID(BOOL);
-USE_STRING_ID(EInit);
+USE_STRING_ID(Event);
 USE_STRING_ID(Index);
 USE_STRING_ID(INIT);
 USE_STRING_ID(INITO);
@@ -22,11 +22,11 @@ const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmDataOutputTypeIds[] =
 const TDataIOID FORTE_HMIBusAdapter::scmEIWith[] = {0, scmWithListDelimiter};
 const TForteInt16 FORTE_HMIBusAdapter::scmEIWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventInputNames[] = {STRID(INITO)};
-const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventInputTypeIds[] = {STRID(EInit)};
+const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventInputTypeIds[] = {STRID(Event)};
 const TDataIOID FORTE_HMIBusAdapter::scmEOWith[] = {0, 1, 2, scmWithListDelimiter};
 const TForteInt16 FORTE_HMIBusAdapter::scmEOWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventOutputNames[] = {STRID(INIT)};
-const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventOutputTypeIds[] = {STRID(EInit)};
+const CStringDictionary::TStringId FORTE_HMIBusAdapter::scmEventOutputTypeIds[] = {STRID(Event)};
 
 const SFBInterfaceSpec FORTE_HMIBusAdapter::scmFBInterfaceSpecSocket = {
     1, scmEventInputNames, scmEventInputTypeIds, scmEIWith, scmEIWithIndexes,

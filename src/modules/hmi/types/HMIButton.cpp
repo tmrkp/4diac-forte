@@ -43,8 +43,8 @@ const SAdapterInstanceDef FORTE_HMIButton::scmAdapterInstances[] = {
     {STRID(HMIBusAdapter), STRID(BusAdapterIn), false},
 };
 const SFBInterfaceSpec FORTE_HMIButton::scmFBInterfaceSpec = {
-    1, scmEventInputNames, nullptr, scmEIWith, scmEIWithIndexes,
-    2, scmEventOutputNames, nullptr, scmEOWith, scmEOWithIndexes,
+    1, scmEventInputNames, scmEventInputTypeIds, scmEIWith, scmEIWithIndexes,
+    2, scmEventOutputNames, scmEventOutputTypeIds, scmEOWith, scmEOWithIndexes,
     3, scmDataInputNames, scmDataInputTypeIds,
     2, scmDataOutputNames, scmDataOutputTypeIds,
     0, nullptr,
@@ -56,7 +56,7 @@ const TForteUInt8 FORTE_HMIButton::scmSlaveConfigurationIONum = 0;
 
 FORTE_HMIButton::FORTE_HMIButton(const CStringDictionary::TStringId paInstanceNameId,
                                  forte::core::CFBContainer &paContainer) :
-  IOConfigFBMultiSlave(scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 96, paContainer, scmFBInterfaceSpec,
+  IOConfigFBMultiSlave(scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec,
                        paInstanceNameId),
   var_QI(0_BOOL),
   var_LABEL(u""_WSTRING),

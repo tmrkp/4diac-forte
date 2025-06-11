@@ -2,6 +2,25 @@
 #include <unistd.h>
 #include "lvgl/lvgl.h"
 
+static lv_obj_t *led;
+static bool was_pressed;
+
+void hmi_set_led(bool on) {
+  if (on) {
+    lv_led_on(led);
+  } else {
+    lv_led_off(led);
+  }
+}
+
+bool hmi_button_was_pressed() {
+  if (was_pressed) {
+    was_pressed = false;
+    return true;
+  }
+  return false;
+}
+
 static lv_display_t *hal_init(int32_t w, int32_t h) {
   lv_group_set_default(lv_group_create());
 
@@ -38,9 +57,11 @@ static void create_demo() {
 
   lv_obj_add_event_cb(btn, [](lv_event_t *event) {
     std::cout << "Button was clicked" << std::endl;
+    was_pressed = true;
   }, LV_EVENT_CLICKED, nullptr);
 
-  lv_led_create(layout);
+  led = lv_led_create(layout);
+  lv_led_off(led);
 }
 
 void hmiStartupHook(int argc, char *arg[]) {

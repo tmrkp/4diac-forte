@@ -2,7 +2,6 @@
 
 USE_STRING_ID(BOOL);
 USE_STRING_ID(BusAdapterOut);
-USE_STRING_ID(EInit);
 USE_STRING_ID(Event);
 USE_STRING_ID(IND);
 USE_STRING_ID(INIT);
@@ -26,16 +25,16 @@ const CStringDictionary::TStringId FORTE_HMIMaster::scmDataOutputTypeIds[] = {ST
 const TDataIOID FORTE_HMIMaster::scmEIWith[] = {0, scmWithListDelimiter};
 const TForteInt16 FORTE_HMIMaster::scmEIWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_HMIMaster::scmEventInputNames[] = {STRID(INIT)};
-const CStringDictionary::TStringId FORTE_HMIMaster::scmEventInputTypeIds[] = {STRID(EInit)};
+const CStringDictionary::TStringId FORTE_HMIMaster::scmEventInputTypeIds[] = {STRID(Event)};
 const TDataIOID FORTE_HMIMaster::scmEOWith[] = {0, 1, scmWithListDelimiter};
 const TForteInt16 FORTE_HMIMaster::scmEOWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_HMIMaster::scmEventOutputNames[] = {STRID(INITO)};
-const CStringDictionary::TStringId FORTE_HMIMaster::scmEventOutputTypeIds[] = {STRID(EInit)};
+const CStringDictionary::TStringId FORTE_HMIMaster::scmEventOutputTypeIds[] = {STRID(Event)};
 const SAdapterInstanceDef FORTE_HMIMaster::scmAdapterInstances[] = {
     {STRID(HMIBusAdapter), STRID(BusAdapterOut), true}};
 const SFBInterfaceSpec FORTE_HMIMaster::scmFBInterfaceSpec = {
-    1, scmEventInputNames, nullptr, scmEIWith, scmEIWithIndexes,
-    1, scmEventOutputNames, nullptr, scmEOWith, scmEOWithIndexes,
+    1, scmEventInputNames, scmEventInputTypeIds, scmEIWith, scmEIWithIndexes,
+    1, scmEventOutputNames, scmEventOutputTypeIds, scmEOWith, scmEOWithIndexes,
     1, scmDataInputNames, scmDataInputTypeIds,
     2, scmDataOutputNames, scmDataOutputTypeIds,
     0, nullptr,

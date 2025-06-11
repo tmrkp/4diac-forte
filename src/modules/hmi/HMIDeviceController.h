@@ -39,6 +39,8 @@ class HMIDeviceController : public IODeviceMultiController {
 
     IOHandle *createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) override;
 
+    bool isHandleValueEqual(IOHandle &paHandle) override;
+
     void deInit() override;
 
     void runLoop() override;
@@ -49,6 +51,8 @@ class HMIDeviceController : public IODeviceMultiController {
     bool isSlaveAvailable(size_t paIndex);
 
     bool checkSlaveType(size_t paIndex, int paType);
+
+
 };
 
 #endif /* SRC_MODULES_HMI_MODULAR_HMIDEVICECONTROLLER_H_ */

@@ -5,14 +5,14 @@
 #include "HMIHandle.h"
 
 HMIDeviceController::HMIDeviceController(CDeviceExecution &paDeviceExecution) :
-  forte::core::io::IODeviceMultiController(paDeviceExecution) {
+  IODeviceMultiController(paDeviceExecution) {
 }
 
 HMIDeviceController::~HMIDeviceController() {
   // do nothing
 }
 
-void HMIDeviceController::setConfig(struct forte::core::io::IODeviceController::Config *paConfig) {
+void HMIDeviceController::setConfig(Config *paConfig) {
   this->mConfig = *static_cast<HMIConfig *>(paConfig);
 }
 
@@ -20,11 +20,14 @@ const char *HMIDeviceController::init() {
   return nullptr;
 }
 
-forte::core::io::IOHandle *
-HMIDeviceController::createIOHandle(forte::core::io::IODeviceController::HandleDescriptor &paHandleDescriptor) {
+IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) {
   HMIHandleDescriptor &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
   return new HMIHandle(this, desc.mType, desc.mDirection);
+}
+
+bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {
+  return !static_cast<HMIHandle &>(paHandle).hasChanged();
 }
 
 void HMIDeviceController::deInit() {
@@ -33,12 +36,12 @@ void HMIDeviceController::deInit() {
 
 void HMIDeviceController::runLoop() {
   while (isAlive()) {
-    sleepThread(1000);
-    std::cout << "Hello from HMIDeviceController" << std::endl;
+    sleepThread(250);
+    checkForInputChanges();
   }
 }
 
-void HMIDeviceController::addSlaveHandle(size_t paIndex, std::unique_ptr<forte::core::io::IOHandle> paHandle) {
+void HMIDeviceController::addSlaveHandle(size_t paIndex, std::unique_ptr<IOHandle> paHandle) {
   CCriticalRegion criticalRegion(mHandleMutex);
   paHandle->isInput() ? mInputHandles.push_back(std::move(paHandle)) : mOutputHandles.push_back(std::move(paHandle));
 }
@@ -48,10 +51,10 @@ void HMIDeviceController::dropSlaveHandles(size_t) {
 }
 
 bool HMIDeviceController::isSlaveAvailable(size_t paIndex) {
-
+  return true;
 }
 
 bool HMIDeviceController::checkSlaveType(size_t paIndex, int paType) {
-
+  return true;
 }
 

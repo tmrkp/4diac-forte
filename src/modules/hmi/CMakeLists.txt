@@ -6,8 +6,7 @@ if (FORTE_IO_HMI)
 
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     forte_add_sourcefile_hcpp(HMIHandle HMIDeviceController)
-    forte_add_sourcefile_hcpp(types/HMIMaster types/HMIBusAdapter types/HMIButton)
-    #    forte_add_sourcefile_hcpp(types/HMI_fbt)
+    forte_add_sourcefile_hcpp(types/HMIMaster types/HMIBusAdapter types/HMIButton types/HMILightIndicator)
 
     forte_add_startup_hook(hmiStartupHook)
     forte_add_sourcefile_cpp(startup.cpp)
@@ -16,8 +15,7 @@ if (FORTE_IO_HMI)
     message(STATUS "SDL2 include dirs: ${SDL2_INCLUDE_DIRS}")
     message(STATUS "SDL2 libraries: ${SDL2_LIBRARIES}")
 
-    # Remove ARM-specific compile and linker options
-    #    add_compile_options(-march=native)
+    add_compile_options(-march=native)
 
     set(LV_BUILD_CONF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h")
     add_subdirectory(lvgl)

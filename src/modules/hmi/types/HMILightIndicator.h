@@ -6,26 +6,29 @@
 
 using namespace forte::core::io;
 
-class FORTE_HMIButton : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMIButton)
+class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMILightIndicator)
 
   public:
-    FORTE_HMIButton(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMIButton() override = default;
+    FORTE_HMILightIndicator(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMILightIndicator() override = default;
 
     CIEC_BOOL var_QI;
     CIEC_WSTRING var_LABEL;
-    CIEC_STRING var_EventInput;
+    CIEC_STRING var_BoolOutput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
+
+    CIEC_BOOL var_conn_QO;
+    CIEC_WSTRING var_conn_STATUS;
 
     CEventConnection conn_MAPO;
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
     CDataConnection *conn_LABEL;
-    CDataConnection *conn_EventInput;
+    CDataConnection *conn_BoolOutput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -39,12 +42,12 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_WSTRING &paLABEL,
-                 const CIEC_STRING &paEventInput,
+                 const CIEC_STRING &paBoolOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_LABEL = paLABEL;
-      var_EventInput = paEventInput;
+      var_BoolOutput = paBoolOutput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -52,10 +55,10 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_WSTRING &paLABEL,
-                    const CIEC_STRING &paEventInput,
+                    const CIEC_STRING &paBoolOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLABEL, paEventInput, paQO, paSTATUS);
+      evt_MAP(paQI, paLABEL, paBoolOutput, paQO, paSTATUS);
     }
 
   protected:
@@ -90,3 +93,4 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     static const TForteUInt8 scmSlaveConfigurationIO[];
     static const TForteUInt8 scmSlaveConfigurationIONum;
 };
+
