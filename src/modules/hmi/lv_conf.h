@@ -353,7 +353,7 @@
  *-----------*/
 
 /** Enable log module */
-#define LV_USE_LOG 0
+#define LV_USE_LOG 1
 #if LV_USE_LOG
     /** Set value to one of the following levels of logging detail:
      *  - LV_LOG_LEVEL_TRACE    Log detailed information.
@@ -465,7 +465,7 @@
 #define LV_USE_OBJ_ID           0
 
 /**  Enable support widget names*/
-#define LV_USE_OBJ_NAME         0
+#define LV_USE_OBJ_NAME         1
 
 /** Automatically assign an ID when obj is created */
 #define LV_OBJ_ID_AUTO_ASSIGN   LV_USE_OBJ_ID

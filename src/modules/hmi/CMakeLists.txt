@@ -5,8 +5,14 @@ if (FORTE_IO_HMI)
     message("Set FORTE_IO")
 
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-    forte_add_sourcefile_hcpp(HMIHandle HMIDeviceController)
-    forte_add_sourcefile_hcpp(types/HMIMaster types/HMIBusAdapter types/HMIButton types/HMILightIndicator)
+    forte_add_sourcefile_hcpp(
+            HMIHandle
+            HMIDeviceController)
+    forte_add_sourcefile_hcpp(
+            types/HMIMaster
+            types/HMIBusAdapter
+            types/HMIButton
+            types/HMILightIndicator)
 
     forte_add_startup_hook(hmiStartupHook)
     forte_add_sourcefile_cpp(startup.cpp)

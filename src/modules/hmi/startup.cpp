@@ -5,12 +5,36 @@
 static lv_obj_t *led;
 static bool was_pressed;
 
-void hmi_set_led(bool on) {
-  if (on) {
-    lv_led_on(led);
-  } else {
-    lv_led_off(led);
+static std::mutex mutex;
+static std::queue<std::function<void()>> queue;
+
+void runLater(std::function<void()> task) {
+  std::lock_guard<std::mutex> lock(mutex);
+  queue.push(std::move(task));
+}
+
+static void process() {
+  std::queue<std::function<void()>> tasks;
+
+  {
+    std::lock_guard<std::mutex> lock(mutex);
+    std::swap(tasks, queue);
   }
+
+  while (!tasks.empty()) {
+    tasks.front()();
+    tasks.pop();
+  }
+}
+
+void hmi_set_led(bool on) {
+  runLater([on]() {
+    if (on) {
+      lv_led_on(led);
+    } else {
+      lv_led_off(led);
+    }
+  });
 }
 
 bool hmi_button_was_pressed() {
@@ -47,27 +71,31 @@ static lv_display_t *hal_init(int32_t w, int32_t h) {
 }
 
 static void create_demo() {
-  lv_obj_t *layout = lv_obj_create(lv_scr_act());
+  lv_obj_t *layout = lv_obj_create(lv_screen_active());
   lv_obj_set_size(layout, lv_pct(100), lv_pct(100));
   lv_obj_set_flex_flow(layout, LV_FLEX_FLOW_COLUMN);
 
   static lv_obj_t *btn = lv_button_create(layout);
   static lv_obj_t *label = lv_label_create(btn);
-  lv_label_set_text(label, "Emit Event");
+  lv_label_set_text(label, "Toggle");
 
-  lv_obj_add_event_cb(btn, [](lv_event_t *event) {
-    std::cout << "Button was clicked" << std::endl;
-    was_pressed = true;
-  }, LV_EVENT_CLICKED, nullptr);
+  lv_obj_add_event_cb(
+      btn,
+      [](lv_event_t *event) {
+        std::cout << "Button was clicked" << std::endl;
+        was_pressed = true;
+      },
+      LV_EVENT_CLICKED, nullptr);
 
   led = lv_led_create(layout);
   lv_led_off(led);
 }
 
 void hmiStartupHook(int argc, char *arg[]) {
-  std::cout << "Hello from HMI Startup Hook" << std::endl;
-
   lv_init();
+
+  lv_log_register_print_cb([](lv_log_level_t level, const char *buf) { std::cout << buf << std::endl; });
+
   hal_init(480, 320);
   create_demo();
 }
@@ -76,6 +104,7 @@ void hmiMainFunctionHook() {
   while (1) {
     /* Periodically call the lv_task handler.
      * It could be done in a timer interrupt or an OS task too.*/
+    process();
     lv_timer_handler();
     usleep(1000);
   }

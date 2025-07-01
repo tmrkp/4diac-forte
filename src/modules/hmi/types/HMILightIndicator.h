@@ -15,6 +15,7 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_WSTRING var_LABEL;
+    CIEC_WSTRING var_WIDGETNAME;
     CIEC_STRING var_BoolOutput;
 
     CIEC_BOOL var_QO;
@@ -28,6 +29,7 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_LABEL;
+    CDataConnection *conn_WIDGETNAME;
     CDataConnection *conn_BoolOutput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
@@ -42,11 +44,13 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_WSTRING &paLABEL,
+                 const CIEC_WSTRING &paWIDGETNAME,
                  const CIEC_STRING &paBoolOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_LABEL = paLABEL;
+      var_WIDGETNAME = paWIDGETNAME;
       var_BoolOutput = paBoolOutput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
@@ -55,10 +59,11 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_WSTRING &paLABEL,
+                    const CIEC_WSTRING &paWIDGETNAME,
                     const CIEC_STRING &paBoolOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLABEL, paBoolOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paLABEL, paWIDGETNAME, paBoolOutput, paQO, paSTATUS);
     }
 
   protected:
@@ -93,4 +98,3 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
     static const TForteUInt8 scmSlaveConfigurationIO[];
     static const TForteUInt8 scmSlaveConfigurationIONum;
 };
-

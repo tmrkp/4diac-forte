@@ -9,7 +9,7 @@ class HMIHandle : public IOHandle {
 
     ~HMIHandle();
 
-    virtual void set(const CIEC_ANY &) override;
+    void set(const CIEC_ANY &) override;
 
     void get(CIEC_ANY &) override;
 

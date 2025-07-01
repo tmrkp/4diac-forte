@@ -5,7 +5,7 @@
 #include "HMIHandle.h"
 
 HMIDeviceController::HMIDeviceController(CDeviceExecution &paDeviceExecution) :
-  IODeviceMultiController(paDeviceExecution) {
+    IODeviceMultiController(paDeviceExecution) {
 }
 
 HMIDeviceController::~HMIDeviceController() {
@@ -21,7 +21,7 @@ const char *HMIDeviceController::init() {
 }
 
 IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) {
-  HMIHandleDescriptor &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
+  auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
   return new HMIHandle(this, desc.mType, desc.mDirection);
 }
@@ -31,7 +31,6 @@ bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {
 }
 
 void HMIDeviceController::deInit() {
-
 }
 
 void HMIDeviceController::runLoop() {
@@ -57,4 +56,3 @@ bool HMIDeviceController::isSlaveAvailable(size_t paIndex) {
 bool HMIDeviceController::checkSlaveType(size_t paIndex, int paType) {
   return true;
 }
-
