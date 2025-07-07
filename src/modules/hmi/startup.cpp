@@ -1,9 +1,9 @@
 #include <iostream>
 #include <unistd.h>
 #include "lvgl/lvgl.h"
-
-static lv_obj_t *led;
-static bool was_pressed;
+#include "devlog.h"
+#include "ui/ui.h"
+#include "ui/screens/main_gen.h"
 
 static std::mutex mutex;
 static std::queue<std::function<void()>> queue;
@@ -25,24 +25,6 @@ static void process() {
     tasks.front()();
     tasks.pop();
   }
-}
-
-void hmi_set_led(bool on) {
-  runLater([on]() {
-    if (on) {
-      lv_led_on(led);
-    } else {
-      lv_led_off(led);
-    }
-  });
-}
-
-bool hmi_button_was_pressed() {
-  if (was_pressed) {
-    was_pressed = false;
-    return true;
-  }
-  return false;
 }
 
 static lv_display_t *hal_init(int32_t w, int32_t h) {
@@ -73,31 +55,35 @@ static lv_display_t *hal_init(int32_t w, int32_t h) {
 static void create_demo() {
   lv_obj_t *layout = lv_obj_create(lv_screen_active());
   lv_obj_set_size(layout, lv_pct(100), lv_pct(100));
-  lv_obj_set_flex_flow(layout, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_flex_flow(layout, LV_FLEX_FLOW_ROW);
 
   static lv_obj_t *btn = lv_button_create(layout);
+  lv_obj_set_name(btn, "btn");
   static lv_obj_t *label = lv_label_create(btn);
   lv_label_set_text(label, "Toggle");
-
-  lv_obj_add_event_cb(
-      btn,
-      [](lv_event_t *event) {
-        std::cout << "Button was clicked" << std::endl;
-        was_pressed = true;
-      },
-      LV_EVENT_CLICKED, nullptr);
-
-  led = lv_led_create(layout);
-  lv_led_off(led);
 }
 
 void hmiStartupHook(int argc, char *arg[]) {
   lv_init();
 
-  lv_log_register_print_cb([](lv_log_level_t level, const char *buf) { std::cout << buf << std::endl; });
+  lv_log_register_print_cb([](lv_log_level_t level, const char *buf) {
+    switch (level) {
+      case LV_LOG_LEVEL_ERROR: DEVLOG_ERROR("[LVGL] %s", buf); break;
+      case LV_LOG_LEVEL_WARN: DEVLOG_WARNING("[LVGL] %s", buf); break;
+      default: DEVLOG_DEBUG("[LVGL] %s", buf); break;
+    }
+  });
 
   hal_init(480, 320);
-  create_demo();
+
+  ui_init(nullptr);
+  lv_obj_t *main = main_create();
+
+  lv_obj_t *led = lv_led_create(main);
+  lv_obj_set_name(led, "led");
+  lv_led_off(led);
+
+  lv_screen_load(main);
 }
 
 void hmiMainFunctionHook() {

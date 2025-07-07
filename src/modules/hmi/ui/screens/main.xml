@@ -1,0 +1,10 @@
+<screen>
+    <view width="100%" height="100%" style_layout="flex" flex_flow="row_wrap" style_pad_row="20" style_pad_column="20" style_pad_all="20">
+        <lv_button name="button">
+            <lv_label text="Toggle Button"></lv_label>
+        </lv_button>
+        <lv_arc name="arc"></lv_arc>
+        <lv_bar mode="normal" name="bar"></lv_bar>
+        <lv_checkbox text="Checkbox" name="checkbox"></lv_checkbox>
+    </view>
+</screen>

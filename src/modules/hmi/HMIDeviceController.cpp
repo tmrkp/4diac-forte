@@ -23,7 +23,7 @@ const char *HMIDeviceController::init() {
 IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) {
   auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
-  return new HMIHandle(this, desc.mType, desc.mDirection);
+  return new HMIHandle(this, desc.mType, desc.mDirection, desc.mWidgetName);
 }
 
 bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {
@@ -46,7 +46,7 @@ void HMIDeviceController::addSlaveHandle(size_t paIndex, std::unique_ptr<IOHandl
 }
 
 void HMIDeviceController::dropSlaveHandles(size_t) {
-  // Is handled by #dropHandles method
+  // TODO: might need to be implemented
 }
 
 bool HMIDeviceController::isSlaveAvailable(size_t paIndex) {

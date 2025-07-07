@@ -11,20 +11,21 @@ class HMIDeviceController : public IODeviceMultiController {
 
     ~HMIDeviceController() override;
 
-    struct HMIConfig : Config {
-
-    };
+    struct HMIConfig : Config {};
 
     class HMIHandleDescriptor : public HandleDescriptor {
       public:
         CIEC_ANY::EDataTypeID mType;
+        std::string const &mWidgetName;
 
         HMIHandleDescriptor(std::string const &paId,
                             IOMapper::Direction paDirection,
                             size_t paSlaveIndex,
-                            CIEC_ANY::EDataTypeID paType) :
-          HandleDescriptor(paId, paDirection, paSlaveIndex),
-          mType(paType) {
+                            CIEC_ANY::EDataTypeID paType,
+                            std::string const &paWidgetName) :
+            HandleDescriptor(paId, paDirection, paSlaveIndex),
+            mType(paType),
+            mWidgetName(paWidgetName) {
         }
     };
 
@@ -51,8 +52,6 @@ class HMIDeviceController : public IODeviceMultiController {
     bool isSlaveAvailable(size_t paIndex);
 
     bool checkSlaveType(size_t paIndex, int paType);
-
-
 };
 
 #endif /* SRC_MODULES_HMI_MODULAR_HMIDEVICECONTROLLER_H_ */

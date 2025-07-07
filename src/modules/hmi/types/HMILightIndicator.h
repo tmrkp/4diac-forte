@@ -14,8 +14,7 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
     ~FORTE_HMILightIndicator() override = default;
 
     CIEC_BOOL var_QI;
-    CIEC_WSTRING var_LABEL;
-    CIEC_WSTRING var_WIDGETNAME;
+    CIEC_STRING var_WidgetName;
     CIEC_STRING var_BoolOutput;
 
     CIEC_BOOL var_QO;
@@ -28,8 +27,7 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
-    CDataConnection *conn_LABEL;
-    CDataConnection *conn_WIDGETNAME;
+    CDataConnection *conn_WidgetName;
     CDataConnection *conn_BoolOutput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
@@ -43,14 +41,12 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
     CDataConnection *getDOConUnchecked(TPortId) override;
 
     void evt_MAP(const CIEC_BOOL &paQI,
-                 const CIEC_WSTRING &paLABEL,
-                 const CIEC_WSTRING &paWIDGETNAME,
+                 const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paBoolOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
-      var_LABEL = paLABEL;
-      var_WIDGETNAME = paWIDGETNAME;
+      var_WidgetName = paWidgetName;
       var_BoolOutput = paBoolOutput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
@@ -58,12 +54,11 @@ class FORTE_HMILightIndicator final : public IOConfigFBMultiSlave {
     }
 
     void operator()(const CIEC_BOOL &paQI,
-                    const CIEC_WSTRING &paLABEL,
-                    const CIEC_WSTRING &paWIDGETNAME,
+                    const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paBoolOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLABEL, paWIDGETNAME, paBoolOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paWidgetName, paBoolOutput, paQO, paSTATUS);
     }
 
   protected:

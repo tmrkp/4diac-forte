@@ -17,6 +17,8 @@ if (FORTE_IO_HMI)
     forte_add_startup_hook(hmiStartupHook)
     forte_add_sourcefile_cpp(startup.cpp)
 
+    forte_add_subdirectory(ui)
+
     find_package(SDL2 REQUIRED)
     message(STATUS "SDL2 include dirs: ${SDL2_INCLUDE_DIRS}")
     message(STATUS "SDL2 libraries: ${SDL2_LIBRARIES}")

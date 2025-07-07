@@ -14,7 +14,7 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     ~FORTE_HMIButton() override = default;
 
     CIEC_BOOL var_QI;
-    CIEC_WSTRING var_LABEL;
+    CIEC_STRING var_WidgetName;
     CIEC_STRING var_EventInput;
 
     CIEC_BOOL var_QO;
@@ -24,7 +24,7 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
-    CDataConnection *conn_LABEL;
+    CDataConnection *conn_WidgetName;
     CDataConnection *conn_EventInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
@@ -38,12 +38,12 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     CDataConnection *getDOConUnchecked(TPortId) override;
 
     void evt_MAP(const CIEC_BOOL &paQI,
-                 const CIEC_WSTRING &paLABEL,
+                 const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paEventInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
-      var_LABEL = paLABEL;
+      var_WidgetName = paWidgetName;
       var_EventInput = paEventInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
@@ -51,11 +51,11 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     }
 
     void operator()(const CIEC_BOOL &paQI,
-                    const CIEC_WSTRING &paLABEL,
+                    const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paEventInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLABEL, paEventInput, paQO, paSTATUS);
+      evt_MAP(paQI, paWidgetName, paEventInput, paQO, paSTATUS);
     }
 
   protected:
