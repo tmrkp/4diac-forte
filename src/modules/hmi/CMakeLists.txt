@@ -12,6 +12,7 @@ if (FORTE_IO_HMI)
             types/HMIMaster
             types/HMIBusAdapter
             types/HMIButton
+            types/HMISlider
             types/HMILightIndicator)
 
     forte_add_startup_hook(hmiStartupHook)

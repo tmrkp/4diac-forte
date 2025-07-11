@@ -3,8 +3,8 @@
         <lv_button name="button">
             <lv_label text="Toggle Button"></lv_label>
         </lv_button>
-        <lv_arc name="arc"></lv_arc>
-        <lv_bar mode="normal" name="bar"></lv_bar>
         <lv_checkbox text="Checkbox" name="checkbox"></lv_checkbox>
+        <lv_slider name="slider"></lv_slider>
+        <lv_label name="label"></lv_label>
     </view>
 </screen>

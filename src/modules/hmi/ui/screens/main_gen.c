@@ -56,16 +56,15 @@ lv_obj_t * main_create(void)
     lv_obj_t * lv_label_1 = lv_label_create(button);
     lv_label_set_text(lv_label_1, "Toggle Button");
 
-    lv_obj_t * arc = lv_arc_create(lv_obj_1);
-    lv_obj_set_name(arc, "arc");
-
-    lv_obj_t * bar = lv_bar_create(lv_obj_1);
-    lv_bar_set_mode(bar, LV_BAR_MODE_NORMAL);
-    lv_obj_set_name(bar, "bar");
-
     lv_obj_t * checkbox = lv_checkbox_create(lv_obj_1);
     lv_checkbox_set_text(checkbox, "Checkbox");
     lv_obj_set_name(checkbox, "checkbox");
+
+    lv_obj_t * slider = lv_slider_create(lv_obj_1);
+    lv_obj_set_name(slider, "slider");
+
+    lv_obj_t * label = lv_label_create(lv_obj_1);
+    lv_obj_set_name(label, "label");
 
 
     LV_TRACE_OBJ_CREATE("finished");
