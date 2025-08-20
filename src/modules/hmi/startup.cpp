@@ -80,7 +80,7 @@ void hmiStartupHook(int argc, char *arg[]) {
   lv_obj_t *main = main_create();
 
   lv_obj_t *led = lv_led_create(main);
-  lv_obj_set_name(led, "led");
+  lv_obj_set_name(led, "led1");
   lv_led_off(led);
 
   lv_screen_load(main);

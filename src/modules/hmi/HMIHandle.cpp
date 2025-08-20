@@ -68,6 +68,9 @@ void HMIHandle::set(const CIEC_ANY &paState) {
         lv_obj_remove_state(obj, LV_STATE_CHECKED);
       }
     });
+  } else if (lv_obj_get_class(obj) == &lv_label_class) {
+    TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
+    runLater([dword, obj]() { lv_label_set_text_fmt(obj, "%d", dword); });
   } else {
     DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mWidgetName.c_str());
   }
