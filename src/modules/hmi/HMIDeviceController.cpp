@@ -23,7 +23,7 @@ const char *HMIDeviceController::init() {
 IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) {
   auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
-  return new HMIHandle(this, desc.mType, desc.mDirection, desc.mWidgetName);
+  return new HMIHandle(this, desc.mType, desc.mDirection, desc.mTargetType, desc.mName);
 }
 
 bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {

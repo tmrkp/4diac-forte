@@ -5,7 +5,7 @@
 USE_STRING_ID(HMILabel);
 USE_STRING_ID(QI);
 USE_STRING_ID(WidgetName);
-USE_STRING_ID(DoubleOutput);
+USE_STRING_ID(Output);
 USE_STRING_ID(BOOL);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
@@ -23,7 +23,7 @@ USE_STRING_ID(Event);
 DEFINE_FIRMWARE_FB(FORTE_HMILabel, STRID(HMILabel))
 
 const CStringDictionary::TStringId FORTE_HMILabel::scmDataInputNames[] = {STRID(QI), STRID(WidgetName),
-                                                                          STRID(DoubleOutput)};
+                                                                          STRID(Output)};
 const CStringDictionary::TStringId FORTE_HMILabel::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING), STRID(STRING)};
 const CStringDictionary::TStringId FORTE_HMILabel::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMILabel::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
@@ -70,7 +70,7 @@ FORTE_HMILabel::FORTE_HMILabel(const CStringDictionary::TStringId paInstanceName
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
     var_QI(0_BOOL),
     var_WidgetName(""_STRING),
-    var_DoubleOutput(""_STRING),
+    var_Output(""_STRING),
     var_QO(0_BOOL),
     var_STATUS(u""_WSTRING),
     var_conn_QO(var_QO),
@@ -79,7 +79,7 @@ FORTE_HMILabel::FORTE_HMILabel(const CStringDictionary::TStringId paInstanceName
     conn_IND(*this, 1),
     conn_QI(nullptr),
     conn_WidgetName(nullptr),
-    conn_DoubleOutput(nullptr),
+    conn_Output(nullptr),
     conn_QO(*this, 0, var_conn_QO),
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
@@ -87,7 +87,7 @@ FORTE_HMILabel::FORTE_HMILabel(const CStringDictionary::TStringId paInstanceName
 void FORTE_HMILabel::setInitialValues() {
   var_QI = 0_BOOL;
   var_WidgetName = ""_STRING;
-  var_DoubleOutput = ""_STRING;
+  var_Output = ""_STRING;
   var_QO = 0_BOOL;
   var_STATUS = u""_WSTRING;
 }
@@ -97,7 +97,7 @@ void FORTE_HMILabel::readInputData(const TEventID paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
       readData(1, var_WidgetName, conn_WidgetName);
-      readData(2, var_DoubleOutput, conn_DoubleOutput);
+      readData(2, var_Output, conn_Output);
       break;
     }
     default: break;
@@ -119,7 +119,7 @@ CIEC_ANY *FORTE_HMILabel::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_WidgetName;
-    case 2: return &var_DoubleOutput;
+    case 2: return &var_Output;
   }
   return nullptr;
 }
@@ -144,7 +144,7 @@ CDataConnection **FORTE_HMILabel::getDIConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_WidgetName;
-    case 2: return &conn_DoubleOutput;
+    case 2: return &conn_Output;
   }
   return nullptr;
 }
@@ -158,7 +158,8 @@ CDataConnection *FORTE_HMILabel::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMILabel::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_DoubleOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_DWORD,
+  HMIDeviceController::HMIHandleDescriptor desc(var_Output.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_DWORD,
+                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
                                                 var_WidgetName.getStorage());
   initHandle(desc);
 }

@@ -14,7 +14,8 @@ if (FORTE_IO_HMI)
             types/HMIButton
             types/HMISlider
             types/HMILightIndicator
-            types/HMILabel)
+            types/HMILabel
+            types/HMISubject)
 
     forte_add_startup_hook(hmiStartupHook)
     forte_add_sourcefile_cpp(startup.cpp)

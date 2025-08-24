@@ -161,6 +161,7 @@ CDataConnection *FORTE_HMILightIndicator::getDOConUnchecked(const TPortId paInde
 
 void FORTE_HMILightIndicator::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_BoolOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_BOOL,
+                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
                                                 var_WidgetName.getStorage());
   initHandle(desc);
 }

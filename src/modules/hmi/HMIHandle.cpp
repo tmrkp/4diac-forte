@@ -9,14 +9,16 @@ extern void runLater(std::function<void()>);
 HMIHandle::HMIHandle(HMIDeviceController *paController,
                      CIEC_ANY::EDataTypeID paType,
                      IOMapper::Direction paDirection,
-                     std::string const &paWidgetName) :
+                     TargetType paTargetType,
+                     std::string const &paName) :
     IOHandle(paController, paDirection, paType),
-    mWidgetName(paWidgetName) {
+    mTargetType(paTargetType),
+    mName(paName) {
   if (paDirection == IOMapper::In) {
-    lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mWidgetName.c_str());
+    lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mName.c_str());
 
     if (obj == nullptr) {
-      DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mWidgetName.c_str());
+      DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mName.c_str());
       return;
     }
 
@@ -37,50 +39,62 @@ HMIHandle::HMIHandle(HMIDeviceController *paController,
           },
           LV_EVENT_VALUE_CHANGED, this);
     } else {
-      DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mWidgetName.c_str());
+      DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mName.c_str());
     }
   }
 }
 
 void HMIHandle::set(const CIEC_ANY &paState) {
-  lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mWidgetName.c_str());
+  if (mTargetType == TargetType::WIDGET) {
+    lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mName.c_str());
 
-  if (obj == nullptr) {
-    DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mWidgetName.c_str());
-    return;
-  }
+    if (obj == nullptr) {
+      DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mName.c_str());
+      return;
+    }
 
-  if (lv_obj_get_class(obj) == &lv_led_class) {
-    bool on = static_cast<const CIEC_BOOL &>(paState);
-    runLater([on, obj]() {
-      if (on == true) {
-        lv_led_on(obj);
-      } else {
-        lv_led_off(obj);
-      }
-    });
-  } else if (lv_obj_get_class(obj) == &lv_checkbox_class) {
-    bool checked = static_cast<const CIEC_BOOL &>(paState);
-    runLater([checked, obj]() {
-      if (checked == true) {
-        lv_obj_add_state(obj, LV_STATE_CHECKED);
-      } else {
-        lv_obj_remove_state(obj, LV_STATE_CHECKED);
-      }
-    });
-  } else if (lv_obj_get_class(obj) == &lv_label_class) {
+    if (lv_obj_get_class(obj) == &lv_led_class) {
+      bool on = static_cast<const CIEC_BOOL &>(paState);
+      runLater([on, obj]() {
+        if (on == true) {
+          lv_led_on(obj);
+        } else {
+          lv_led_off(obj);
+        }
+      });
+    } else if (lv_obj_get_class(obj) == &lv_checkbox_class) {
+      bool checked = static_cast<const CIEC_BOOL &>(paState);
+      runLater([checked, obj]() {
+        if (checked == true) {
+          lv_obj_add_state(obj, LV_STATE_CHECKED);
+        } else {
+          lv_obj_remove_state(obj, LV_STATE_CHECKED);
+        }
+      });
+    } else if (lv_obj_get_class(obj) == &lv_label_class) {
+      TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
+      runLater([dword, obj]() { lv_label_set_text_fmt(obj, "%d", dword); });
+    } else {
+      DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mName.c_str());
+    }
+  } else if (mTargetType == TargetType::SUBJECT) {
+    lv_subject_t *subject = lv_xml_get_subject(nullptr, mName.c_str());
+
+    if (subject == nullptr) {
+      DEVLOG_WARNING("[HMIHandle] Cannot find subject '%s'\n", mName.c_str());
+      return;
+    }
+
     TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
-    runLater([dword, obj]() { lv_label_set_text_fmt(obj, "%d", dword); });
-  } else {
-    DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mWidgetName.c_str());
+    runLater([subject, dword]() { lv_subject_set_int(subject, dword); });
   }
 }
 
 void HMIHandle::get(CIEC_ANY &paState) {
-  lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mWidgetName.c_str());
+  lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), mName.c_str());
 
   if (obj == nullptr) {
-    DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mWidgetName.c_str());
+    DEVLOG_WARNING("[HMIHandle] Cannot find widget '%s'\n", mName.c_str());
     return;
   }
 

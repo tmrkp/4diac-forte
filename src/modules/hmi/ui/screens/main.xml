@@ -4,7 +4,14 @@
             <lv_label text="Toggle Button"></lv_label>
         </lv_button>
         <lv_checkbox text="Checkbox" name="checkbox1"></lv_checkbox>
-        <lv_slider name="slider1"></lv_slider>
-        <lv_label name="label1"></lv_label>
+        <lv_slider name="slider1" width="416" height="25"></lv_slider>
+        <lv_obj style_layout="flex">
+            <lv_label text="Widget:"></lv_label>
+            <lv_label name="label1"></lv_label>
+        </lv_obj>
+        <lv_obj style_layout="flex">
+            <lv_label text="Subject:"></lv_label>
+            <lv_label bind_text="conveyor1"></lv_label>
+        </lv_obj>
     </view>
 </screen>

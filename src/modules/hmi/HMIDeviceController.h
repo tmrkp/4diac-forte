@@ -15,17 +15,22 @@ class HMIDeviceController : public IODeviceMultiController {
 
     class HMIHandleDescriptor : public HandleDescriptor {
       public:
+        enum class TargetType { WIDGET, SUBJECT };
+
         CIEC_ANY::EDataTypeID mType;
-        std::string const &mWidgetName;
+        TargetType mTargetType;
+        std::string const &mName;
 
         HMIHandleDescriptor(std::string const &paId,
                             IOMapper::Direction paDirection,
                             size_t paSlaveIndex,
                             CIEC_ANY::EDataTypeID paType,
-                            std::string const &paWidgetName) :
+                            TargetType paTargetType,
+                            std::string const &paName) :
             HandleDescriptor(paId, paDirection, paSlaveIndex),
             mType(paType),
-            mWidgetName(paWidgetName) {
+            mTargetType(paTargetType),
+            mName(paName) {
         }
     };
 

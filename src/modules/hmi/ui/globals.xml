@@ -18,4 +18,8 @@
     <fonts>
         <!-- Add <bin> , <tiny_ttf>, <freetype> tags here -->
     </fonts>
+
+    <subjects>
+        <int name="conveyor1" value="0" />
+    </subjects>
 </globals>

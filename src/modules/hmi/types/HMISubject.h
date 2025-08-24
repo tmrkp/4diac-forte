@@ -6,15 +6,15 @@
 
 using namespace forte::core::io;
 
-class FORTE_HMILabel final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMILabel)
+class FORTE_HMISubject final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMISubject)
 
   public:
-    FORTE_HMILabel(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMILabel() override = default;
+    FORTE_HMISubject(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMISubject() override = default;
 
     CIEC_BOOL var_QI;
-    CIEC_STRING var_WidgetName;
+    CIEC_STRING var_SubjectName;
     CIEC_STRING var_Output;
 
     CIEC_BOOL var_QO;
@@ -27,7 +27,7 @@ class FORTE_HMILabel final : public IOConfigFBMultiSlave {
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
-    CDataConnection *conn_WidgetName;
+    CDataConnection *conn_SubjectName;
     CDataConnection *conn_Output;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
@@ -41,12 +41,12 @@ class FORTE_HMILabel final : public IOConfigFBMultiSlave {
     CDataConnection *getDOConUnchecked(TPortId) override;
 
     void evt_MAP(const CIEC_BOOL &paQI,
-                 const CIEC_STRING &paWidgetName,
+                 const CIEC_STRING &paSubjectName,
                  const CIEC_STRING &paOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
-      var_WidgetName = paWidgetName;
+      var_SubjectName = paSubjectName;
       var_Output = paOutput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
@@ -54,11 +54,11 @@ class FORTE_HMILabel final : public IOConfigFBMultiSlave {
     }
 
     void operator()(const CIEC_BOOL &paQI,
-                    const CIEC_STRING &paWidgetName,
+                    const CIEC_STRING &paSubjectName,
                     const CIEC_STRING &paOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paWidgetName, paOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paSubjectName, paOutput, paQO, paSTATUS);
     }
 
   protected:

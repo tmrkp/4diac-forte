@@ -215,7 +215,7 @@
     #endif
 
     /** Enable drawing complex gradients in software: linear at an angle, radial or conical */
-    #define LV_USE_DRAW_SW_COMPLEX_GRADIENTS    0
+    #define LV_USE_DRAW_SW_COMPLEX_GRADIENTS    1
 
 #endif
 
@@ -1141,7 +1141,7 @@
 #endif /*LV_USE_TEST*/
 
 /** Enable loading XML UIs runtime */
-#define LV_USE_XML    0
+#define LV_USE_XML    1
 
 /*1: Enable color filter style*/
 #define LV_USE_COLOR_FILTER     0
@@ -1299,7 +1299,7 @@
 *==================*/
 
 /** Enable examples to be built with the library. */
-#define LV_BUILD_EXAMPLES 1
+#define LV_BUILD_EXAMPLES 0
 
 /*===================
  * DEMO USAGE

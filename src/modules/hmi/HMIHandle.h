@@ -3,12 +3,15 @@
 #include "HMIDeviceController.h"
 #include "io/mapper/io_handle.h"
 
+using TargetType = HMIDeviceController::HMIHandleDescriptor::TargetType;
+
 class HMIHandle : public IOHandle {
   public:
     HMIHandle(HMIDeviceController *paController,
               CIEC_ANY::EDataTypeID paType,
               IOMapper::Direction paDirection,
-              std::string const &paWidgetName);
+              TargetType paTargetType,
+              std::string const &paName);
 
     ~HMIHandle() override = default;
 
@@ -19,6 +22,7 @@ class HMIHandle : public IOHandle {
     bool hasChanged();
 
   private:
-    std::string const &mWidgetName;
+    TargetType mTargetType;
+    std::string const &mName;
     bool mHasChanged = false;
 };

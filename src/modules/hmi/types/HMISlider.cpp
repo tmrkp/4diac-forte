@@ -159,6 +159,7 @@ CDataConnection *FORTE_HMISlider::getDOConUnchecked(const TPortId paIndex) {
 
 void FORTE_HMISlider::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_ValueParam.getStorage(), IOMapper::In, 0, CIEC_ANY::e_DWORD,
+                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
                                                 var_WidgetName.getStorage());
   initHandle(desc);
 }
