@@ -1,4 +1,4 @@
-#include "HMIBusAdapter.h"
+#include "FORTE_HMIBusAdapter.h"
 
 USE_STRING_ID(BOOL);
 USE_STRING_ID(Event);

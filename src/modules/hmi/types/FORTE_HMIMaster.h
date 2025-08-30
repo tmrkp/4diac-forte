@@ -1,7 +1,7 @@
 #pragma once
 
 #include "io/configFB/io_master_multi.h"
-#include "HMIBusAdapter.h"
+#include "FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 

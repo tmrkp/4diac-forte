@@ -1,4 +1,4 @@
-#include "HMIMaster.h"
+#include "FORTE_HMIMaster.h"
 
 USE_STRING_ID(BOOL);
 USE_STRING_ID(BusAdapterOut);

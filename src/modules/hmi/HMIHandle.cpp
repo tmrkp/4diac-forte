@@ -3,8 +3,7 @@
 #include "lvgl/lvgl.h"
 #include "forte_word.h"
 #include "forte_dword.h"
-
-extern void runLater(std::function<void()>);
+#include "startup.h"
 
 HMIHandle::HMIHandle(HMIDeviceController *paController,
                      CIEC_ANY::EDataTypeID paType,
@@ -31,6 +30,22 @@ HMIHandle::HMIHandle(HMIDeviceController *paController,
           },
           LV_EVENT_CLICKED, this);
     } else if (lv_obj_get_class(obj) == &lv_slider_class) {
+      lv_obj_add_event_cb(
+          obj,
+          [](lv_event_t *e) {
+            const auto handle = static_cast<HMIHandle *>(lv_event_get_user_data(e));
+            handle->mHasChanged = true;
+          },
+          LV_EVENT_VALUE_CHANGED, this);
+    } else if (lv_obj_get_class(obj) == &lv_switch_class) {
+      lv_obj_add_event_cb(
+          obj,
+          [](lv_event_t *e) {
+            const auto handle = static_cast<HMIHandle *>(lv_event_get_user_data(e));
+            handle->mHasChanged = true;
+          },
+          LV_EVENT_VALUE_CHANGED, this);
+    } else if (lv_obj_get_class(obj) == &lv_dropdown_class) {
       lv_obj_add_event_cb(
           obj,
           [](lv_event_t *e) {
@@ -74,6 +89,9 @@ void HMIHandle::set(const CIEC_ANY &paState) {
     } else if (lv_obj_get_class(obj) == &lv_label_class) {
       TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
       runLater([dword, obj]() { lv_label_set_text_fmt(obj, "%d", dword); });
+    } else if (lv_obj_get_class(obj) == &lv_bar_class) {
+      TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
+      runLater([dword, obj]() { lv_bar_set_value(obj, dword, false); });
     } else {
       DEVLOG_WARNING("[HMIHandle] Widget type not supported '%s'\n", mName.c_str());
     }
@@ -100,6 +118,32 @@ void HMIHandle::get(CIEC_ANY &paState) {
 
   if (lv_obj_get_class(obj) == &lv_slider_class) {
     int32_t value = lv_slider_get_value(obj);
+
+    switch (mType) {
+      case CIEC_ANY::e_DWORD: {
+        static_cast<CIEC_DWORD &>(paState) = CIEC_DWORD(value);
+        break;
+      }
+      default: {
+        DEVLOG_WARNING("[HMIHandle] Unexpected type '%d'\n", mType);
+        break;
+      }
+    }
+  } else if (lv_obj_get_class(obj) == &lv_switch_class) {
+    bool checked = lv_obj_has_state(obj, LV_STATE_CHECKED);
+
+    switch (mType) {
+      case CIEC_ANY::e_BOOL: {
+        static_cast<CIEC_BOOL &>(paState) = CIEC_BOOL(checked);
+        break;
+      }
+      default: {
+        DEVLOG_WARNING("[HMIHandle] Unexpected type '%d'\n", mType);
+        break;
+      }
+    }
+  } else if (lv_obj_get_class(obj) == &lv_dropdown_class) {
+    uint32_t value = lv_dropdown_get_selected(obj);
 
     switch (mType) {
       case CIEC_ANY::e_DWORD: {

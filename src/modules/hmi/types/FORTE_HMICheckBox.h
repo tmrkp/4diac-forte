@@ -2,20 +2,21 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "HMIBusAdapter.h"
+#include "FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 
-class FORTE_HMISlider final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMISlider)
+class FORTE_HMICheckBox final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMICheckBox)
 
   public:
-    FORTE_HMISlider(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMISlider() override = default;
+    FORTE_HMICheckBox(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMICheckBox() override = default;
 
     CIEC_BOOL var_QI;
+    CIEC_STRING var_Label;
     CIEC_STRING var_WidgetName;
-    CIEC_STRING var_ValueParam;
+    CIEC_STRING var_BooleanInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -27,8 +28,9 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
+    CDataConnection *conn_Label;
     CDataConnection *conn_WidgetName;
-    CDataConnection *conn_ValueParam;
+    CDataConnection *conn_BooleanInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -41,24 +43,27 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     CDataConnection *getDOConUnchecked(TPortId) override;
 
     void evt_MAP(const CIEC_BOOL &paQI,
+                 const CIEC_STRING &paLabel,
                  const CIEC_STRING &paWidgetName,
-                 const CIEC_STRING &paValueParam,
+                 const CIEC_STRING &paBooleanInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
+      var_Label = paLabel;
       var_WidgetName = paWidgetName;
-      var_ValueParam = paValueParam;
+      var_BooleanInput = paBooleanInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
     }
 
     void operator()(const CIEC_BOOL &paQI,
+                    const CIEC_STRING &paLabel,
                     const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paValueParam,
+                    const CIEC_STRING &paBooleanInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paWidgetName, paValueParam, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paWidgetName, paBooleanInput, paQO, paSTATUS);
     }
 
   protected:
@@ -72,8 +77,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     static const TEventID scmEventMAPID = 0;
     static const TDataIOID scmEIWith[];
     static const TForteInt16 scmEIWithIndexes[];
-    static const CStringDictionary::TStringId scmEventInputNames[];
-    static const CStringDictionary::TStringId scmEventInputTypeIds[];
+    static const CStringDictionary::TStringId scmBooleanInputNames[];
+    static const CStringDictionary::TStringId scmBooleanInputTypeIds[];
     static const TEventID scmEventMAPOID = 0;
     static const TEventID scmEventINDID = 1;
     static const TDataIOID scmEOWith[];

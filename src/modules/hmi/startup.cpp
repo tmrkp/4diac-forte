@@ -1,15 +1,21 @@
-#include <iostream>
+#include "startup.h"
+
+#include <queue>
 #include <unistd.h>
 #include "lvgl/lvgl.h"
 #include "devlog.h"
+#include "forte_sync.h"
+#include "criticalregion.h"
 #include "ui/ui.h"
 #include "ui/screens/main_gen.h"
 
-static std::mutex mutex;
+#include <iostream>
+
+static CSyncObject mQueueMutex;
 static std::queue<std::function<void()>> queue;
 
 void runLater(std::function<void()> task) {
-  std::lock_guard<std::mutex> lock(mutex);
+  CCriticalRegion criticalRegion(mQueueMutex);
   queue.push(std::move(task));
 }
 
@@ -17,7 +23,7 @@ static void process() {
   std::queue<std::function<void()>> tasks;
 
   {
-    std::lock_guard<std::mutex> lock(mutex);
+    CCriticalRegion criticalRegion(mQueueMutex);
     std::swap(tasks, queue);
   }
 
@@ -31,7 +37,7 @@ static lv_display_t *hal_init(int32_t w, int32_t h) {
   lv_group_set_default(lv_group_create());
 
   lv_display_t *disp = lv_sdl_window_create(w, h);
-  lv_sdl_window_set_title(disp, "LVGL Test");
+  lv_sdl_window_set_title(disp, "LVGL");
   lv_indev_t *mouse = lv_sdl_mouse_create();
   lv_indev_set_group(mouse, lv_group_get_default());
   lv_indev_set_display(mouse, disp);
@@ -52,17 +58,6 @@ static lv_display_t *hal_init(int32_t w, int32_t h) {
   return disp;
 }
 
-static void create_demo() {
-  lv_obj_t *layout = lv_obj_create(lv_screen_active());
-  lv_obj_set_size(layout, lv_pct(100), lv_pct(100));
-  lv_obj_set_flex_flow(layout, LV_FLEX_FLOW_ROW);
-
-  static lv_obj_t *btn = lv_button_create(layout);
-  lv_obj_set_name(btn, "btn");
-  static lv_obj_t *label = lv_label_create(btn);
-  lv_label_set_text(label, "Toggle");
-}
-
 void hmiStartupHook(int argc, char *arg[]) {
   lv_init();
 
@@ -74,24 +69,29 @@ void hmiStartupHook(int argc, char *arg[]) {
     }
   });
 
-  hal_init(480, 320);
+  hal_init(640, 480);
 
   ui_init(nullptr);
   lv_obj_t *main = main_create();
 
-  lv_obj_t *led = lv_led_create(main);
-  lv_obj_set_name(led, "led1");
+  lv_obj_t *led = lv_led_create(lv_obj_find_by_name(main, "led_inject_1"));
+  lv_obj_set_name(led, "lvled1");
   lv_led_off(led);
+
+  led = lv_led_create(lv_obj_find_by_name(main, "led_inject_2"));
+  lv_obj_set_name(led, "lvled2");
+  lv_led_off(led);
+
+  lv_obj_t *swtch = lv_switch_create(lv_obj_find_by_name(main, "switch_inject_1"));
+  lv_obj_set_name(swtch, "lvswitch1");
 
   lv_screen_load(main);
 }
 
 void hmiMainFunctionHook() {
   while (1) {
-    /* Periodically call the lv_task handler.
-     * It could be done in a timer interrupt or an OS task too.*/
     process();
-    lv_timer_handler();
-    usleep(1000);
+    uint32_t delay = lv_timer_handler();
+    usleep(delay * 1000);
   }
 }

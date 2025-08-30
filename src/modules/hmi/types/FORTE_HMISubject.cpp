@@ -1,11 +1,11 @@
-#include "HMISubject.h"
+#include "FORTE_HMISubject.h"
 
 #include "../HMIDeviceController.h"
 
 USE_STRING_ID(HMISubject);
 USE_STRING_ID(QI);
 USE_STRING_ID(SubjectName);
-USE_STRING_ID(Output);
+USE_STRING_ID(IntegerOutput);
 USE_STRING_ID(BOOL);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
@@ -23,7 +23,7 @@ USE_STRING_ID(Event);
 DEFINE_FIRMWARE_FB(FORTE_HMISubject, STRID(HMISubject))
 
 const CStringDictionary::TStringId FORTE_HMISubject::scmDataInputNames[] = {STRID(QI), STRID(SubjectName),
-                                                                            STRID(Output)};
+                                                                            STRID(IntegerOutput)};
 const CStringDictionary::TStringId FORTE_HMISubject::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING),
                                                                               STRID(STRING)};
 const CStringDictionary::TStringId FORTE_HMISubject::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
@@ -71,7 +71,7 @@ FORTE_HMISubject::FORTE_HMISubject(const CStringDictionary::TStringId paInstance
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
     var_QI(0_BOOL),
     var_SubjectName(""_STRING),
-    var_Output(""_STRING),
+    var_IntegerOutput(""_STRING),
     var_QO(0_BOOL),
     var_STATUS(u""_WSTRING),
     var_conn_QO(var_QO),
@@ -80,7 +80,7 @@ FORTE_HMISubject::FORTE_HMISubject(const CStringDictionary::TStringId paInstance
     conn_IND(*this, 1),
     conn_QI(nullptr),
     conn_SubjectName(nullptr),
-    conn_Output(nullptr),
+    conn_IntegerOutput(nullptr),
     conn_QO(*this, 0, var_conn_QO),
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
@@ -88,7 +88,7 @@ FORTE_HMISubject::FORTE_HMISubject(const CStringDictionary::TStringId paInstance
 void FORTE_HMISubject::setInitialValues() {
   var_QI = 0_BOOL;
   var_SubjectName = ""_STRING;
-  var_Output = ""_STRING;
+  var_IntegerOutput = ""_STRING;
   var_QO = 0_BOOL;
   var_STATUS = u""_WSTRING;
 }
@@ -98,7 +98,7 @@ void FORTE_HMISubject::readInputData(const TEventID paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
       readData(1, var_SubjectName, conn_SubjectName);
-      readData(2, var_Output, conn_Output);
+      readData(2, var_IntegerOutput, conn_IntegerOutput);
       break;
     }
     default: break;
@@ -120,7 +120,7 @@ CIEC_ANY *FORTE_HMISubject::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_SubjectName;
-    case 2: return &var_Output;
+    case 2: return &var_IntegerOutput;
   }
   return nullptr;
 }
@@ -145,7 +145,7 @@ CDataConnection **FORTE_HMISubject::getDIConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_SubjectName;
-    case 2: return &conn_Output;
+    case 2: return &conn_IntegerOutput;
   }
   return nullptr;
 }
@@ -159,7 +159,7 @@ CDataConnection *FORTE_HMISubject::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISubject::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_Output.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_DWORD,
+  HMIDeviceController::HMIHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_DWORD,
                                                 HMIDeviceController::HMIHandleDescriptor::TargetType::SUBJECT,
                                                 var_SubjectName.getStorage());
   initHandle(desc);

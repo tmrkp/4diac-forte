@@ -2,11 +2,11 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "HMIBusAdapter.h"
+#include "FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 
-class FORTE_HMIButton : public IOConfigFBMultiSlave {
+class FORTE_HMIButton final : public IOConfigFBMultiSlave {
     DECLARE_FIRMWARE_FB(FORTE_HMIButton)
 
   public:
@@ -14,16 +14,21 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     ~FORTE_HMIButton() override = default;
 
     CIEC_BOOL var_QI;
+    CIEC_STRING var_Label;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_EventInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
 
+    CIEC_BOOL var_conn_QO;
+    CIEC_WSTRING var_conn_STATUS;
+
     CEventConnection conn_MAPO;
     CEventConnection conn_IND;
 
     CDataConnection *conn_QI;
+    CDataConnection *conn_Label;
     CDataConnection *conn_WidgetName;
     CDataConnection *conn_EventInput;
 
@@ -38,11 +43,13 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     CDataConnection *getDOConUnchecked(TPortId) override;
 
     void evt_MAP(const CIEC_BOOL &paQI,
+                 const CIEC_STRING &paLabel,
                  const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paEventInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
+      var_Label = paLabel;
       var_WidgetName = paWidgetName;
       var_EventInput = paEventInput;
       executeEvent(scmEventMAPID, nullptr);
@@ -51,11 +58,12 @@ class FORTE_HMIButton : public IOConfigFBMultiSlave {
     }
 
     void operator()(const CIEC_BOOL &paQI,
+                    const CIEC_STRING &paLabel,
                     const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paEventInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paWidgetName, paEventInput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paWidgetName, paEventInput, paQO, paSTATUS);
     }
 
   protected:

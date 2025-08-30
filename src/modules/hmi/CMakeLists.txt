@@ -9,16 +9,20 @@ if (FORTE_IO_HMI)
             HMIHandle
             HMIDeviceController)
     forte_add_sourcefile_hcpp(
-            types/HMIMaster
-            types/HMIBusAdapter
-            types/HMIButton
-            types/HMISlider
-            types/HMILightIndicator
-            types/HMILabel
-            types/HMISubject)
+            types/FORTE_HMIBooleanIndicator
+            types/FORTE_HMIBusAdapter
+            types/FORTE_HMIButton
+            types/FORTE_HMICheckBox
+            types/FORTE_HMIDropDown
+            types/FORTE_HMIMaster
+            types/FORTE_HMINumber
+            types/FORTE_HMIProgressBar
+            types/FORTE_HMISlider
+            types/FORTE_HMISubject
+            types/FORTE_HMISwitch)
 
     forte_add_startup_hook(hmiStartupHook)
-    forte_add_sourcefile_cpp(startup.cpp)
+    forte_add_sourcefile_hcpp(startup)
 
     forte_add_subdirectory(ui)
 

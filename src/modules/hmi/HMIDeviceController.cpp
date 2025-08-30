@@ -1,6 +1,7 @@
 #include "HMIDeviceController.h"
 
 #include <iostream>
+#include "lvgl/lvgl.h"
 
 #include "HMIHandle.h"
 
@@ -35,7 +36,7 @@ void HMIDeviceController::deInit() {
 
 void HMIDeviceController::runLoop() {
   while (isAlive()) {
-    sleepThread(250);
+    sleepThread(1000 / 60);
     checkForInputChanges();
   }
 }
