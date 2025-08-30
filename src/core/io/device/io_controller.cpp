@@ -14,7 +14,7 @@
 
 #include "io_controller.h"
 
-#include "HMIHandle.h"
+#include "HMIWidgetHandle.h"
 #include "../processinterfacefb.h"
 #include "../configFB/io_configFB_controller.h"
 #include "criticalregion.h"
@@ -180,7 +180,7 @@ void IODeviceController::dropHandles() {
 }
 
 bool IODeviceController::isHandleValueEqual(IOHandle &paHandle) {
-  return !static_cast<HMIHandle &>(paHandle).hasChanged();
+  return !static_cast<HMIWidgetHandle &>(paHandle).hasChanged();
 }
 
 void IODeviceController::addHandle(THandleList &paList, std::string const &paId, std::unique_ptr<IOHandle> paHandle) {

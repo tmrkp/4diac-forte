@@ -166,7 +166,7 @@ CDataConnection *FORTE_HMINumber::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMINumber::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_LWORD,
+  HMIDeviceController::HMIHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_DWORD,
                                                 HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
                                                 var_WidgetName.getStorage());
   initHandle(desc);

@@ -1,9 +1,12 @@
 #include "HMIDeviceController.h"
 
+#include "HMISubjectHandle.h"
+
 #include <iostream>
 #include "lvgl/lvgl.h"
 
-#include "HMIHandle.h"
+#include "HMIWidgetHandle.h"
+#include "HMISubjectHandle.h"
 
 HMIDeviceController::HMIDeviceController(CDeviceExecution &paDeviceExecution) :
     IODeviceMultiController(paDeviceExecution) {
@@ -24,11 +27,17 @@ const char *HMIDeviceController::init() {
 IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) {
   auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
-  return new HMIHandle(this, desc.mType, desc.mDirection, desc.mTargetType, desc.mName);
+  if (desc.mTargetType == HMIHandleDescriptor::TargetType::WIDGET) {
+    return new HMIWidgetHandle(this, desc.mType, desc.mDirection, desc.mName);
+  }
+  if (desc.mTargetType == HMIHandleDescriptor::TargetType::SUBJECT) {
+    return new HMISubjectHandle(this, desc.mType, desc.mDirection, desc.mName);
+  }
+  return nullptr;
 }
 
 bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {
-  return !static_cast<HMIHandle &>(paHandle).hasChanged();
+  return !static_cast<HMIWidgetHandle &>(paHandle).hasChanged();
 }
 
 void HMIDeviceController::deInit() {
