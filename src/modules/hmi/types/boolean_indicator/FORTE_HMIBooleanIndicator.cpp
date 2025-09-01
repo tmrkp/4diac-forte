@@ -168,6 +168,6 @@ CDataConnection *FORTE_HMIBooleanIndicator::getDOConUnchecked(const TPortId paIn
 
 void FORTE_HMIBooleanIndicator::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_BooleanOutput.getStorage(), 0,
-                                                HMIDeviceController::BOOLEAN_INDICATOR, var_WidgetName.getStorage());
+                                                HMIDeviceController::BOOLEAN_INDICATOR, var_WidgetName.getStorage(), var_Label.getStorage());
   initHandle(desc);
 }

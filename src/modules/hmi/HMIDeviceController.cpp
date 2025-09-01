@@ -19,15 +19,12 @@ HMIDeviceController::HMIDeviceController(CDeviceExecution &paDeviceExecution) :
     IODeviceMultiController(paDeviceExecution) {
 }
 
-HMIDeviceController::~HMIDeviceController() {
-  // do nothing
-}
-
 void HMIDeviceController::setConfig(Config *paConfig) {
   this->mConfig = *static_cast<HMIConfig *>(paConfig);
 }
 
 const char *HMIDeviceController::init() {
+  mGenerator.init();
   return nullptr;
 }
 
@@ -35,16 +32,33 @@ IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescript
   auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
   switch (desc.mHandleType) {
-    case SUBJECT: return createSubjectHandle(desc.mName);
-    case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(desc.mName, &lv_led_class);
-    case BUTTON: return createWidgetHandle<HMIButtonHandle>(desc.mName, &lv_button_class);
-    case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(desc.mName, &lv_checkbox_class);
-    case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(desc.mName, &lv_dropdown_class);
-    case NUMBER: return createWidgetHandle<HMINumberHandle>(desc.mName, &lv_label_class);
-    case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(desc.mName, &lv_bar_class);
-    case SLIDER: return createWidgetHandle<HMISliderHandle>(desc.mName, &lv_slider_class);
-    case SWITCH: return createWidgetHandle<HMISwitchHandle>(desc.mName, &lv_switch_class);
+    case SUBJECT:
+      DEVLOG_WARNING("[HMIDeviceController] Subjects are not supported in auto-generated UI.\n");
+      return nullptr;
+    case BOOLEAN_INDICATOR:
+      return createWidgetHandle<HMIBooleanIndicatorHandle>(mGenerator.createBooleanIndicatorWidget(desc.mLabel));
+    case BUTTON: return createWidgetHandle<HMIButtonHandle>(mGenerator.createButtonWidget(desc.mLabel));
+    case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(mGenerator.createCheckBoxWidget(desc.mLabel));
+    case DROP_DOWN:
+      return createWidgetHandle<HMIDropDownHandle>(mGenerator.createDropDownWidget(desc.mLabel, desc.mOptions));
+    case NUMBER: return createWidgetHandle<HMINumberHandle>(mGenerator.createNumberWidget(desc.mLabel));
+    case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(mGenerator.createProgressBarWidget(desc.mLabel));
+    case SLIDER: return createWidgetHandle<HMISliderHandle>(mGenerator.createSliderWidget(desc.mLabel));
+    case SWITCH: return createWidgetHandle<HMISwitchHandle>(mGenerator.createSwitchWidget(desc.mLabel));
   }
+
+  // switch (desc.mHandleType) {
+  //   case SUBJECT: return createSubjectHandle(findSubject(desc.mName));
+  //   case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(findWidget(desc.mName,
+  //   &lv_led_class)); case BUTTON: return createWidgetHandle<HMIButtonHandle>(findWidget(desc.mName,
+  //   &lv_button_class)); case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(findWidget(desc.mName,
+  //   &lv_checkbox_class)); case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(findWidget(desc.mName,
+  //   &lv_dropdown_class)); case NUMBER: return createWidgetHandle<HMINumberHandle>(findWidget(desc.mName,
+  //   &lv_label_class)); case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(findWidget(desc.mName,
+  //   &lv_bar_class)); case SLIDER: return createWidgetHandle<HMISliderHandle>(findWidget(desc.mName,
+  //   &lv_slider_class)); case SWITCH: return createWidgetHandle<HMISwitchHandle>(findWidget(desc.mName,
+  //   &lv_switch_class));
+  // }
   return nullptr;
 }
 
@@ -103,8 +117,8 @@ lv_subject_t *HMIDeviceController::findSubject(const std::string &paName) {
   return subject;
 }
 
-IOHandle *HMIDeviceController::createSubjectHandle(const std::string &paName) {
-  if (lv_subject_t *subject = findSubject(paName); subject != nullptr) {
+IOHandle *HMIDeviceController::createSubjectHandle(lv_subject_t *subject) {
+  if (subject != nullptr) {
     return new HMISubjectHandle(this, subject);
   }
   return nullptr;

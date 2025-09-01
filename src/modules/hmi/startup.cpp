@@ -71,27 +71,21 @@ void hmiStartupHook(int argc, char *arg[]) {
 
   hal_init(640, 480);
 
-#ifdef HMI_AUTOGENERATE
-  lv_obj_t *main = lv_obj_create(NULL);
+  // ui_init(nullptr);
+  // lv_obj_t *main = main_create();
+  //
+  // lv_obj_t *led = lv_led_create(lv_obj_find_by_name(main, "led_inject_1"));
+  // lv_obj_set_name(led, "lvled1");
+  // lv_led_off(led);
+  //
+  // led = lv_led_create(lv_obj_find_by_name(main, "led_inject_2"));
+  // lv_obj_set_name(led, "lvled2");
+  // lv_led_off(led);
+  //
+  // lv_obj_t *swtch = lv_switch_create(lv_obj_find_by_name(main, "switch_inject_1"));
+  // lv_obj_set_name(swtch, "lvswitch1");
 
-  lv_screen_load(main);
-#else
-  ui_init(nullptr);
-  lv_obj_t *main = main_create();
-
-  lv_obj_t *led = lv_led_create(lv_obj_find_by_name(main, "led_inject_1"));
-  lv_obj_set_name(led, "lvled1");
-  lv_led_off(led);
-
-  led = lv_led_create(lv_obj_find_by_name(main, "led_inject_2"));
-  lv_obj_set_name(led, "lvled2");
-  lv_led_off(led);
-
-  lv_obj_t *swtch = lv_switch_create(lv_obj_find_by_name(main, "switch_inject_1"));
-  lv_obj_set_name(swtch, "lvswitch1");
-
-  lv_screen_load(main);
-#endif
+  // lv_screen_load(main);
 }
 
 void hmiMainFunctionHook() {

@@ -168,6 +168,6 @@ CDataConnection *FORTE_HMIProgressBar::getDOConUnchecked(const TPortId paIndex) 
 
 void FORTE_HMIProgressBar::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_IntegerOutput.getStorage(), 0, HMIDeviceController::PROGRESS_BAR,
-                                                var_WidgetName.getStorage());
+                                                var_WidgetName.getStorage(), var_Label.getStorage());
   initHandle(desc);
 }

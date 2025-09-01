@@ -174,6 +174,7 @@ CDataConnection *FORTE_HMIDropDown::getDOConUnchecked(const TPortId paIndex) {
 
 void FORTE_HMIDropDown::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_IntegerInput.getStorage(), 0, HMIDeviceController::DROP_DOWN,
-                                                var_WidgetName.getStorage());
+                                                var_WidgetName.getStorage(), var_Label.getStorage(),
+                                                var_Options.getStorage());
   initHandle(desc);
 }

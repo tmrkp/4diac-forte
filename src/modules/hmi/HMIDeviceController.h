@@ -1,5 +1,6 @@
 #pragma once
 
+#include "HMIGenerator.h"
 #include "io/device/io_controller_multi.h"
 #include "lvgl/lvgl.h"
 
@@ -9,7 +10,7 @@ class HMIDeviceController : public IODeviceMultiController {
   public:
     explicit HMIDeviceController(CDeviceExecution &paDeviceExecution);
 
-    ~HMIDeviceController() override;
+    ~HMIDeviceController() override = default;
 
     struct HMIConfig : Config {};
 
@@ -29,6 +30,8 @@ class HMIDeviceController : public IODeviceMultiController {
       public:
         HMIHandleType mHandleType;
         std::string const &mName;
+        std::string const *mLabel;
+        std::string const *mOptions;
 
         HMIHandleDescriptor(std::string const &paId,
                             size_t paSlaveIndex,
@@ -36,7 +39,34 @@ class HMIDeviceController : public IODeviceMultiController {
                             std::string const &paName) :
             HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
             mHandleType(paHandleType),
-            mName(paName) {
+            mName(paName),
+            mLabel(nullptr),
+            mOptions(nullptr) {
+        }
+
+        HMIHandleDescriptor(std::string const &paId,
+                            size_t paSlaveIndex,
+                            HMIHandleType paHandleType,
+                            std::string const &paName,
+                            std::string const &paLabel) :
+            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
+            mHandleType(paHandleType),
+            mName(paName),
+            mLabel(&paLabel),
+            mOptions(nullptr) {
+        }
+
+        HMIHandleDescriptor(std::string const &paId,
+                            size_t paSlaveIndex,
+                            HMIHandleType paHandleType,
+                            std::string const &paName,
+                            std::string const &paLabel,
+                            std::string const &paOptions) :
+            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
+            mHandleType(paHandleType),
+            mName(paName),
+            mLabel(&paLabel),
+            mOptions(&paOptions) {
         }
     };
 
@@ -60,6 +90,8 @@ class HMIDeviceController : public IODeviceMultiController {
     HMIConfig mConfig;
 
   private:
+    HMIGenerator mGenerator;
+
     bool isSlaveAvailable(size_t paIndex) override;
 
     bool checkSlaveType(size_t paIndex, int paType) override;
@@ -69,12 +101,12 @@ class HMIDeviceController : public IODeviceMultiController {
     static lv_subject_t *findSubject(const std::string &paName);
 
     template<typename T>
-    IOHandle *createWidgetHandle(const std::string &paName, const lv_obj_class_t *paClass) {
-      if (lv_obj_t *obj = findWidget(paName, paClass); obj != nullptr) {
+    IOHandle *createWidgetHandle(lv_obj_t *obj) {
+      if (obj != nullptr) {
         return new T(this, obj);
       }
       return nullptr;
     }
 
-    IOHandle *createSubjectHandle(const std::string &paName);
+    IOHandle *createSubjectHandle(lv_subject_t *subject);
 };

@@ -9,6 +9,7 @@ if (FORTE_IO_HMI)
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     forte_add_sourcefile_hcpp(
             HMIHandle
+            HMIGenerator
             HMIDeviceController)
     forte_add_sourcefile_hcpp(
             types/FORTE_HMIBusAdapter

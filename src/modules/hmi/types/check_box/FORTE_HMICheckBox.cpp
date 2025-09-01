@@ -167,6 +167,6 @@ CDataConnection *FORTE_HMICheckBox::getDOConUnchecked(const TPortId paIndex) {
 
 void FORTE_HMICheckBox::initHandles() {
   HMIDeviceController::HMIHandleDescriptor desc(var_BooleanInput.getStorage(), 0, HMIDeviceController::CHECK_BOX,
-                                                var_WidgetName.getStorage());
+                                                var_WidgetName.getStorage(), var_Label.getStorage());
   initHandle(desc);
 }
