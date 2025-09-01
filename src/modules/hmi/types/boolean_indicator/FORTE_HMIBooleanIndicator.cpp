@@ -1,6 +1,6 @@
 #include "FORTE_HMIBooleanIndicator.h"
 
-#include "../HMIDeviceController.h"
+#include "HMIDeviceController.h"
 
 USE_STRING_ID(HMIBooleanIndicator);
 USE_STRING_ID(QI);
@@ -167,8 +167,7 @@ CDataConnection *FORTE_HMIBooleanIndicator::getDOConUnchecked(const TPortId paIn
 }
 
 void FORTE_HMIBooleanIndicator::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_BooleanOutput.getStorage(), IOMapper::Out, 0, CIEC_ANY::e_BOOL,
-                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
-                                                var_WidgetName.getStorage());
+  HMIDeviceController::HMIHandleDescriptor desc(var_BooleanOutput.getStorage(), 0,
+                                                HMIDeviceController::BOOLEAN_INDICATOR, var_WidgetName.getStorage());
   initHandle(desc);
 }

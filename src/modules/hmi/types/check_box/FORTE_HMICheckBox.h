@@ -2,21 +2,21 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "FORTE_HMIBusAdapter.h"
+#include "../FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 
-class FORTE_HMIButton final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMIButton)
+class FORTE_HMICheckBox final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMICheckBox)
 
   public:
-    FORTE_HMIButton(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMIButton() override = default;
+    FORTE_HMICheckBox(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMICheckBox() override = default;
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
     CIEC_STRING var_WidgetName;
-    CIEC_STRING var_EventInput;
+    CIEC_STRING var_BooleanInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -30,7 +30,7 @@ class FORTE_HMIButton final : public IOConfigFBMultiSlave {
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
     CDataConnection *conn_WidgetName;
-    CDataConnection *conn_EventInput;
+    CDataConnection *conn_BooleanInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -45,13 +45,13 @@ class FORTE_HMIButton final : public IOConfigFBMultiSlave {
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
                  const CIEC_STRING &paWidgetName,
-                 const CIEC_STRING &paEventInput,
+                 const CIEC_STRING &paBooleanInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
       var_WidgetName = paWidgetName;
-      var_EventInput = paEventInput;
+      var_BooleanInput = paBooleanInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -60,10 +60,10 @@ class FORTE_HMIButton final : public IOConfigFBMultiSlave {
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
                     const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paEventInput,
+                    const CIEC_STRING &paBooleanInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paEventInput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paWidgetName, paBooleanInput, paQO, paSTATUS);
     }
 
   protected:
@@ -77,8 +77,8 @@ class FORTE_HMIButton final : public IOConfigFBMultiSlave {
     static const TEventID scmEventMAPID = 0;
     static const TDataIOID scmEIWith[];
     static const TForteInt16 scmEIWithIndexes[];
-    static const CStringDictionary::TStringId scmEventInputNames[];
-    static const CStringDictionary::TStringId scmEventInputTypeIds[];
+    static const CStringDictionary::TStringId scmBooleanInputNames[];
+    static const CStringDictionary::TStringId scmBooleanInputTypeIds[];
     static const TEventID scmEventMAPOID = 0;
     static const TEventID scmEventINDID = 1;
     static const TDataIOID scmEOWith[];

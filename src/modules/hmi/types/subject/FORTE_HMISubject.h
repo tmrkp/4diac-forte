@@ -2,7 +2,7 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "FORTE_HMIBusAdapter.h"
+#include "../FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 

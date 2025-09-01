@@ -1,7 +1,7 @@
-#ifndef SRC_MODULES_HMI_MODULAR_HMIDEVICECONTROLLER_H_
-#define SRC_MODULES_HMI_MODULAR_HMIDEVICECONTROLLER_H_
+#pragma once
 
 #include "io/device/io_controller_multi.h"
+#include "lvgl/lvgl.h"
 
 using namespace forte::core::io;
 
@@ -13,23 +13,29 @@ class HMIDeviceController : public IODeviceMultiController {
 
     struct HMIConfig : Config {};
 
+    enum HMIHandleType {
+      BOOLEAN_INDICATOR,
+      BUTTON,
+      CHECK_BOX,
+      DROP_DOWN,
+      NUMBER,
+      PROGRESS_BAR,
+      SLIDER,
+      SUBJECT,
+      SWITCH
+    };
+
     class HMIHandleDescriptor : public HandleDescriptor {
       public:
-        enum class TargetType { WIDGET, SUBJECT };
-
-        CIEC_ANY::EDataTypeID mType;
-        TargetType mTargetType;
+        HMIHandleType mHandleType;
         std::string const &mName;
 
         HMIHandleDescriptor(std::string const &paId,
-                            IOMapper::Direction paDirection,
                             size_t paSlaveIndex,
-                            CIEC_ANY::EDataTypeID paType,
-                            TargetType paTargetType,
+                            HMIHandleType paHandleType,
                             std::string const &paName) :
-            HandleDescriptor(paId, paDirection, paSlaveIndex),
-            mType(paType),
-            mTargetType(paTargetType),
+            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
+            mHandleType(paHandleType),
             mName(paName) {
         }
     };
@@ -41,7 +47,7 @@ class HMIDeviceController : public IODeviceMultiController {
     void dropSlaveHandles(size_t paIndex) override;
 
   protected:
-    const char *init();
+    const char *init() override;
 
     IOHandle *createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) override;
 
@@ -54,9 +60,21 @@ class HMIDeviceController : public IODeviceMultiController {
     HMIConfig mConfig;
 
   private:
-    bool isSlaveAvailable(size_t paIndex);
+    bool isSlaveAvailable(size_t paIndex) override;
 
-    bool checkSlaveType(size_t paIndex, int paType);
+    bool checkSlaveType(size_t paIndex, int paType) override;
+
+    static lv_obj_t *findWidget(const std::string &paName, const lv_obj_class_t *paClass);
+
+    static lv_subject_t *findSubject(const std::string &paName);
+
+    template<typename T>
+    IOHandle *createWidgetHandle(const std::string &paName, const lv_obj_class_t *paClass) {
+      if (lv_obj_t *obj = findWidget(paName, paClass); obj != nullptr) {
+        return new T(this, obj);
+      }
+      return nullptr;
+    }
+
+    IOHandle *createSubjectHandle(const std::string &paName);
 };
-
-#endif /* SRC_MODULES_HMI_MODULAR_HMIDEVICECONTROLLER_H_ */

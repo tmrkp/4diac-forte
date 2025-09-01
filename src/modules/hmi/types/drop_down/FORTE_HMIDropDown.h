@@ -2,21 +2,22 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "FORTE_HMIBusAdapter.h"
+#include "../FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 
-class FORTE_HMIProgressBar final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMIProgressBar)
+class FORTE_HMIDropDown final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMIDropDown)
 
   public:
-    FORTE_HMIProgressBar(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMIProgressBar() override = default;
+    FORTE_HMIDropDown(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMIDropDown() override = default;
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
+    CIEC_STRING var_Options;
     CIEC_STRING var_WidgetName;
-    CIEC_STRING var_IntegerOutput;
+    CIEC_STRING var_IntegerInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -29,8 +30,9 @@ class FORTE_HMIProgressBar final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
+    CDataConnection *conn_Options;
     CDataConnection *conn_WidgetName;
-    CDataConnection *conn_IntegerOutput;
+    CDataConnection *conn_IntegerInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -44,14 +46,16 @@ class FORTE_HMIProgressBar final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
+                 const CIEC_STRING &paOptions,
                  const CIEC_STRING &paWidgetName,
-                 const CIEC_STRING &paIntegerOutput,
+                 const CIEC_STRING &paIntegerInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
+      var_Options = paOptions;
       var_WidgetName = paWidgetName;
-      var_IntegerOutput = paIntegerOutput;
+      var_IntegerInput = paIntegerInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -59,11 +63,12 @@ class FORTE_HMIProgressBar final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
+                    const CIEC_STRING &paOptions,
                     const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paIntegerOutput,
+                    const CIEC_STRING &paIntegerInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paIntegerOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paOptions, paWidgetName, paIntegerInput, paQO, paSTATUS);
     }
 
   protected:
@@ -77,8 +82,8 @@ class FORTE_HMIProgressBar final : public IOConfigFBMultiSlave {
     static const TEventID scmEventMAPID = 0;
     static const TDataIOID scmEIWith[];
     static const TForteInt16 scmEIWithIndexes[];
-    static const CStringDictionary::TStringId scmIntegerOutputNames[];
-    static const CStringDictionary::TStringId scmIntegerOutputTypeIds[];
+    static const CStringDictionary::TStringId scmIntegerInputNames[];
+    static const CStringDictionary::TStringId scmIntegerInputTypeIds[];
     static const TEventID scmEventMAPOID = 0;
     static const TEventID scmEventINDID = 1;
     static const TDataIOID scmEOWith[];

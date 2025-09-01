@@ -4,23 +4,34 @@ if (FORTE_IO_HMI)
     set(FORTE_IO ON CACHE BOOL "Enable IO Modules" FORCE)
     message("Set FORTE_IO")
 
+    define_property(DIRECTORY PROPERTY HMI_AUTOGENERATE)
+
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     forte_add_sourcefile_hcpp(
-            HMIWidgetHandle
-            HMISubjectHandle
+            HMIHandle
             HMIDeviceController)
     forte_add_sourcefile_hcpp(
-            types/FORTE_HMIBooleanIndicator
             types/FORTE_HMIBusAdapter
-            types/FORTE_HMIButton
-            types/FORTE_HMICheckBox
-            types/FORTE_HMIDropDown
             types/FORTE_HMIMaster
-            types/FORTE_HMINumber
-            types/FORTE_HMIProgressBar
-            types/FORTE_HMISlider
-            types/FORTE_HMISubject
-            types/FORTE_HMISwitch)
+            types/boolean_indicator/FORTE_HMIBooleanIndicator
+            types/boolean_indicator/HMIBooleanIndicatorHandle
+            types/button/FORTE_HMIButton
+            types/button/HMIButtonHandle
+            types/check_box/FORTE_HMICheckBox
+            types/check_box/HMICheckBoxHandle
+            types/drop_down/FORTE_HMIDropDown
+            types/drop_down/HMIDropDownHandle
+            types/number/FORTE_HMINumber
+            types/number/HMINumberHandle
+            types/progress_bar/FORTE_HMIProgressBar
+            types/progress_bar/HMIProgressBarHandle
+            types/slider/FORTE_HMISlider
+            types/slider/HMISliderHandle
+            types/subject/FORTE_HMISubject
+            types/subject/HMISubjectHandle
+            types/switch/FORTE_HMISwitch
+            types/switch/HMISwitchHandle
+    )
 
     forte_add_startup_hook(hmiStartupHook)
     forte_add_sourcefile_hcpp(startup)

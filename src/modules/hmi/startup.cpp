@@ -71,6 +71,11 @@ void hmiStartupHook(int argc, char *arg[]) {
 
   hal_init(640, 480);
 
+#ifdef HMI_AUTOGENERATE
+  lv_obj_t *main = lv_obj_create(NULL);
+
+  lv_screen_load(main);
+#else
   ui_init(nullptr);
   lv_obj_t *main = main_create();
 
@@ -86,6 +91,7 @@ void hmiStartupHook(int argc, char *arg[]) {
   lv_obj_set_name(swtch, "lvswitch1");
 
   lv_screen_load(main);
+#endif
 }
 
 void hmiMainFunctionHook() {

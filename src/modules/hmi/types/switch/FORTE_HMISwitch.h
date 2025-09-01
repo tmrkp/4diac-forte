@@ -2,16 +2,16 @@
 
 #include "io/configFB/io_slave_multi.h"
 #include "io/device/io_controller.h"
-#include "FORTE_HMIBusAdapter.h"
+#include "../FORTE_HMIBusAdapter.h"
 
 using namespace forte::core::io;
 
-class FORTE_HMICheckBox final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMICheckBox)
+class FORTE_HMISwitch final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMISwitch)
 
   public:
-    FORTE_HMICheckBox(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMICheckBox() override = default;
+    FORTE_HMISwitch(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMISwitch() override = default;
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;

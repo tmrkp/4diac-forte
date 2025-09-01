@@ -1,6 +1,6 @@
 #include "FORTE_HMISlider.h"
 
-#include "../HMIDeviceController.h"
+#include "HMIDeviceController.h"
 
 USE_STRING_ID(HMISlider);
 USE_STRING_ID(QI);
@@ -166,8 +166,7 @@ CDataConnection *FORTE_HMISlider::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISlider::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_IntegerInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_DWORD,
-                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
+  HMIDeviceController::HMIHandleDescriptor desc(var_IntegerInput.getStorage(), 0, HMIDeviceController::SLIDER,
                                                 var_WidgetName.getStorage());
   initHandle(desc);
 }

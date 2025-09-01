@@ -1,6 +1,6 @@
 #include "FORTE_HMISwitch.h"
 
-#include "../HMIDeviceController.h"
+#include "HMIDeviceController.h"
 
 USE_STRING_ID(HMISwitch);
 USE_STRING_ID(QI);
@@ -166,8 +166,7 @@ CDataConnection *FORTE_HMISwitch::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISwitch::initHandles() {
-  HMIDeviceController::HMIHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_BOOL,
-                                                HMIDeviceController::HMIHandleDescriptor::TargetType::WIDGET,
+  HMIDeviceController::HMIHandleDescriptor desc(var_BooleanInput.getStorage(), 0, HMIDeviceController::SWITCH,
                                                 var_WidgetName.getStorage());
   initHandle(desc);
 }
