@@ -29,6 +29,8 @@ if (FORTE_IO_HMI)
             types/progress_bar/HMIProgressBarHandle
             types/slider/FORTE_HMISlider
             types/slider/HMISliderHandle
+            types/spin_box/FORTE_HMISpinBox
+            types/spin_box/HMISpinBoxHandle
             types/subject/FORTE_HMISubject
             types/subject/HMISubjectHandle
             types/switch/FORTE_HMISwitch

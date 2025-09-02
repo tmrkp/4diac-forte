@@ -15,6 +15,7 @@
 #include "types/progress_bar/HMIProgressBarHandle.h"
 #include "types/slider/HMISliderHandle.h"
 #include "types/subject/HMISubjectHandle.h"
+#include "types/spin_box/HMISpinBoxHandle.h"
 #include "types/switch/HMISwitchHandle.h"
 
 HMIDeviceController::HMIDeviceController(CDeviceExecution &paDeviceExecution) :
@@ -44,21 +45,22 @@ IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescript
     case NUMBER: return createWidgetHandle<HMINumberHandle>(mGenerator.createNumberWidget(desc.mLabel));
     case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(mGenerator.createProgressBarWidget(desc.mLabel));
     case SLIDER: return createWidgetHandle<HMISliderHandle>(mGenerator.createSliderWidget(desc.mLabel));
+    case SPIN_BOX: return createWidgetHandle<HMISpinBoxHandle>(mGenerator.createSpinBoxWidget(desc.mLabel));
     case SWITCH: return createWidgetHandle<HMISwitchHandle>(mGenerator.createSwitchWidget(desc.mLabel));
   }
 
-  // switch (desc.mHandleType) {
-  //   case SUBJECT: return createSubjectHandle(findSubject(desc.mName));
-  //   case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(findWidget(desc.mName,
-  //   &lv_led_class)); case BUTTON: return createWidgetHandle<HMIButtonHandle>(findWidget(desc.mName,
-  //   &lv_button_class)); case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(findWidget(desc.mName,
-  //   &lv_checkbox_class)); case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(findWidget(desc.mName,
-  //   &lv_dropdown_class)); case NUMBER: return createWidgetHandle<HMINumberHandle>(findWidget(desc.mName,
-  //   &lv_label_class)); case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(findWidget(desc.mName,
-  //   &lv_bar_class)); case SLIDER: return createWidgetHandle<HMISliderHandle>(findWidget(desc.mName,
-  //   &lv_slider_class)); case SWITCH: return createWidgetHandle<HMISwitchHandle>(findWidget(desc.mName,
-  //   &lv_switch_class));
-  // }
+  switch (desc.mHandleType) {
+    case SUBJECT: return createSubjectHandle(findSubject(desc.mName));
+    case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(findWidget(desc.mName, &lv_led_class));
+    case BUTTON: return createWidgetHandle<HMIButtonHandle>(findWidget(desc.mName, &lv_button_class));
+    case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(findWidget(desc.mName, &lv_checkbox_class));
+    case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(findWidget(desc.mName, &lv_dropdown_class));
+    case NUMBER: return createWidgetHandle<HMINumberHandle>(findWidget(desc.mName, &lv_label_class));
+    case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(findWidget(desc.mName, &lv_bar_class));
+    case SLIDER: return createWidgetHandle<HMISliderHandle>(findWidget(desc.mName, &lv_slider_class));
+    case SPIN_BOX: return createWidgetHandle<HMISpinBoxHandle>(findWidget(desc.mName, &lv_spinbox_class));
+    case SWITCH: return createWidgetHandle<HMISwitchHandle>(findWidget(desc.mName, &lv_switch_class));
+  }
   return nullptr;
 }
 

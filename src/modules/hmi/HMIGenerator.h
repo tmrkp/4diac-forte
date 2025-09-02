@@ -14,6 +14,7 @@ class HMIGenerator {
     lv_obj_t *createProgressBarWidget(const std::string *paLabel) const;
     lv_obj_t *createSliderWidget(const std::string *paLabel) const;
     lv_subject_t *createSubjectWidget(const std::string *paLabel) const;
+    lv_obj_t *createSpinBoxWidget(const std::string *paLabel) const;
     lv_obj_t *createSwitchWidget(const std::string *paLabel) const;
 
   protected:

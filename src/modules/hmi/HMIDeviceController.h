@@ -22,6 +22,7 @@ class HMIDeviceController : public IODeviceMultiController {
       NUMBER,
       PROGRESS_BAR,
       SLIDER,
+      SPIN_BOX,
       SUBJECT,
       SWITCH
     };
