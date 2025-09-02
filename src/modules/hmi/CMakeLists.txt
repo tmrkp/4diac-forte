@@ -10,7 +10,8 @@ if (FORTE_IO_HMI)
     forte_add_sourcefile_hcpp(
             HMIHandle
             HMIGenerator
-            HMIDeviceController)
+            HMIDeviceController
+            HMIDriver)
     forte_add_sourcefile_hcpp(
             types/FORTE_HMIBusAdapter
             types/FORTE_HMIMaster

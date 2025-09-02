@@ -20,6 +20,6 @@
     </fonts>
 
     <subjects>
-        <int name="conveyor1" value="0" />
+        <int name="subject1" value="0" />
     </subjects>
 </globals>

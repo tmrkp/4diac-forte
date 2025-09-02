@@ -1,5 +1,7 @@
 #include "HMIDeviceController.h"
 
+#include "HMIDriver.h"
+
 #include <iostream>
 #include "lvgl/lvgl.h"
 
@@ -32,9 +34,7 @@ IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescript
   auto &desc(static_cast<HMIHandleDescriptor &>(paHandleDescriptor));
 
   switch (desc.mHandleType) {
-    case SUBJECT:
-      DEVLOG_WARNING("[HMIDeviceController] Subjects are not supported in auto-generated UI.\n");
-      return nullptr;
+    case SUBJECT: return createSubjectHandle(mGenerator.createSubjectWidget(&desc.mName));
     case BOOLEAN_INDICATOR:
       return createWidgetHandle<HMIBooleanIndicatorHandle>(mGenerator.createBooleanIndicatorWidget(desc.mLabel));
     case BUTTON: return createWidgetHandle<HMIButtonHandle>(mGenerator.createButtonWidget(desc.mLabel));

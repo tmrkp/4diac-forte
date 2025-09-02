@@ -1,6 +1,6 @@
 #include "HMIBooleanIndicatorHandle.h"
 
-#include "startup.h"
+#include "HMIDriver.h"
 
 HMIBooleanIndicatorHandle::HMIBooleanIndicatorHandle(HMIDeviceController *paController, lv_obj_t *paObj) :
     HMIHandle(paController, IOMapper::Out, CIEC_ANY::e_BOOL),
@@ -9,7 +9,7 @@ HMIBooleanIndicatorHandle::HMIBooleanIndicatorHandle(HMIDeviceController *paCont
 
 void HMIBooleanIndicatorHandle::set(const CIEC_ANY &paState) {
   bool on = static_cast<const CIEC_BOOL &>(paState);
-  runLater([this, on] {
+  HMIDriver::runLater([this, on] {
     if (on == true) {
       lv_led_on(mObj);
     } else {

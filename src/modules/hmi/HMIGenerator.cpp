@@ -80,6 +80,16 @@ lv_obj_t *HMIGenerator::createSliderWidget(const std::string *paLabel) const {
   return slider;
 }
 
+lv_subject_t *HMIGenerator::createSubjectWidget(const std::string *paLabel) const {
+  const std::string label = "Subject: " + *paLabel;
+  lv_obj_t *wrapper = createWidgetWrapper(&label);
+  lv_obj_t *number = lv_label_create(wrapper);
+  lv_subject_t *subject = new lv_subject_t;
+  lv_subject_init_int(subject, 0);
+  lv_label_bind_text(number, subject, "%d");
+  return subject;
+}
+
 lv_obj_t *HMIGenerator::createSwitchWidget(const std::string *paLabel) const {
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *swtch = lv_switch_create(wrapper);
