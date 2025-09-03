@@ -25,6 +25,8 @@ if (FORTE_IO_HMI)
             types/drop_down/HMIDropDownHandle
             types/number/FORTE_HMINumber
             types/number/HMINumberHandle
+            types/observer/FORTE_HMIObserver
+            types/observer/HMIObserverHandle
             types/progress_bar/FORTE_HMIProgressBar
             types/progress_bar/HMIProgressBarHandle
             types/slider/FORTE_HMISlider

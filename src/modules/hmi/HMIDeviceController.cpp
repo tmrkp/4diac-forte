@@ -49,33 +49,26 @@ IOHandle *HMIDeviceController::createIOHandle(IODeviceController::HandleDescript
     case SWITCH: return createWidgetHandle<HMISwitchHandle>(mGenerator.createSwitchWidget(desc.mLabel));
   }
 
-  switch (desc.mHandleType) {
-    case SUBJECT: return createSubjectHandle(findSubject(desc.mName));
-    case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(findWidget(desc.mName, &lv_led_class));
-    case BUTTON: return createWidgetHandle<HMIButtonHandle>(findWidget(desc.mName, &lv_button_class));
-    case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(findWidget(desc.mName, &lv_checkbox_class));
-    case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(findWidget(desc.mName, &lv_dropdown_class));
-    case NUMBER: return createWidgetHandle<HMINumberHandle>(findWidget(desc.mName, &lv_label_class));
-    case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(findWidget(desc.mName, &lv_bar_class));
-    case SLIDER: return createWidgetHandle<HMISliderHandle>(findWidget(desc.mName, &lv_slider_class));
-    case SPIN_BOX: return createWidgetHandle<HMISpinBoxHandle>(findWidget(desc.mName, &lv_spinbox_class));
-    case SWITCH: return createWidgetHandle<HMISwitchHandle>(findWidget(desc.mName, &lv_switch_class));
-  }
+  // switch (desc.mHandleType) {
+  //   case SUBJECT: return createSubjectHandle(findSubject(desc.mName));
+  //   case BOOLEAN_INDICATOR: return createWidgetHandle<HMIBooleanIndicatorHandle>(findWidget(desc.mName,
+  //   &lv_led_class)); case BUTTON: return createWidgetHandle<HMIButtonHandle>(findWidget(desc.mName,
+  //   &lv_button_class)); case CHECK_BOX: return createWidgetHandle<HMICheckBoxHandle>(findWidget(desc.mName,
+  //   &lv_checkbox_class)); case DROP_DOWN: return createWidgetHandle<HMIDropDownHandle>(findWidget(desc.mName,
+  //   &lv_dropdown_class)); case NUMBER: return createWidgetHandle<HMINumberHandle>(findWidget(desc.mName,
+  //   &lv_label_class)); case PROGRESS_BAR: return createWidgetHandle<HMIProgressBarHandle>(findWidget(desc.mName,
+  //   &lv_bar_class)); case SLIDER: return createWidgetHandle<HMISliderHandle>(findWidget(desc.mName,
+  //   &lv_slider_class)); case SPIN_BOX: return createWidgetHandle<HMISpinBoxHandle>(findWidget(desc.mName,
+  //   &lv_spinbox_class)); case SWITCH: return createWidgetHandle<HMISwitchHandle>(findWidget(desc.mName,
+  //   &lv_switch_class));
+  // }
   return nullptr;
-}
-
-bool HMIDeviceController::isHandleValueEqual(IOHandle &paHandle) {
-  return !static_cast<HMIHandle &>(paHandle).hasChanged();
 }
 
 void HMIDeviceController::deInit() {
 }
 
 void HMIDeviceController::runLoop() {
-  while (isAlive()) {
-    sleepThread(1000 / 60);
-    checkForInputChanges();
-  }
 }
 
 void HMIDeviceController::addSlaveHandle(size_t paIndex, std::unique_ptr<IOHandle> paHandle) {

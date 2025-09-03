@@ -20,6 +20,7 @@ class HMIDeviceController : public IODeviceMultiController {
       CHECK_BOX,
       DROP_DOWN,
       NUMBER,
+      OBSERVER,
       PROGRESS_BAR,
       SLIDER,
       SPIN_BOX,
@@ -81,8 +82,6 @@ class HMIDeviceController : public IODeviceMultiController {
     const char *init() override;
 
     IOHandle *createIOHandle(IODeviceController::HandleDescriptor &paHandleDescriptor) override;
-
-    bool isHandleValueEqual(IOHandle &paHandle) override;
 
     void deInit() override;
 
