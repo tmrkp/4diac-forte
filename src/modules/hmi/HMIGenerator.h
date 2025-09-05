@@ -16,6 +16,7 @@ class HMIGenerator {
     lv_subject_t *createSubjectWidget(const std::string *paLabel) const;
     lv_obj_t *createSpinBoxWidget(const std::string *paLabel) const;
     lv_obj_t *createSwitchWidget(const std::string *paLabel) const;
+    lv_subject_t *createObserverWidget(const std::string *paLabel);
 
   protected:
     lv_obj_t *mMain = nullptr;

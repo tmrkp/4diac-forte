@@ -1,8 +1,14 @@
 #pragma once
 
 #include "HMIGenerator.h"
-#include "io/device/io_controller_multi.h"
+#include "device/io_controller_multi.h"
 #include "lvgl/lvgl.h"
+
+#include "handles/HMIDropdownSelectedIndexHandle.h"
+#include "handles/HMIWidgetStateHandle.h"
+#include "handles/HMILEDBrightnessHandle.h"
+#include "handles/HMISubjectHandle.h"
+#include "handles/HMILabelTextHandle.h"
 
 using namespace forte::core::io;
 
@@ -30,46 +36,125 @@ class HMIDeviceController : public IODeviceMultiController {
 
     class HMIHandleDescriptor : public HandleDescriptor {
       public:
-        HMIHandleType mHandleType;
-        std::string const &mName;
-        std::string const *mLabel;
-        std::string const *mOptions;
+        HMIHandleDescriptor(std::string const &paId, IOMapper::Direction paDirection, size_t paSlaveIndex) :
+            HandleDescriptor(paId, paDirection, paSlaveIndex) {
+        }
+        virtual ~HMIHandleDescriptor() = default;
 
-        HMIHandleDescriptor(std::string const &paId,
-                            size_t paSlaveIndex,
-                            HMIHandleType paHandleType,
-                            std::string const &paName) :
-            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
-            mHandleType(paHandleType),
-            mName(paName),
-            mLabel(nullptr),
-            mOptions(nullptr) {
+        virtual IOHandle *createIOHandle(HMIDeviceController *controller) = 0;
+    };
+
+    class HMISubjectHandleDescriptor : public HMIHandleDescriptor {
+      public:
+        HMISubjectHandleDescriptor(std::string const &paId,
+                                   IOMapper::Direction paDirection,
+                                   size_t paSlaveIndex,
+                                   const std::string &paSubjectName) :
+            HMIHandleDescriptor(paId, paDirection, paSlaveIndex),
+            mSubjectName(paSubjectName) {
         }
 
-        HMIHandleDescriptor(std::string const &paId,
-                            size_t paSlaveIndex,
-                            HMIHandleType paHandleType,
-                            std::string const &paName,
-                            std::string const &paLabel) :
-            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
-            mHandleType(paHandleType),
-            mName(paName),
-            mLabel(&paLabel),
-            mOptions(nullptr) {
+        IOHandle *createIOHandle(HMIDeviceController *paController) override {
+          return new HMISubjectHandle(paController, mDirection, findSubject(mSubjectName));
         }
 
-        HMIHandleDescriptor(std::string const &paId,
-                            size_t paSlaveIndex,
-                            HMIHandleType paHandleType,
-                            std::string const &paName,
-                            std::string const &paLabel,
-                            std::string const &paOptions) :
-            HandleDescriptor(paId, IOMapper::UnknownDirection, paSlaveIndex),
-            mHandleType(paHandleType),
-            mName(paName),
-            mLabel(&paLabel),
-            mOptions(&paOptions) {
+      private:
+        const std::string &mSubjectName;
+    };
+
+    class HMIWidgetStateHandleDescriptor : public HMIHandleDescriptor {
+      public:
+        HMIWidgetStateHandleDescriptor(std::string const &paId,
+                                       IOMapper::Direction paDirection,
+                                       size_t paSlaveIndex,
+                                       CIEC_ANY::EDataTypeID paType,
+                                       const std::string &paWidgetName,
+                                       const lv_obj_class_t *paClass,
+                                       lv_state_t paState,
+                                       lv_event_code_t paEventCode) :
+            HMIHandleDescriptor(paId, paDirection, paSlaveIndex),
+            mType(paType),
+            mWidgetName(paWidgetName),
+            mClass(paClass),
+            mState(paState),
+            mEventCode(paEventCode) {
         }
+
+        IOHandle *createIOHandle(HMIDeviceController *paController) override {
+          return new HMIWidgetStateHandle(paController, mDirection, mType, findWidget(mWidgetName, mClass), mState,
+                                          mEventCode);
+        }
+
+      private:
+        CIEC_ANY::EDataTypeID mType;
+        const std::string &mWidgetName;
+        const lv_obj_class_t *mClass;
+        lv_state_t mState;
+        lv_event_code_t mEventCode;
+    };
+
+    class HMILEDBrightnessHandleDescriptor : public HMIHandleDescriptor {
+      public:
+        HMILEDBrightnessHandleDescriptor(std::string const &paId,
+                                         size_t paSlaveIndex,
+                                         CIEC_ANY::EDataTypeID paType,
+                                         const std::string &paWidgetName) :
+            HMIHandleDescriptor(paId, IOMapper::Out, paSlaveIndex),
+            mType(paType),
+            mWidgetName(paWidgetName) {
+        }
+
+        IOHandle *createIOHandle(HMIDeviceController *controller) override {
+          return new HMILEDBrightnessHandle(controller, mType, findWidget(mWidgetName, &lv_led_class));
+        }
+
+      private:
+        CIEC_ANY::EDataTypeID mType;
+        const std::string &mWidgetName;
+    };
+
+    class HMIDropdownSelectedIndexHandleDescriptor : public HMIHandleDescriptor {
+      public:
+        HMIDropdownSelectedIndexHandleDescriptor(std::string const &paId,
+                                                 IOMapper::Direction paDirection,
+                                                 size_t paSlaveIndex,
+                                                 CIEC_ANY::EDataTypeID paType,
+                                                 const std::string &paWidgetName) :
+            HMIHandleDescriptor(paId, paDirection, paSlaveIndex),
+            mType(paType),
+            mWidgetName(paWidgetName) {
+        }
+
+        IOHandle *createIOHandle(HMIDeviceController *paController) override {
+          return new HMIDropdownSelectedIndexHandle(paController, mDirection, mType,
+                                                    findWidget(mWidgetName, &lv_dropdown_class));
+        }
+
+      private:
+        CIEC_ANY::EDataTypeID mType;
+        const std::string &mWidgetName;
+    };
+
+    class HMINumberTextHandleDescriptor : public HMIHandleDescriptor {
+      public:
+        HMINumberTextHandleDescriptor(std::string const &paId,
+                                      IOMapper::Direction paDirection,
+                                      size_t paSlaveIndex,
+                                      CIEC_ANY::EDataTypeID paType,
+                                      const std::string &paWidgetName) :
+            HMIHandleDescriptor(paId, paDirection, paSlaveIndex),
+            mType(paType),
+            mWidgetName(paWidgetName) {
+        }
+
+        IOHandle *createIOHandle(HMIDeviceController *paController) override {
+          return new HMILabelTextHandle(paController, mDirection, mType, findWidget(mWidgetName, &lv_label_class),
+                                        "%d");
+        }
+
+      private:
+        CIEC_ANY::EDataTypeID mType;
+        const std::string &mWidgetName;
     };
 
     void setConfig(Config *paConfig) override;
@@ -99,14 +184,4 @@ class HMIDeviceController : public IODeviceMultiController {
     static lv_obj_t *findWidget(const std::string &paName, const lv_obj_class_t *paClass);
 
     static lv_subject_t *findSubject(const std::string &paName);
-
-    template<typename T>
-    IOHandle *createWidgetHandle(lv_obj_t *obj) {
-      if (obj != nullptr) {
-        return new T(this, obj);
-      }
-      return nullptr;
-    }
-
-    IOHandle *createSubjectHandle(lv_subject_t *subject);
 };

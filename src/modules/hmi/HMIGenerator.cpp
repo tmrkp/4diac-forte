@@ -129,3 +129,7 @@ lv_obj_t *HMIGenerator::createSwitchWidget(const std::string *paLabel) const {
   lv_obj_t *swtch = lv_switch_create(wrapper);
   return swtch;
 }
+
+lv_subject_t *HMIGenerator::createObserverWidget(const std::string *paLabel) {
+  // TODO
+}
