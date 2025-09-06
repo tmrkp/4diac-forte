@@ -173,10 +173,16 @@ CDataConnection *FORTE_HMILED::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMILED::initHandles() {
-  HMIDeviceController::HMILEDBrightnessHandleDescriptor boolDesc(var_BooleanOutput.getStorage(), 0, CIEC_ANY::e_BOOL,
-                                                                 var_WidgetName.getStorage());
-  initHandle(boolDesc);
-  HMIDeviceController::HMILEDBrightnessHandleDescriptor byteDesc(var_BooleanOutput.getStorage(), 1, CIEC_ANY::e_BYTE,
-                                                                 var_WidgetName.getStorage());
-  initHandle(byteDesc);
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectLED(var_WidgetName.getStorage(), var_Label.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMILEDBrightnessHandleDescriptor boolDesc(var_BooleanOutput.getStorage(), 0, CIEC_ANY::e_BOOL,
+                                                                   widget);
+    initHandle(boolDesc);
+    HMIDeviceController::HMILEDBrightnessHandleDescriptor byteDesc(var_ByteOutput.getStorage(), 1, CIEC_ANY::e_BYTE,
+                                                                   widget);
+    initHandle(byteDesc);
+  }
 }

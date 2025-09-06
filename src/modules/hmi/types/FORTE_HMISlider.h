@@ -16,7 +16,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
     CIEC_STRING var_WidgetName;
-    CIEC_STRING var_IntegerInput;
+    CIEC_STRING var_ChangedIntegerInput;
+    CIEC_STRING var_ReleasedIntegerInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -30,7 +31,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
     CDataConnection *conn_WidgetName;
-    CDataConnection *conn_IntegerInput;
+    CDataConnection *conn_ChangedIntegerInput;
+    CDataConnection *conn_ReleasedIntegerInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -45,13 +47,15 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
                  const CIEC_STRING &paWidgetName,
-                 const CIEC_STRING &paIntegerInput,
+                 const CIEC_STRING &paChangedIntegerInput,
+                 const CIEC_STRING &paReleasedIntegerInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
       var_WidgetName = paWidgetName;
-      var_IntegerInput = paIntegerInput;
+      var_ChangedIntegerInput = paChangedIntegerInput;
+      var_ReleasedIntegerInput = paReleasedIntegerInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -60,10 +64,11 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
                     const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paIntegerInput,
+                    const CIEC_STRING &paChangedIntegerInput,
+                    const CIEC_STRING &paReleasedIntegerInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paIntegerInput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paWidgetName, paChangedIntegerInput, paReleasedIntegerInput, paQO, paSTATUS);
     }
 
   protected:
@@ -77,8 +82,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
     static const TEventID scmEventMAPID = 0;
     static const TDataIOID scmEIWith[];
     static const TForteInt16 scmEIWithIndexes[];
-    static const CStringDictionary::TStringId scmIntegerInputNames[];
-    static const CStringDictionary::TStringId scmIntegerInputTypeIds[];
+    static const CStringDictionary::TStringId scmChangedIntegerInputNames[];
+    static const CStringDictionary::TStringId scmChangedIntegerInputTypeIds[];
     static const TEventID scmEventMAPOID = 0;
     static const TEventID scmEventINDID = 1;
     static const TDataIOID scmEOWith[];

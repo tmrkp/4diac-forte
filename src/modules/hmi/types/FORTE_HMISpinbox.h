@@ -6,12 +6,12 @@
 
 using namespace forte::core::io;
 
-class FORTE_HMISpinBox final : public IOConfigFBMultiSlave {
-    DECLARE_FIRMWARE_FB(FORTE_HMISpinBox)
+class FORTE_HMISpinbox final : public IOConfigFBMultiSlave {
+    DECLARE_FIRMWARE_FB(FORTE_HMISpinbox)
 
   public:
-    FORTE_HMISpinBox(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
-    ~FORTE_HMISpinBox() override = default;
+    FORTE_HMISpinbox(CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer);
+    ~FORTE_HMISpinbox() override = default;
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;

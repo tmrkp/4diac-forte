@@ -14,7 +14,7 @@ void HMIDeviceController::setConfig(Config *paConfig) {
 }
 
 const char *HMIDeviceController::init() {
-  // mGenerator.init();
+  mConnector.init();
   return nullptr;
 }
 
@@ -42,28 +42,4 @@ bool HMIDeviceController::isSlaveAvailable(size_t paIndex) {
 
 bool HMIDeviceController::checkSlaveType(size_t paIndex, int paType) {
   return true;
-}
-
-lv_obj_t *HMIDeviceController::findWidget(const std::string &paName, const lv_obj_class_t *paClass) {
-  lv_obj_t *obj = lv_obj_find_by_name(lv_screen_active(), paName.c_str());
-  if (obj == nullptr) {
-    DEVLOG_WARNING("[HMIDeviceController] Cannot find widget with name '%s'\n", paName.c_str());
-    return nullptr;
-  }
-  if (lv_obj_get_class(obj) != paClass) {
-    DEVLOG_WARNING("[HMIDeviceController] Unexpected widget with name '%s'\n", paName.c_str());
-    return nullptr;
-  }
-  return obj;
-}
-
-lv_subject_t *HMIDeviceController::findSubject(const std::string &paName) {
-  lv_subject_t *subject = lv_xml_get_subject(nullptr, paName.c_str());
-
-  if (subject == nullptr) {
-    DEVLOG_WARNING("[HMIDeviceController] Cannot find subject '%s'\n", paName.c_str());
-    return nullptr;
-  }
-
-  return subject;
 }

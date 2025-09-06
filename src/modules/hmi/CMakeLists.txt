@@ -5,28 +5,36 @@ if (FORTE_IO_HMI)
 
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     forte_add_sourcefile_hcpp(
+            HMIDeviceController
+            HMIDriver
+    )
+    forte_add_sourcefile_hcpp(
+            connector/HMIConnectorInterface
+            connector/HMIAutoUIConnector
+            connector/HMIExternalConnector
+    )
+    forte_add_sourcefile_hcpp(
             handles/HMISubjectHandle
             handles/HMIWidgetStateHandle
             handles/HMIDropdownSelectedIndexHandle
             handles/HMILEDBrightnessHandle
             handles/HMILabelTextHandle
+            handles/HMISliderValueHandle
+            handles/HMISpinboxValueHandle
+            handles/HMIBarValueHandle
     )
-    forte_add_sourcefile_hcpp(
-            HMIGenerator
-            HMIDeviceController
-            HMIDriver)
     forte_add_sourcefile_hcpp(
             types/FORTE_HMIBusAdapter
             types/FORTE_HMIMaster
             types/FORTE_HMILED
             types/FORTE_HMIButton
-            types/FORTE_HMICheckBox
-            types/FORTE_HMIDropDown
+            types/FORTE_HMICheckbox
+            types/FORTE_HMIDropdown
             types/FORTE_HMINumber
             types/FORTE_HMIObserver
-            types/FORTE_HMIProgressBar
+            types/FORTE_HMIProgressbar
             types/FORTE_HMISlider
-            types/FORTE_HMISpinBox
+            types/FORTE_HMISpinbox
             types/FORTE_HMISubject
             types/FORTE_HMISwitch
     )

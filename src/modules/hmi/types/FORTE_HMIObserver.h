@@ -15,7 +15,7 @@ class FORTE_HMIObserver final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_SubjectName;
-    CIEC_STRING var_IntegerOutput;
+    CIEC_STRING var_IntegerInput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -28,7 +28,7 @@ class FORTE_HMIObserver final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_SubjectName;
-    CDataConnection *conn_IntegerOutput;
+    CDataConnection *conn_IntegerInput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -42,12 +42,12 @@ class FORTE_HMIObserver final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paSubjectName,
-                 const CIEC_STRING &paIntegerOutput,
+                 const CIEC_STRING &paIntegerInput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_SubjectName = paSubjectName;
-      var_IntegerOutput = paIntegerOutput;
+      var_IntegerInput = paIntegerInput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -55,10 +55,10 @@ class FORTE_HMIObserver final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paSubjectName,
-                    const CIEC_STRING &paIntegerOutput,
+                    const CIEC_STRING &paIntegerInput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paSubjectName, paIntegerOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paSubjectName, paIntegerInput, paQO, paSTATUS);
     }
 
   protected:

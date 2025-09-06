@@ -1,8 +1,8 @@
-#include "FORTE_HMICheckBox.h"
+#include "FORTE_HMICheckbox.h"
 
 #include "HMIDeviceController.h"
 
-USE_STRING_ID(HMICheckBox);
+USE_STRING_ID(HMICheckbox);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
 USE_STRING_ID(WidgetName);
@@ -22,27 +22,27 @@ USE_STRING_ID(BusAdapterIn);
 USE_STRING_ID(BusAdapterOut);
 USE_STRING_ID(Event);
 
-DEFINE_FIRMWARE_FB(FORTE_HMICheckBox, STRID(HMICheckBox))
+DEFINE_FIRMWARE_FB(FORTE_HMICheckbox, STRID(HMICheckbox))
 
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmDataInputNames[] = {
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmDataInputNames[] = {
     STRID(QI), STRID(Label), STRID(WidgetName), STRID(CheckedBooleanInput), STRID(DisabledBooleanOutput)};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmDataInputTypeIds[] = {
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmDataInputTypeIds[] = {
     STRID(BOOL), STRID(STRING), STRID(STRING), STRID(STRING), STRID(STRING)};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_HMICheckBox::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
-const TForteInt16 FORTE_HMICheckBox::scmEIWithIndexes[] = {0};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmBooleanInputNames[] = {STRID(MAP)};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmBooleanInputTypeIds[] = {STRID(Event)};
-const TDataIOID FORTE_HMICheckBox::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
-const TForteInt16 FORTE_HMICheckBox::scmEOWithIndexes[] = {0, 2};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
-const CStringDictionary::TStringId FORTE_HMICheckBox::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
-const SAdapterInstanceDef FORTE_HMICheckBox::scmAdapterInstances[] = {
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
+const TDataIOID FORTE_HMICheckbox::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
+const TForteInt16 FORTE_HMICheckbox::scmEIWithIndexes[] = {0};
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmBooleanInputNames[] = {STRID(MAP)};
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmBooleanInputTypeIds[] = {STRID(Event)};
+const TDataIOID FORTE_HMICheckbox::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
+const TForteInt16 FORTE_HMICheckbox::scmEOWithIndexes[] = {0, 2};
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
+const CStringDictionary::TStringId FORTE_HMICheckbox::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
+const SAdapterInstanceDef FORTE_HMICheckbox::scmAdapterInstances[] = {
     {STRID(HMIBusAdapter), STRID(BusAdapterOut), true},
     {STRID(HMIBusAdapter), STRID(BusAdapterIn), false},
 };
-const SFBInterfaceSpec FORTE_HMICheckBox::scmFBInterfaceSpec = {
+const SFBInterfaceSpec FORTE_HMICheckbox::scmFBInterfaceSpec = {
     1,
     scmBooleanInputNames,
     nullptr,
@@ -65,10 +65,10 @@ const SFBInterfaceSpec FORTE_HMICheckBox::scmFBInterfaceSpec = {
     scmAdapterInstances,
 };
 
-const TForteUInt8 FORTE_HMICheckBox::scmSlaveConfigurationIO[] = {};
-const TForteUInt8 FORTE_HMICheckBox::scmSlaveConfigurationIONum = 0;
+const TForteUInt8 FORTE_HMICheckbox::scmSlaveConfigurationIO[] = {};
+const TForteUInt8 FORTE_HMICheckbox::scmSlaveConfigurationIONum = 0;
 
-FORTE_HMICheckBox::FORTE_HMICheckBox(const CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer) :
+FORTE_HMICheckbox::FORTE_HMICheckbox(const CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer) :
     IOConfigFBMultiSlave(
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
     var_QI(0_BOOL),
@@ -91,7 +91,7 @@ FORTE_HMICheckBox::FORTE_HMICheckBox(const CStringDictionary::TStringId paInstan
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
 
-void FORTE_HMICheckBox::setInitialValues() {
+void FORTE_HMICheckbox::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
   var_WidgetName = ""_STRING;
@@ -101,7 +101,7 @@ void FORTE_HMICheckBox::setInitialValues() {
   var_STATUS = u""_WSTRING;
 }
 
-void FORTE_HMICheckBox::readInputData(const TEventID paEIID) {
+void FORTE_HMICheckbox::readInputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
@@ -115,7 +115,7 @@ void FORTE_HMICheckBox::readInputData(const TEventID paEIID) {
   }
 }
 
-void FORTE_HMICheckBox::writeOutputData(const TEventID paEIID) {
+void FORTE_HMICheckbox::writeOutputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPOID: {
       writeData(0, var_QO, conn_QO);
@@ -126,7 +126,7 @@ void FORTE_HMICheckBox::writeOutputData(const TEventID paEIID) {
   }
 }
 
-CIEC_ANY *FORTE_HMICheckBox::getDI(const size_t paIndex) {
+CIEC_ANY *FORTE_HMICheckbox::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
@@ -137,7 +137,7 @@ CIEC_ANY *FORTE_HMICheckBox::getDI(const size_t paIndex) {
   return nullptr;
 }
 
-CIEC_ANY *FORTE_HMICheckBox::getDO(const size_t paIndex) {
+CIEC_ANY *FORTE_HMICheckbox::getDO(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QO;
     case 1: return &var_STATUS;
@@ -145,7 +145,7 @@ CIEC_ANY *FORTE_HMICheckBox::getDO(const size_t paIndex) {
   return nullptr;
 }
 
-CEventConnection *FORTE_HMICheckBox::getEOConUnchecked(const TPortId paIndex) {
+CEventConnection *FORTE_HMICheckbox::getEOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_MAPO;
     case 1: return &conn_IND;
@@ -153,7 +153,7 @@ CEventConnection *FORTE_HMICheckBox::getEOConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-CDataConnection **FORTE_HMICheckBox::getDIConUnchecked(const TPortId paIndex) {
+CDataConnection **FORTE_HMICheckbox::getDIConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
@@ -164,7 +164,7 @@ CDataConnection **FORTE_HMICheckBox::getDIConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-CDataConnection *FORTE_HMICheckBox::getDOConUnchecked(const TPortId paIndex) {
+CDataConnection *FORTE_HMICheckbox::getDOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QO;
     case 1: return &conn_STATUS;
@@ -172,14 +172,20 @@ CDataConnection *FORTE_HMICheckBox::getDOConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-void FORTE_HMICheckBox::initHandles() {
-  HMIDeviceController::HMIWidgetStateHandleDescriptor checkedDesc(
-      var_CheckedBooleanInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_BOOL, var_WidgetName.getStorage(),
-      &lv_checkbox_class, LV_STATE_CHECKED, LV_EVENT_VALUE_CHANGED);
-  initHandle(checkedDesc);
+void FORTE_HMICheckbox::initHandles() {
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectCheckbox(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  HMIDeviceController::HMIWidgetStateHandleDescriptor disabledDesc(
-      var_DisabledBooleanOutput.getStorage(), IOMapper::Out, 1, CIEC_ANY::e_BOOL, var_WidgetName.getStorage(),
-      &lv_checkbox_class, LV_STATE_DISABLED, LV_EVENT_ALL);
-  initHandle(disabledDesc);
+  if (widget) {
+    HMIDeviceController::HMIWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In,
+                                                                    0, CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                                    LV_EVENT_VALUE_CHANGED);
+    initHandle(checkedDesc);
+
+    HMIDeviceController::HMIWidgetStateHandleDescriptor disabledDesc(var_DisabledBooleanOutput.getStorage(),
+                                                                     IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
+                                                                     LV_STATE_DISABLED, LV_EVENT_ALL);
+    initHandle(disabledDesc);
+  }
 }

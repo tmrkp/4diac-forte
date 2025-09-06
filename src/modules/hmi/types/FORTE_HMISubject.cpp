@@ -159,7 +159,11 @@ CDataConnection *FORTE_HMISubject::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISubject::initHandles() {
-  HMIDeviceController::HMISubjectHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
-                                                       var_SubjectName.getStorage());
-  initHandle(desc);
+  lv_subject_t *subject =
+      static_cast<HMIDeviceController &>(getController()).getConnector().connectSubject(var_SubjectName.getStorage());
+
+  if (subject) {
+    HMIDeviceController::HMISubjectHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, subject);
+    initHandle(desc);
+  }
 }

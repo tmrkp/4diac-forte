@@ -6,7 +6,8 @@ USE_STRING_ID(HMISlider);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
 USE_STRING_ID(WidgetName);
-USE_STRING_ID(IntegerInput);
+USE_STRING_ID(ChangedIntegerInput);
+USE_STRING_ID(ReleasedIntegerInput);
 USE_STRING_ID(BOOL);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
@@ -23,16 +24,16 @@ USE_STRING_ID(Event);
 
 DEFINE_FIRMWARE_FB(FORTE_HMISlider, STRID(HMISlider))
 
-const CStringDictionary::TStringId FORTE_HMISlider::scmDataInputNames[] = {STRID(QI), STRID(Label), STRID(WidgetName),
-                                                                           STRID(IntegerInput)};
+const CStringDictionary::TStringId FORTE_HMISlider::scmDataInputNames[] = {
+    STRID(QI), STRID(Label), STRID(WidgetName), STRID(ChangedIntegerInput), STRID(ReleasedIntegerInput)};
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING), STRID(STRING),
-                                                                             STRID(STRING)};
+                                                                             STRID(STRING), STRID(STRING)};
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_HMISlider::scmEIWith[] = {0, 1, 2, 3, scmWithListDelimiter};
+const TDataIOID FORTE_HMISlider::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
 const TForteInt16 FORTE_HMISlider::scmEIWithIndexes[] = {0};
-const CStringDictionary::TStringId FORTE_HMISlider::scmIntegerInputNames[] = {STRID(MAP)};
-const CStringDictionary::TStringId FORTE_HMISlider::scmIntegerInputTypeIds[] = {STRID(Event)};
+const CStringDictionary::TStringId FORTE_HMISlider::scmChangedIntegerInputNames[] = {STRID(MAP)};
+const CStringDictionary::TStringId FORTE_HMISlider::scmChangedIntegerInputTypeIds[] = {STRID(Event)};
 const TDataIOID FORTE_HMISlider::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
 const TForteInt16 FORTE_HMISlider::scmEOWithIndexes[] = {0, 2};
 const CStringDictionary::TStringId FORTE_HMISlider::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
@@ -43,7 +44,7 @@ const SAdapterInstanceDef FORTE_HMISlider::scmAdapterInstances[] = {
 };
 const SFBInterfaceSpec FORTE_HMISlider::scmFBInterfaceSpec = {
     1,
-    scmIntegerInputNames,
+    scmChangedIntegerInputNames,
     nullptr,
     scmEIWith,
     scmEIWithIndexes,
@@ -52,7 +53,7 @@ const SFBInterfaceSpec FORTE_HMISlider::scmFBInterfaceSpec = {
     nullptr,
     scmEOWith,
     scmEOWithIndexes,
-    4,
+    5,
     scmDataInputNames,
     scmDataInputTypeIds,
     2,
@@ -73,7 +74,8 @@ FORTE_HMISlider::FORTE_HMISlider(const CStringDictionary::TStringId paInstanceNa
     var_QI(0_BOOL),
     var_Label(""_STRING),
     var_WidgetName(""_STRING),
-    var_IntegerInput(""_STRING),
+    var_ChangedIntegerInput(""_STRING),
+    var_ReleasedIntegerInput(""_STRING),
     var_QO(0_BOOL),
     var_STATUS(u""_WSTRING),
     var_conn_QO(var_QO),
@@ -83,7 +85,8 @@ FORTE_HMISlider::FORTE_HMISlider(const CStringDictionary::TStringId paInstanceNa
     conn_QI(nullptr),
     conn_Label(nullptr),
     conn_WidgetName(nullptr),
-    conn_IntegerInput(nullptr),
+    conn_ChangedIntegerInput(nullptr),
+    conn_ReleasedIntegerInput(nullptr),
     conn_QO(*this, 0, var_conn_QO),
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
@@ -92,7 +95,7 @@ void FORTE_HMISlider::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
   var_WidgetName = ""_STRING;
-  var_IntegerInput = ""_STRING;
+  var_ChangedIntegerInput = ""_STRING;
   var_QO = 0_BOOL;
   var_STATUS = u""_WSTRING;
 }
@@ -103,7 +106,8 @@ void FORTE_HMISlider::readInputData(const TEventID paEIID) {
       readData(0, var_QI, conn_QI);
       readData(1, var_Label, conn_Label);
       readData(2, var_WidgetName, conn_WidgetName);
-      readData(3, var_IntegerInput, conn_IntegerInput);
+      readData(3, var_ChangedIntegerInput, conn_ChangedIntegerInput);
+      readData(4, var_ReleasedIntegerInput, conn_ReleasedIntegerInput);
       break;
     }
     default: break;
@@ -126,7 +130,8 @@ CIEC_ANY *FORTE_HMISlider::getDI(const size_t paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
     case 2: return &var_WidgetName;
-    case 3: return &var_IntegerInput;
+    case 3: return &var_ChangedIntegerInput;
+    case 4: return &var_ReleasedIntegerInput;
   }
   return nullptr;
 }
@@ -152,7 +157,8 @@ CDataConnection **FORTE_HMISlider::getDIConUnchecked(const TPortId paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
     case 2: return &conn_WidgetName;
-    case 3: return &conn_IntegerInput;
+    case 3: return &conn_ChangedIntegerInput;
+    case 4: return &conn_ReleasedIntegerInput;
   }
   return nullptr;
 }
@@ -166,7 +172,16 @@ CDataConnection *FORTE_HMISlider::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISlider::initHandles() {
-  // HMIDeviceController::HMIHandleDescriptor desc(var_IntegerInput.getStorage(), 0, HMIDeviceController::SLIDER,
-  //                                               LV_EVENT_VALUE_CHANGED, var_WidgetName.getStorage());
-  // initHandle(desc);
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMISliderValueHandleDescriptor changedDesc(
+        var_ChangedIntegerInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_DWORD, widget, LV_EVENT_VALUE_CHANGED);
+    initHandle(changedDesc);
+    HMIDeviceController::HMISliderValueHandleDescriptor releasedDesc(
+        var_ReleasedIntegerInput.getStorage(), IOMapper::In, 1, CIEC_ANY::e_DWORD, widget, LV_EVENT_RELEASED);
+    initHandle(releasedDesc);
+  }
 }

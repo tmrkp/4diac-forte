@@ -166,7 +166,13 @@ CDataConnection *FORTE_HMINumber::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMINumber::initHandles() {
-  HMIDeviceController::HMINumberTextHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
-                                                          CIEC_ANY::e_DWORD, var_WidgetName.getStorage());
-  initHandle(desc);
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectNumber(var_WidgetName.getStorage(), var_Label.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMINumberTextHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
+                                                            CIEC_ANY::e_DWORD, widget);
+    initHandle(desc);
+  }
 }

@@ -23,7 +23,7 @@ void HMIDriver::init() {
   });
 
   initHAL(640, 480);
-  initUI();
+  // initUI();
 }
 
 void HMIDriver::main() {

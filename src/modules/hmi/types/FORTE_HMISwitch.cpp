@@ -166,8 +166,14 @@ CDataConnection *FORTE_HMISwitch::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISwitch::initHandles() {
-  HMIDeviceController::HMIWidgetStateHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0,
-                                                           CIEC_ANY::e_BOOL, var_WidgetName.getStorage(),
-                                                           &lv_switch_class, LV_STATE_CHECKED, LV_EVENT_VALUE_CHANGED);
-  initHandle(desc);
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectSwitch(var_WidgetName.getStorage(), var_Label.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMIWidgetStateHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0,
+                                                             CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                             LV_EVENT_VALUE_CHANGED);
+    initHandle(desc);
+  }
 }

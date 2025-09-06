@@ -1,8 +1,8 @@
-#include "FORTE_HMIProgressBar.h"
+#include "FORTE_HMIProgressbar.h"
 
 #include "HMIDeviceController.h"
 
-USE_STRING_ID(HMIProgressBar);
+USE_STRING_ID(HMIProgressbar);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
 USE_STRING_ID(WidgetName);
@@ -21,27 +21,27 @@ USE_STRING_ID(BusAdapterIn);
 USE_STRING_ID(BusAdapterOut);
 USE_STRING_ID(Event);
 
-DEFINE_FIRMWARE_FB(FORTE_HMIProgressBar, STRID(HMIProgressBar))
+DEFINE_FIRMWARE_FB(FORTE_HMIProgressbar, STRID(HMIProgressbar))
 
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmDataInputNames[] = {
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataInputNames[] = {
     STRID(QI), STRID(Label), STRID(WidgetName), STRID(IntegerOutput)};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING),
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING),
                                                                                   STRID(STRING), STRID(STRING)};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_HMIProgressBar::scmEIWith[] = {0, 1, 2, 3, scmWithListDelimiter};
-const TForteInt16 FORTE_HMIProgressBar::scmEIWithIndexes[] = {0};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmIntegerOutputNames[] = {STRID(MAP)};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmIntegerOutputTypeIds[] = {STRID(Event)};
-const TDataIOID FORTE_HMIProgressBar::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
-const TForteInt16 FORTE_HMIProgressBar::scmEOWithIndexes[] = {0, 2};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
-const CStringDictionary::TStringId FORTE_HMIProgressBar::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
-const SAdapterInstanceDef FORTE_HMIProgressBar::scmAdapterInstances[] = {
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
+const TDataIOID FORTE_HMIProgressbar::scmEIWith[] = {0, 1, 2, 3, scmWithListDelimiter};
+const TForteInt16 FORTE_HMIProgressbar::scmEIWithIndexes[] = {0};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmIntegerOutputNames[] = {STRID(MAP)};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmIntegerOutputTypeIds[] = {STRID(Event)};
+const TDataIOID FORTE_HMIProgressbar::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
+const TForteInt16 FORTE_HMIProgressbar::scmEOWithIndexes[] = {0, 2};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
+const SAdapterInstanceDef FORTE_HMIProgressbar::scmAdapterInstances[] = {
     {STRID(HMIBusAdapter), STRID(BusAdapterOut), true},
     {STRID(HMIBusAdapter), STRID(BusAdapterIn), false},
 };
-const SFBInterfaceSpec FORTE_HMIProgressBar::scmFBInterfaceSpec = {
+const SFBInterfaceSpec FORTE_HMIProgressbar::scmFBInterfaceSpec = {
     1,
     scmIntegerOutputNames,
     nullptr,
@@ -64,10 +64,10 @@ const SFBInterfaceSpec FORTE_HMIProgressBar::scmFBInterfaceSpec = {
     scmAdapterInstances,
 };
 
-const TForteUInt8 FORTE_HMIProgressBar::scmSlaveConfigurationIO[] = {};
-const TForteUInt8 FORTE_HMIProgressBar::scmSlaveConfigurationIONum = 0;
+const TForteUInt8 FORTE_HMIProgressbar::scmSlaveConfigurationIO[] = {};
+const TForteUInt8 FORTE_HMIProgressbar::scmSlaveConfigurationIONum = 0;
 
-FORTE_HMIProgressBar::FORTE_HMIProgressBar(const CStringDictionary::TStringId paInstanceNameId,
+FORTE_HMIProgressbar::FORTE_HMIProgressbar(const CStringDictionary::TStringId paInstanceNameId,
                                            CFBContainer &paContainer) :
     IOConfigFBMultiSlave(
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
@@ -89,7 +89,7 @@ FORTE_HMIProgressBar::FORTE_HMIProgressBar(const CStringDictionary::TStringId pa
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
 
-void FORTE_HMIProgressBar::setInitialValues() {
+void FORTE_HMIProgressbar::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
   var_WidgetName = ""_STRING;
@@ -98,7 +98,7 @@ void FORTE_HMIProgressBar::setInitialValues() {
   var_STATUS = u""_WSTRING;
 }
 
-void FORTE_HMIProgressBar::readInputData(const TEventID paEIID) {
+void FORTE_HMIProgressbar::readInputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
@@ -111,7 +111,7 @@ void FORTE_HMIProgressBar::readInputData(const TEventID paEIID) {
   }
 }
 
-void FORTE_HMIProgressBar::writeOutputData(const TEventID paEIID) {
+void FORTE_HMIProgressbar::writeOutputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPOID: {
       writeData(0, var_QO, conn_QO);
@@ -122,7 +122,7 @@ void FORTE_HMIProgressBar::writeOutputData(const TEventID paEIID) {
   }
 }
 
-CIEC_ANY *FORTE_HMIProgressBar::getDI(const size_t paIndex) {
+CIEC_ANY *FORTE_HMIProgressbar::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
@@ -132,7 +132,7 @@ CIEC_ANY *FORTE_HMIProgressBar::getDI(const size_t paIndex) {
   return nullptr;
 }
 
-CIEC_ANY *FORTE_HMIProgressBar::getDO(const size_t paIndex) {
+CIEC_ANY *FORTE_HMIProgressbar::getDO(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QO;
     case 1: return &var_STATUS;
@@ -140,7 +140,7 @@ CIEC_ANY *FORTE_HMIProgressBar::getDO(const size_t paIndex) {
   return nullptr;
 }
 
-CEventConnection *FORTE_HMIProgressBar::getEOConUnchecked(const TPortId paIndex) {
+CEventConnection *FORTE_HMIProgressbar::getEOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_MAPO;
     case 1: return &conn_IND;
@@ -148,7 +148,7 @@ CEventConnection *FORTE_HMIProgressBar::getEOConUnchecked(const TPortId paIndex)
   return nullptr;
 }
 
-CDataConnection **FORTE_HMIProgressBar::getDIConUnchecked(const TPortId paIndex) {
+CDataConnection **FORTE_HMIProgressbar::getDIConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
@@ -158,7 +158,7 @@ CDataConnection **FORTE_HMIProgressBar::getDIConUnchecked(const TPortId paIndex)
   return nullptr;
 }
 
-CDataConnection *FORTE_HMIProgressBar::getDOConUnchecked(const TPortId paIndex) {
+CDataConnection *FORTE_HMIProgressbar::getDOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QO;
     case 1: return &conn_STATUS;
@@ -166,8 +166,14 @@ CDataConnection *FORTE_HMIProgressBar::getDOConUnchecked(const TPortId paIndex) 
   return nullptr;
 }
 
-void FORTE_HMIProgressBar::initHandles() {
-  // HMIDeviceController::HMIHandleDescriptor desc(var_IntegerOutput.getStorage(), 0, HMIDeviceController::PROGRESS_BAR,
-  //                                               LV_EVENT_VALUE_CHANGED, var_WidgetName.getStorage());
-  // initHandle(desc);
+void FORTE_HMIProgressbar::initHandles() {
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectProgressbar(var_WidgetName.getStorage(), var_Label.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMIBarValueHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
+                                                          CIEC_ANY::e_DWORD, widget);
+    initHandle(desc);
+  }
 }

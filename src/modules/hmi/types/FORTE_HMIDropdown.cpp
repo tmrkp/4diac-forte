@@ -1,8 +1,8 @@
-#include "FORTE_HMIDropDown.h"
+#include "FORTE_HMIDropdown.h"
 
 #include "HMIDeviceController.h"
 
-USE_STRING_ID(HMIDropDown);
+USE_STRING_ID(HMIDropdown);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
 USE_STRING_ID(Options);
@@ -22,27 +22,27 @@ USE_STRING_ID(BusAdapterIn);
 USE_STRING_ID(BusAdapterOut);
 USE_STRING_ID(Event);
 
-DEFINE_FIRMWARE_FB(FORTE_HMIDropDown, STRID(HMIDropDown))
+DEFINE_FIRMWARE_FB(FORTE_HMIDropdown, STRID(HMIDropdown))
 
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmDataInputNames[] = {STRID(QI), STRID(Label), STRID(Options),
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmDataInputNames[] = {STRID(QI), STRID(Label), STRID(Options),
                                                                              STRID(WidgetName), STRID(IntegerInput)};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmDataInputTypeIds[] = {
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmDataInputTypeIds[] = {
     STRID(BOOL), STRID(STRING), STRID(STRING), STRID(STRING), STRID(STRING)};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_HMIDropDown::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
-const TForteInt16 FORTE_HMIDropDown::scmEIWithIndexes[] = {0};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmIntegerInputNames[] = {STRID(MAP)};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmIntegerInputTypeIds[] = {STRID(Event)};
-const TDataIOID FORTE_HMIDropDown::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
-const TForteInt16 FORTE_HMIDropDown::scmEOWithIndexes[] = {0, 2};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
-const CStringDictionary::TStringId FORTE_HMIDropDown::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
-const SAdapterInstanceDef FORTE_HMIDropDown::scmAdapterInstances[] = {
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
+const TDataIOID FORTE_HMIDropdown::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
+const TForteInt16 FORTE_HMIDropdown::scmEIWithIndexes[] = {0};
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmIntegerInputNames[] = {STRID(MAP)};
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmIntegerInputTypeIds[] = {STRID(Event)};
+const TDataIOID FORTE_HMIDropdown::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
+const TForteInt16 FORTE_HMIDropdown::scmEOWithIndexes[] = {0, 2};
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
+const CStringDictionary::TStringId FORTE_HMIDropdown::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
+const SAdapterInstanceDef FORTE_HMIDropdown::scmAdapterInstances[] = {
     {STRID(HMIBusAdapter), STRID(BusAdapterOut), true},
     {STRID(HMIBusAdapter), STRID(BusAdapterIn), false},
 };
-const SFBInterfaceSpec FORTE_HMIDropDown::scmFBInterfaceSpec = {
+const SFBInterfaceSpec FORTE_HMIDropdown::scmFBInterfaceSpec = {
     1,
     scmIntegerInputNames,
     nullptr,
@@ -65,10 +65,10 @@ const SFBInterfaceSpec FORTE_HMIDropDown::scmFBInterfaceSpec = {
     scmAdapterInstances,
 };
 
-const TForteUInt8 FORTE_HMIDropDown::scmSlaveConfigurationIO[] = {};
-const TForteUInt8 FORTE_HMIDropDown::scmSlaveConfigurationIONum = 0;
+const TForteUInt8 FORTE_HMIDropdown::scmSlaveConfigurationIO[] = {};
+const TForteUInt8 FORTE_HMIDropdown::scmSlaveConfigurationIONum = 0;
 
-FORTE_HMIDropDown::FORTE_HMIDropDown(const CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer) :
+FORTE_HMIDropdown::FORTE_HMIDropdown(const CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer) :
     IOConfigFBMultiSlave(
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
     var_QI(0_BOOL),
@@ -91,7 +91,7 @@ FORTE_HMIDropDown::FORTE_HMIDropDown(const CStringDictionary::TStringId paInstan
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
 
-void FORTE_HMIDropDown::setInitialValues() {
+void FORTE_HMIDropdown::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
   var_Options = ""_STRING;
@@ -101,7 +101,7 @@ void FORTE_HMIDropDown::setInitialValues() {
   var_STATUS = u""_WSTRING;
 }
 
-void FORTE_HMIDropDown::readInputData(const TEventID paEIID) {
+void FORTE_HMIDropdown::readInputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
@@ -115,7 +115,7 @@ void FORTE_HMIDropDown::readInputData(const TEventID paEIID) {
   }
 }
 
-void FORTE_HMIDropDown::writeOutputData(const TEventID paEIID) {
+void FORTE_HMIDropdown::writeOutputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPOID: {
       writeData(0, var_QO, conn_QO);
@@ -126,7 +126,7 @@ void FORTE_HMIDropDown::writeOutputData(const TEventID paEIID) {
   }
 }
 
-CIEC_ANY *FORTE_HMIDropDown::getDI(const size_t paIndex) {
+CIEC_ANY *FORTE_HMIDropdown::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
@@ -137,7 +137,7 @@ CIEC_ANY *FORTE_HMIDropDown::getDI(const size_t paIndex) {
   return nullptr;
 }
 
-CIEC_ANY *FORTE_HMIDropDown::getDO(const size_t paIndex) {
+CIEC_ANY *FORTE_HMIDropdown::getDO(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QO;
     case 1: return &var_STATUS;
@@ -145,7 +145,7 @@ CIEC_ANY *FORTE_HMIDropDown::getDO(const size_t paIndex) {
   return nullptr;
 }
 
-CEventConnection *FORTE_HMIDropDown::getEOConUnchecked(const TPortId paIndex) {
+CEventConnection *FORTE_HMIDropdown::getEOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_MAPO;
     case 1: return &conn_IND;
@@ -153,7 +153,7 @@ CEventConnection *FORTE_HMIDropDown::getEOConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-CDataConnection **FORTE_HMIDropDown::getDIConUnchecked(const TPortId paIndex) {
+CDataConnection **FORTE_HMIDropdown::getDIConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
@@ -164,7 +164,7 @@ CDataConnection **FORTE_HMIDropDown::getDIConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-CDataConnection *FORTE_HMIDropDown::getDOConUnchecked(const TPortId paIndex) {
+CDataConnection *FORTE_HMIDropdown::getDOConUnchecked(const TPortId paIndex) {
   switch (paIndex) {
     case 0: return &conn_QO;
     case 1: return &conn_STATUS;
@@ -172,8 +172,15 @@ CDataConnection *FORTE_HMIDropDown::getDOConUnchecked(const TPortId paIndex) {
   return nullptr;
 }
 
-void FORTE_HMIDropDown::initHandles() {
-  HMIDeviceController::HMIDropdownSelectedIndexHandleDescriptor desc(var_IntegerInput.getStorage(), IOMapper::In, 0,
-                                                                     CIEC_ANY::e_DWORD, var_WidgetName.getStorage());
-  initHandle(desc);
+void FORTE_HMIDropdown::initHandles() {
+  lv_obj_t *widget =
+      static_cast<HMIDeviceController &>(getController())
+          .getConnector()
+          .connectDropdown(var_WidgetName.getStorage(), var_Label.getStorage(), var_Options.getStorage());
+
+  if (widget) {
+    HMIDeviceController::HMIDropdownSelectedIndexHandleDescriptor desc(var_IntegerInput.getStorage(), IOMapper::In, 0,
+                                                                       CIEC_ANY::e_DWORD, widget);
+    initHandle(desc);
+  }
 }
