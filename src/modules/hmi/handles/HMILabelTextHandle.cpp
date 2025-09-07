@@ -15,7 +15,7 @@ HMILabelTextHandle::HMILabelTextHandle(IODeviceController *paController,
 
 void HMILabelTextHandle::set(const CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    uint32_t dword = static_cast<const CIEC_DWORD &>(paState);
+    TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
     HMIDriver::runLater([this, dword] { lv_label_set_text_fmt(mWidget, mFmt, dword); });
   }
 }

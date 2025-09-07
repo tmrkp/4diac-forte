@@ -16,15 +16,16 @@ HMISliderValueHandle::HMISliderValueHandle(IODeviceController *paController,
 }
 
 void HMISliderValueHandle::set(const CIEC_ANY &paState) {
-  if (mType == CIEC_ANY::e_DWORD) {
-    uint32_t dword = static_cast<const CIEC_WORD &>(paState);
-    HMIDriver::runLater([this, dword] { lv_slider_set_value(mWidget, dword, LV_ANIM_OFF); });
-  }
 }
 
 void HMISliderValueHandle::get(CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    static_cast<CIEC_WORD &>(paState) = static_cast<CIEC_WORD>(lv_slider_get_value(mWidget));
+    int32_t value = lv_slider_get_value(mWidget);
+    if (std::in_range<TForteDWord>(value)) {
+      static_cast<CIEC_WORD &>(paState) = static_cast<CIEC_WORD>(value);
+    } else {
+      // TODO: How to handle this?
+    }
   }
 }
 

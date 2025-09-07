@@ -21,7 +21,7 @@ void HMILEDBrightnessHandle::set(const CIEC_ANY &paState) {
       }
     });
   } else if (mType == CIEC_ANY::e_BYTE) {
-    uint8_t byte = static_cast<const CIEC_BYTE &>(paState);
+    TForteByte byte = static_cast<const CIEC_BYTE &>(paState);
     HMIDriver::runLater([this, byte] { lv_led_set_brightness(mWidget, byte); });
   }
 }

@@ -15,15 +15,11 @@ HMIDropdownSelectedIndexHandle::HMIDropdownSelectedIndexHandle(IODeviceControlle
 }
 
 void HMIDropdownSelectedIndexHandle::set(const CIEC_ANY &paState) {
-  if (mType == CIEC_ANY::e_DWORD) {
-    uint32_t dword = static_cast<const CIEC_WORD &>(paState);
-    HMIDriver::runLater([this, dword] { lv_dropdown_set_selected(mWidget, dword); });
-  }
 }
 
 void HMIDropdownSelectedIndexHandle::get(CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    static_cast<CIEC_WORD &>(paState) = static_cast<CIEC_WORD>(lv_dropdown_get_selected(mWidget));
+    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(lv_dropdown_get_selected(mWidget));
   }
 }
 

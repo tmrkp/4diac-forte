@@ -14,8 +14,13 @@ HMIChartSeriesHandle::HMIChartSeriesHandle(IODeviceController *paController,
 
 void HMIChartSeriesHandle::set(const CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    uint32_t dword = static_cast<const CIEC_DWORD &>(paState);
-    HMIDriver::runLater([this, dword] { lv_chart_set_next_value(mWidget, mSeries, dword); });
+    TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
+    if (std::in_range<int32_t>(dword)) {
+      HMIDriver::runLater(
+          [this, value = static_cast<int32_t>(dword)] { lv_chart_set_next_value(mWidget, mSeries, value); });
+    } else {
+      // TODO: How to handle this?
+    }
   }
 }
 

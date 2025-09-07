@@ -15,10 +15,6 @@ HMISpinboxValueHandle::HMISpinboxValueHandle(IODeviceController *paController,
 }
 
 void HMISpinboxValueHandle::set(const CIEC_ANY &paState) {
-  if (mType == CIEC_ANY::e_DWORD) {
-    uint32_t dword = static_cast<const CIEC_WORD &>(paState);
-    HMIDriver::runLater([this, dword] { lv_spinbox_set_value(mWidget, dword); });
-  }
 }
 
 void HMISpinboxValueHandle::get(CIEC_ANY &paState) {
