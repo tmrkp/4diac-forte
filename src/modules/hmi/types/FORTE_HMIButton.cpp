@@ -197,7 +197,7 @@ CDataConnection *FORTE_HMIButton::getDOConUnchecked(const TPortId paIndex) {
 void FORTE_HMIButton::initHandles() {
   lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
                          .getConnector()
-                         .connectSwitch(var_WidgetName.getStorage(), var_Label.getStorage());
+                         .connectButton(var_WidgetName.getStorage(), var_Label.getStorage());
 
   if (widget) {
     HMIDeviceController::HMIWidgetStateHandleDescriptor pressed(

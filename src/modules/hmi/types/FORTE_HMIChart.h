@@ -15,6 +15,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
+    CIEC_UDINT var_MinYRange;
+    CIEC_UDINT var_MaxYRange;
     CIEC_UDINT var_PointCount;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_IntegerOutput;
@@ -30,6 +32,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
+    CDataConnection *conn_MinYRange;
+    CDataConnection *conn_MaxYRange;
     CDataConnection *conn_PointCount;
     CDataConnection *conn_WidgetName;
     CDataConnection *conn_IntegerOutput;
@@ -46,6 +50,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
+                 const CIEC_UDINT &paMinYRange,
+                 const CIEC_UDINT &paMaxYRange,
                  const CIEC_UDINT &paPointCount,
                  const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paIntegerOutput,
@@ -53,6 +59,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
+      var_MinYRange = paMinYRange;
+      var_MaxYRange = paMaxYRange;
       var_PointCount = paPointCount;
       var_WidgetName = paWidgetName;
       var_IntegerOutput = paIntegerOutput;
@@ -63,12 +71,14 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
+                    const CIEC_UDINT &paMinYRange,
+                    const CIEC_UDINT &paMaxYRange,
                     const CIEC_UDINT &paPointCount,
                     const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paIntegerOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paPointCount, paWidgetName, paIntegerOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paMinYRange, paMaxYRange, paPointCount, paWidgetName, paIntegerOutput, paQO, paSTATUS);
     }
 
   protected:

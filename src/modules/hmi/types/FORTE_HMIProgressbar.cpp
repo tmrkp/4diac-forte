@@ -5,9 +5,12 @@
 USE_STRING_ID(HMIProgressbar);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
+USE_STRING_ID(MinRange);
+USE_STRING_ID(MaxRange);
 USE_STRING_ID(WidgetName);
 USE_STRING_ID(IntegerOutput);
 USE_STRING_ID(BOOL);
+USE_STRING_ID(UDINT);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
 USE_STRING_ID(QO);
@@ -24,12 +27,14 @@ USE_STRING_ID(Event);
 DEFINE_FIRMWARE_FB(FORTE_HMIProgressbar, STRID(HMIProgressbar))
 
 const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataInputNames[] = {
-    STRID(QI), STRID(Label), STRID(WidgetName), STRID(IntegerOutput)};
-const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING),
-                                                                                  STRID(STRING), STRID(STRING)};
+    STRID(QI), STRID(Label), STRID(MinRange), STRID(MaxRange), STRID(WidgetName), STRID(IntegerOutput),
+};
+const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataInputTypeIds[] = {
+    STRID(BOOL), STRID(STRING), STRID(UDINT), STRID(UDINT), STRID(STRING), STRID(STRING),
+};
 const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMIProgressbar::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_HMIProgressbar::scmEIWith[] = {0, 1, 2, 3, scmWithListDelimiter};
+const TDataIOID FORTE_HMIProgressbar::scmEIWith[] = {0, 1, 2, 3, 4, 5, scmWithListDelimiter};
 const TForteInt16 FORTE_HMIProgressbar::scmEIWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_HMIProgressbar::scmIntegerOutputNames[] = {STRID(MAP)};
 const CStringDictionary::TStringId FORTE_HMIProgressbar::scmIntegerOutputTypeIds[] = {STRID(Event)};
@@ -52,7 +57,7 @@ const SFBInterfaceSpec FORTE_HMIProgressbar::scmFBInterfaceSpec = {
     nullptr,
     scmEOWith,
     scmEOWithIndexes,
-    4,
+    6,
     scmDataInputNames,
     scmDataInputTypeIds,
     2,
@@ -73,6 +78,8 @@ FORTE_HMIProgressbar::FORTE_HMIProgressbar(const CStringDictionary::TStringId pa
         scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
     var_QI(0_BOOL),
     var_Label(""_STRING),
+    var_MinRange(0_UDINT),
+    var_MaxRange(100_UDINT),
     var_WidgetName(""_STRING),
     var_IntegerOutput(""_STRING),
     var_QO(0_BOOL),
@@ -83,6 +90,8 @@ FORTE_HMIProgressbar::FORTE_HMIProgressbar(const CStringDictionary::TStringId pa
     conn_IND(*this, 1),
     conn_QI(nullptr),
     conn_Label(nullptr),
+    conn_MinRange(nullptr),
+    conn_MaxRange(nullptr),
     conn_WidgetName(nullptr),
     conn_IntegerOutput(nullptr),
     conn_QO(*this, 0, var_conn_QO),
@@ -92,6 +101,8 @@ FORTE_HMIProgressbar::FORTE_HMIProgressbar(const CStringDictionary::TStringId pa
 void FORTE_HMIProgressbar::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
+  var_MinRange = 0_UDINT;
+  var_MaxRange = 100_UDINT;
   var_WidgetName = ""_STRING;
   var_IntegerOutput = ""_STRING;
   var_QO = 0_BOOL;
@@ -102,9 +113,11 @@ void FORTE_HMIProgressbar::readInputData(const TEventID paEIID) {
   switch (paEIID) {
     case scmEventMAPID: {
       readData(0, var_QI, conn_QI);
+      readData(5, var_IntegerOutput, conn_IntegerOutput);
+      readData(4, var_WidgetName, conn_WidgetName);
       readData(1, var_Label, conn_Label);
-      readData(2, var_WidgetName, conn_WidgetName);
-      readData(3, var_IntegerOutput, conn_IntegerOutput);
+      readData(2, var_MinRange, conn_MinRange);
+      readData(3, var_MaxRange, conn_MaxRange);
       break;
     }
     default: break;
@@ -126,8 +139,10 @@ CIEC_ANY *FORTE_HMIProgressbar::getDI(const size_t paIndex) {
   switch (paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
-    case 2: return &var_WidgetName;
-    case 3: return &var_IntegerOutput;
+    case 2: return &var_MinRange;
+    case 3: return &var_MaxRange;
+    case 4: return &var_WidgetName;
+    case 5: return &var_IntegerOutput;
   }
   return nullptr;
 }
@@ -152,8 +167,10 @@ CDataConnection **FORTE_HMIProgressbar::getDIConUnchecked(const TPortId paIndex)
   switch (paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
-    case 2: return &conn_WidgetName;
-    case 3: return &conn_IntegerOutput;
+    case 2: return &conn_MinRange;
+    case 3: return &conn_MaxRange;
+    case 4: return &conn_WidgetName;
+    case 5: return &conn_IntegerOutput;
   }
   return nullptr;
 }
@@ -167,9 +184,11 @@ CDataConnection *FORTE_HMIProgressbar::getDOConUnchecked(const TPortId paIndex) 
 }
 
 void FORTE_HMIProgressbar::initHandles() {
-  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
-                         .getConnector()
-                         .connectProgressbar(var_WidgetName.getStorage(), var_Label.getStorage());
+  lv_obj_t *widget =
+      static_cast<HMIDeviceController &>(getController())
+          .getConnector()
+          .connectProgressbar(var_WidgetName.getStorage(), var_Label.getStorage(),
+                              static_cast<TForteUInt32>(var_MinRange), static_cast<TForteUInt32>(var_MaxRange));
 
   if (widget) {
     HMIDeviceController::HMIBarValueHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,

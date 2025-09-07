@@ -15,6 +15,8 @@ class FORTE_HMIProgressbar final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
+    CIEC_UDINT var_MinRange;
+    CIEC_UDINT var_MaxRange;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_IntegerOutput;
 
@@ -29,6 +31,8 @@ class FORTE_HMIProgressbar final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
+    CDataConnection *conn_MinRange;
+    CDataConnection *conn_MaxRange;
     CDataConnection *conn_WidgetName;
     CDataConnection *conn_IntegerOutput;
 
@@ -44,12 +48,16 @@ class FORTE_HMIProgressbar final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
+                 const CIEC_UDINT &paMinRange,
+                 const CIEC_UDINT &paMaxRange,
                  const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paIntegerOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
+      var_MinRange = paMinRange;
+      var_MaxRange = paMaxRange;
       var_WidgetName = paWidgetName;
       var_IntegerOutput = paIntegerOutput;
       executeEvent(scmEventMAPID, nullptr);
@@ -59,11 +67,13 @@ class FORTE_HMIProgressbar final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
+                    const CIEC_UDINT &paMinRange,
+                    const CIEC_UDINT &paMaxRange,
                     const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paIntegerOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paIntegerOutput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paMinRange, paMaxRange, paWidgetName, paIntegerOutput, paQO, paSTATUS);
     }
 
   protected:
