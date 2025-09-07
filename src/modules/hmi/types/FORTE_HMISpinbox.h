@@ -15,6 +15,8 @@ class FORTE_HMISpinbox final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
+    CIEC_UDINT var_MinRange;
+    CIEC_UDINT var_MaxRange;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_IntegerInput;
 
@@ -29,6 +31,8 @@ class FORTE_HMISpinbox final : public IOConfigFBMultiSlave {
 
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
+    CDataConnection *conn_MinRange;
+    CDataConnection *conn_MaxRange;
     CDataConnection *conn_WidgetName;
     CDataConnection *conn_IntegerInput;
 
@@ -57,13 +61,20 @@ class FORTE_HMISpinbox final : public IOConfigFBMultiSlave {
       paSTATUS = var_STATUS;
     }
 
-    void operator()(const CIEC_BOOL &paQI,
-                    const CIEC_STRING &paLabel,
-                    const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paIntegerInput,
-                    CIEC_BOOL &paQO,
-                    CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paIntegerInput, paQO, paSTATUS);
+    void evt_MAP(const CIEC_BOOL &paQI, const CIEC_STRING &paLabel, const CIEC_UDINT &paMinRange, const CIEC_UDINT &paMaxRange, const CIEC_STRING &paWidgetName, const CIEC_STRING &paIntegerInput, CIEC_BOOL &paQO, CIEC_WSTRING &paSTATUS) {
+      var_QI = paQI;
+      var_Label = paLabel;
+      var_MinRange = paMinRange;
+      var_MaxRange = paMaxRange;
+      var_WidgetName = paWidgetName;
+      var_IntegerInput = paIntegerInput;
+      executeEvent(scmEventMAPID, nullptr);
+      paQO = var_QO;
+      paSTATUS = var_STATUS;
+    }
+
+    void operator()(const CIEC_BOOL &paQI, const CIEC_STRING &paLabel, const CIEC_UDINT &paMinRange, const CIEC_UDINT &paMaxRange, const CIEC_STRING &paWidgetName, const CIEC_STRING &paIntegerInput, CIEC_BOOL &paQO, CIEC_WSTRING &paSTATUS) {
+      evt_MAP(paQI, paLabel, paMinRange, paMaxRange, paWidgetName, paIntegerInput, paQO, paSTATUS);
     }
 
   protected:

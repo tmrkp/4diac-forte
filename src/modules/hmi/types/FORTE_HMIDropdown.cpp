@@ -178,9 +178,12 @@ void FORTE_HMIDropdown::initHandles() {
           .getConnector()
           .connectDropdown(var_WidgetName.getStorage(), var_Label.getStorage(), var_Options.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMIDropdownSelectedIndexHandleDescriptor desc(var_IntegerInput.getStorage(), IOMapper::In, 0,
-                                                                       CIEC_ANY::e_DWORD, widget);
-    initHandle(desc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMIDropdownSelectedIndexHandleDescriptor desc(var_IntegerInput.getStorage(), IOMapper::In, 0,
+                                                                     CIEC_ANY::e_DWORD, widget);
+  initHandle(desc);
 }

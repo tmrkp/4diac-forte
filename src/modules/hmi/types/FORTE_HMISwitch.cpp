@@ -170,10 +170,13 @@ void FORTE_HMISwitch::initHandles() {
                          .getConnector()
                          .connectSwitch(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMIWidgetStateHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0,
-                                                             CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
-                                                             LV_EVENT_VALUE_CHANGED);
-    initHandle(desc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMIWidgetStateHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0,
+                                                           CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                           LV_EVENT_VALUE_CHANGED);
+  initHandle(desc);
 }

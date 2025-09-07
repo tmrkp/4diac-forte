@@ -199,20 +199,23 @@ void FORTE_HMIButton::initHandles() {
                          .getConnector()
                          .connectButton(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMIWidgetStateHandleDescriptor pressed(
-        var_PressedEventInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_Max, widget, LV_STATE_ANY, LV_EVENT_PRESSED);
-    initHandle(pressed);
-    HMIDeviceController::HMIWidgetStateHandleDescriptor released(
-        var_ReleasedEventInput.getStorage(), IOMapper::In, 1, CIEC_ANY::e_Max, widget, LV_STATE_ANY, LV_EVENT_RELEASED);
-    initHandle(released);
-    HMIDeviceController::HMIWidgetStateHandleDescriptor longPressed(var_LongPressedEventInput.getStorage(),
-                                                                    IOMapper::In, 2, CIEC_ANY::e_Max, widget,
-                                                                    LV_STATE_ANY, LV_EVENT_LONG_PRESSED);
-    initHandle(longPressed);
-    HMIDeviceController::HMIWidgetStateHandleDescriptor doubleClickedEventDesc(var_DoubleClickedEventInput.getStorage(),
-                                                                               IOMapper::In, 3, CIEC_ANY::e_Max, widget,
-                                                                               LV_STATE_ANY, LV_EVENT_DOUBLE_CLICKED);
-    initHandle(doubleClickedEventDesc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMIWidgetStateHandleDescriptor pressed(var_PressedEventInput.getStorage(), IOMapper::In, 0,
+                                                              CIEC_ANY::e_Max, widget, LV_STATE_ANY, LV_EVENT_PRESSED);
+  initHandle(pressed);
+  HMIDeviceController::HMIWidgetStateHandleDescriptor released(
+      var_ReleasedEventInput.getStorage(), IOMapper::In, 1, CIEC_ANY::e_Max, widget, LV_STATE_ANY, LV_EVENT_RELEASED);
+  initHandle(released);
+  HMIDeviceController::HMIWidgetStateHandleDescriptor longPressed(var_LongPressedEventInput.getStorage(), IOMapper::In,
+                                                                  2, CIEC_ANY::e_Max, widget, LV_STATE_ANY,
+                                                                  LV_EVENT_LONG_PRESSED);
+  initHandle(longPressed);
+  HMIDeviceController::HMIWidgetStateHandleDescriptor doubleClickedEventDesc(var_DoubleClickedEventInput.getStorage(),
+                                                                             IOMapper::In, 3, CIEC_ANY::e_Max, widget,
+                                                                             LV_STATE_ANY, LV_EVENT_DOUBLE_CLICKED);
+  initHandle(doubleClickedEventDesc);
 }

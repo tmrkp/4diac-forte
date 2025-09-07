@@ -177,15 +177,18 @@ void FORTE_HMICheckbox::initHandles() {
                          .getConnector()
                          .connectCheckbox(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMIWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In,
-                                                                    0, CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
-                                                                    LV_EVENT_VALUE_CHANGED);
-    initHandle(checkedDesc);
-
-    HMIDeviceController::HMIWidgetStateHandleDescriptor disabledDesc(var_DisabledBooleanOutput.getStorage(),
-                                                                     IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
-                                                                     LV_STATE_DISABLED, LV_EVENT_ALL);
-    initHandle(disabledDesc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMIWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In, 0,
+                                                                  CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                                  LV_EVENT_VALUE_CHANGED);
+  initHandle(checkedDesc);
+
+  HMIDeviceController::HMIWidgetStateHandleDescriptor disabledDesc(var_DisabledBooleanOutput.getStorage(),
+                                                                   IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
+                                                                   LV_STATE_DISABLED, LV_EVENT_ALL);
+  initHandle(disabledDesc);
 }

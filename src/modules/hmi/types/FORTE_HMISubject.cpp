@@ -162,8 +162,11 @@ void FORTE_HMISubject::initHandles() {
   lv_subject_t *subject =
       static_cast<HMIDeviceController &>(getController()).getConnector().connectSubject(var_SubjectName.getStorage());
 
-  if (subject) {
-    HMIDeviceController::HMISubjectHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, subject);
-    initHandle(desc);
+  if (!subject) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMISubjectHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0, subject);
+  initHandle(desc);
 }

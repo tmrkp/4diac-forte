@@ -184,15 +184,26 @@ CDataConnection *FORTE_HMIProgressbar::getDOConUnchecked(const TPortId paIndex) 
 }
 
 void FORTE_HMIProgressbar::initHandles() {
-  lv_obj_t *widget =
-      static_cast<HMIDeviceController &>(getController())
-          .getConnector()
-          .connectProgressbar(var_WidgetName.getStorage(), var_Label.getStorage(),
-                              static_cast<TForteUInt32>(var_MinRange), static_cast<TForteUInt32>(var_MaxRange));
+  auto minRange = static_cast<TForteUInt32>(var_MinRange);
+  auto maxRange = static_cast<TForteUInt32>(var_MaxRange);
 
-  if (widget) {
-    HMIDeviceController::HMIBarValueHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
-                                                          CIEC_ANY::e_DWORD, widget);
-    initHandle(desc);
+  if (!std::in_range<int32_t>(minRange) || !std::in_range<int32_t>(maxRange)) {
+    DEVLOG_WARNING("[FORTE_HMIProgressbar] MinRange or MaxRange is too large\n");
+    // TODO: set status
+    return;
   }
+
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectProgressbar(var_WidgetName.getStorage(), var_Label.getStorage(),
+                                             static_cast<int32_t>(minRange), static_cast<int32_t>(maxRange));
+
+  if (!widget) {
+    // TODO: set status
+    return;
+  }
+
+  HMIDeviceController::HMIBarValueHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
+                                                        CIEC_ANY::e_DWORD, widget);
+  initHandle(desc);
 }

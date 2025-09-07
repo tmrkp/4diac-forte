@@ -195,18 +195,27 @@ CDataConnection *FORTE_HMISlider::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISlider::initHandles() {
-  lv_obj_t *widget =
-      static_cast<HMIDeviceController &>(getController())
-          .getConnector()
-          .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage(), static_cast<TForteUInt32>(var_MinRange),
-                         static_cast<TForteUInt32>(var_MaxRange));
+  auto minRange = static_cast<TForteUInt32>(var_MinRange);
+  auto maxRange = static_cast<TForteUInt32>(var_MaxRange);
 
-  if (widget) {
-    HMIDeviceController::HMISliderValueHandleDescriptor changedDesc(
-        var_ChangedIntegerInput.getStorage(), IOMapper::In, 0, CIEC_ANY::e_DWORD, widget, LV_EVENT_VALUE_CHANGED);
-    initHandle(changedDesc);
-    HMIDeviceController::HMISliderValueHandleDescriptor releasedDesc(
-        var_ReleasedIntegerInput.getStorage(), IOMapper::In, 1, CIEC_ANY::e_DWORD, widget, LV_EVENT_RELEASED);
-    initHandle(releasedDesc);
+  if (!std::in_range<int32_t>(minRange) || !std::in_range<int32_t>(maxRange)) {
+    DEVLOG_WARNING("[FORTE_HMISlider] MinRange or MaxRange is too large\n");
+    return;
   }
+
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage(),
+                                        static_cast<int32_t>(minRange), static_cast<int32_t>(maxRange));
+
+  if (!widget) {
+    return;
+  }
+
+  HMIDeviceController::HMISliderValueHandleDescriptor changedDesc(var_ChangedIntegerInput.getStorage(), IOMapper::In, 0,
+                                                                  CIEC_ANY::e_DWORD, widget, LV_EVENT_VALUE_CHANGED);
+  initHandle(changedDesc);
+  HMIDeviceController::HMISliderValueHandleDescriptor releasedDesc(var_ReleasedIntegerInput.getStorage(), IOMapper::In,
+                                                                   1, CIEC_ANY::e_DWORD, widget, LV_EVENT_RELEASED);
+  initHandle(releasedDesc);
 }

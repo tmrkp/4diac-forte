@@ -170,9 +170,12 @@ void FORTE_HMINumber::initHandles() {
                          .getConnector()
                          .connectNumber(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMINumberTextHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
-                                                            CIEC_ANY::e_DWORD, widget);
-    initHandle(desc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMINumberTextHandleDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
+                                                          CIEC_ANY::e_DWORD, widget);
+  initHandle(desc);
 }

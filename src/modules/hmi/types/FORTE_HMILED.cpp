@@ -177,12 +177,15 @@ void FORTE_HMILED::initHandles() {
                          .getConnector()
                          .connectLED(var_WidgetName.getStorage(), var_Label.getStorage());
 
-  if (widget) {
-    HMIDeviceController::HMILEDBrightnessHandleDescriptor boolDesc(var_BooleanOutput.getStorage(), 0, CIEC_ANY::e_BOOL,
-                                                                   widget);
-    initHandle(boolDesc);
-    HMIDeviceController::HMILEDBrightnessHandleDescriptor byteDesc(var_ByteOutput.getStorage(), 1, CIEC_ANY::e_BYTE,
-                                                                   widget);
-    initHandle(byteDesc);
+  if (!widget) {
+    // TODO: set status
+    return;
   }
+
+  HMIDeviceController::HMILEDBrightnessHandleDescriptor boolDesc(var_BooleanOutput.getStorage(), 0, CIEC_ANY::e_BOOL,
+                                                                 widget);
+  initHandle(boolDesc);
+  HMIDeviceController::HMILEDBrightnessHandleDescriptor byteDesc(var_ByteOutput.getStorage(), 1, CIEC_ANY::e_BYTE,
+                                                                 widget);
+  initHandle(byteDesc);
 }

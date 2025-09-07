@@ -191,15 +191,27 @@ CDataConnection *FORTE_HMIChart::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMIChart::initHandles() {
-  lv_obj_t *widget =
-      static_cast<HMIDeviceController &>(getController())
-          .getConnector()
-          .connectChart(var_WidgetName.getStorage(), var_Label.getStorage(), static_cast<TForteUInt32>(var_MinYRange),
-                        static_cast<TForteUInt32>(var_MaxYRange), static_cast<TForteUInt32>(var_PointCount));
+  auto minYRange = static_cast<TForteUInt32>(var_MinYRange);
+  auto maxYRange = static_cast<TForteUInt32>(var_MaxYRange);
+  auto pointCount = static_cast<TForteUInt32>(var_PointCount);
 
-  if (widget) {
-    HMIDeviceController::HMIChartSeriesHandlerDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
-                                                              CIEC_ANY::e_DWORD, widget);
-    initHandle(desc);
+  if (!std::in_range<int32_t>(minYRange) || !std::in_range<int32_t>(maxYRange)) {
+    DEVLOG_WARNING("[FORTE_HMIChart] MinYRange or MaxYRange is too large\n");
+    // TODO: set status
+    return;
   }
+
+  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
+                         .getConnector()
+                         .connectChart(var_WidgetName.getStorage(), var_Label.getStorage(),
+                                       static_cast<int32_t>(minYRange), static_cast<int32_t>(maxYRange), pointCount);
+
+  if (!widget) {
+    // TODO: set status
+    return;
+  }
+
+  HMIDeviceController::HMIChartSeriesHandlerDescriptor desc(var_IntegerOutput.getStorage(), IOMapper::Out, 0,
+                                                            CIEC_ANY::e_DWORD, widget);
+  initHandle(desc);
 }
