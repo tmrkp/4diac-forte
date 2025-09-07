@@ -6,6 +6,7 @@ class HMIExternalConnector : public HMIConnectorInterface {
   public:
     void init() override;
     lv_obj_t *connectButton(const std::string &paName, const std::string &paLabel) override;
+    lv_obj_t *connectChart(const std::string &paName, const std::string &paLabel, uint32_t paPointCount) override;
     lv_obj_t *connectCheckbox(const std::string &paName, const std::string &paLabel) override;
     lv_obj_t *
     connectDropdown(const std::string &paName, const std::string &paLabel, const std::string &paOptions) override;

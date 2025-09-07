@@ -22,12 +22,14 @@ if (FORTE_IO_HMI)
             handles/HMISliderValueHandle
             handles/HMISpinboxValueHandle
             handles/HMIBarValueHandle
+            handles/HMIChartSeriesHandle
     )
     forte_add_sourcefile_hcpp(
             types/FORTE_HMIBusAdapter
             types/FORTE_HMIMaster
             types/FORTE_HMILED
             types/FORTE_HMIButton
+            types/FORTE_HMIChart
             types/FORTE_HMICheckbox
             types/FORTE_HMIDropdown
             types/FORTE_HMINumber

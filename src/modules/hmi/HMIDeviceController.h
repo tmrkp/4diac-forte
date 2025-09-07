@@ -13,6 +13,7 @@
 #include "handles/HMISpinboxValueHandle.h"
 #include "handles/HMISliderValueHandle.h"
 #include "handles/HMIBarValueHandle.h"
+#include "handles/HMIChartSeriesHandle.h"
 
 using namespace forte::core::io;
 
@@ -200,6 +201,27 @@ class HMIDeviceController : public IODeviceMultiController {
 
         IOHandle *createIOHandle(HMIDeviceController *paController) override {
           return new HMIBarValueHandle(paController, mDirection, mType, mWidget);
+        }
+
+      private:
+        CIEC_ANY::EDataTypeID mType;
+        lv_obj_t *mWidget;
+    };
+
+    class HMIChartSeriesHandlerDescriptor : public HMIHandleDescriptor {
+      public:
+        HMIChartSeriesHandlerDescriptor(std::string const &paId,
+                                        IOMapper::Direction paDirection,
+                                        size_t paSlaveIndex,
+                                        CIEC_ANY::EDataTypeID paType,
+                                        lv_obj_t *paWidget) :
+            HMIHandleDescriptor(paId, paDirection, paSlaveIndex),
+            mType(paType),
+            mWidget(paWidget) {
+        }
+
+        IOHandle *createIOHandle(HMIDeviceController *paController) override {
+          return new HMIChartSeriesHandle(paController, mDirection, mType, mWidget);
         }
 
       private:

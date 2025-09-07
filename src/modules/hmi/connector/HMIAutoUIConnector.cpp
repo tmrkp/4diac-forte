@@ -19,6 +19,16 @@ lv_obj_t *HMIAutoUIConnector::connectButton(const std::string &paName, const std
   return button;
 }
 
+lv_obj_t *
+HMIAutoUIConnector::connectChart(const std::string &paName, const std::string &paLabel, uint32_t paPointCount) {
+  lv_obj_t *wrapper = createWidgetWrapper(paLabel);
+  lv_obj_t *chart = lv_chart_create(wrapper);
+  lv_obj_set_size(chart, 200, 150);
+  lv_chart_set_type(chart, LV_CHART_TYPE_LINE);
+  lv_chart_set_point_count(chart, paPointCount);
+  return chart;
+}
+
 lv_obj_t *HMIAutoUIConnector::connectCheckbox(const std::string &paName, const std::string &paLabel) {
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *checkbox = lv_checkbox_create(wrapper);

@@ -10,6 +10,7 @@ class HMIConnectorInterface {
     virtual void init() = 0;
 
     virtual lv_obj_t *connectButton(const std::string &paName, const std::string &paLabel) = 0;
+    virtual lv_obj_t *connectChart(const std::string &paName, const std::string &paLabel, uint32_t paPointCount) = 0;
     virtual lv_obj_t *connectCheckbox(const std::string &paName, const std::string &paLabel) = 0;
     virtual lv_obj_t *
     connectDropdown(const std::string &paName, const std::string &paLabel, const std::string &paOptions) = 0;

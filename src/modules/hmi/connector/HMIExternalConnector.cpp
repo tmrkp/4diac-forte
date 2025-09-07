@@ -9,6 +9,15 @@ lv_obj_t *HMIExternalConnector::connectButton(const std::string &paName, const s
   return findWidget(paName, &lv_button_class);
 }
 
+lv_obj_t *
+HMIExternalConnector::connectChart(const std::string &paName, const std::string &paLabel, uint32_t paPointCount) {
+  if (lv_obj_t *widget = findWidget(paName, &lv_chart_class)) {
+    lv_chart_set_point_count(widget, paPointCount);
+    return widget;
+  }
+  return nullptr;
+}
+
 lv_obj_t *HMIExternalConnector::connectCheckbox(const std::string &paName, const std::string &paLabel) {
   return findWidget(paName, &lv_checkbox_class);
 }
