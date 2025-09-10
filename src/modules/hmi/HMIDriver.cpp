@@ -11,6 +11,8 @@ std::atomic<bool> HMIDriver::running{true};
 CSyncObject HMIDriver::taskQueueMutex;
 std::queue<std::function<void()>> HMIDriver::taskQueue;
 
+CSyncObject HMIDriver::timerMutex;
+
 void HMIDriver::init() {
   lv_init();
 
@@ -40,7 +42,11 @@ void HMIDriver::main() {
       tasks.pop();
     }
 
-    uint32_t delay = lv_timer_handler();
+    uint32_t delay;
+    {
+      CCriticalRegion criticalRegion(timerMutex);
+      delay = lv_timer_handler();
+    }
     usleep(delay * 1000);
   }
 }

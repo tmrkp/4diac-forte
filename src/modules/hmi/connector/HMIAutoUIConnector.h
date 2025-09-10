@@ -37,4 +37,6 @@ class HMIAutoUIConnector : public HMIConnectorInterface {
 
     lv_obj_t *createWidgetWrapper() const;
     lv_obj_t *createWidgetWrapper(const std::string &paLabel) const;
+
+    static std::string replaceEscapedNewline(const std::string &input);
 };

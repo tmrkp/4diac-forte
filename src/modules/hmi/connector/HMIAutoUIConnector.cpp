@@ -1,6 +1,9 @@
 #include "HMIAutoUIConnector.h"
 
+#include "HMIDriver.h"
+
 void HMIAutoUIConnector::init() {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   mMain = lv_obj_create(nullptr);
   lv_obj_set_layout(mMain, LV_LAYOUT_FLEX);
   lv_obj_set_flex_flow(mMain, LV_FLEX_FLOW_ROW_WRAP);
@@ -10,6 +13,7 @@ void HMIAutoUIConnector::init() {
 }
 
 lv_obj_t *HMIAutoUIConnector::connectButton(const std::string &paName, const std::string &paLabel) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper();
   lv_obj_t *button = lv_button_create(wrapper);
   if (!paLabel.empty()) {
@@ -24,6 +28,7 @@ lv_obj_t *HMIAutoUIConnector::connectChart(const std::string &paName,
                                            int32_t paMinYRange,
                                            int32_t paMaxYRange,
                                            uint32_t paPointCount) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *chart = lv_chart_create(wrapper);
   lv_obj_set_size(chart, 200, 150);
@@ -34,6 +39,7 @@ lv_obj_t *HMIAutoUIConnector::connectChart(const std::string &paName,
 }
 
 lv_obj_t *HMIAutoUIConnector::connectCheckbox(const std::string &paName, const std::string &paLabel) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *checkbox = lv_checkbox_create(wrapper);
   return checkbox;
@@ -42,24 +48,29 @@ lv_obj_t *HMIAutoUIConnector::connectCheckbox(const std::string &paName, const s
 lv_obj_t *HMIAutoUIConnector::connectDropdown(const std::string &paName,
                                               const std::string &paLabel,
                                               const std::string &paOptions) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *dropdown = lv_dropdown_create(wrapper);
+  lv_dropdown_set_options(dropdown, replaceEscapedNewline(paOptions).c_str());
   return dropdown;
 }
 
 lv_obj_t *HMIAutoUIConnector::connectLED(const std::string &paName, const std::string &paLabel) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *led = lv_led_create(wrapper);
   return led;
 }
 
 lv_obj_t *HMIAutoUIConnector::connectNumber(const std::string &paName, const std::string &paLabel) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *number = lv_label_create(wrapper);
   return number;
 }
 
 lv_subject_t *HMIAutoUIConnector::connectObserver(const std::string &paName) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   // TODO
   return nullptr;
 }
@@ -68,6 +79,7 @@ lv_obj_t *HMIAutoUIConnector::connectProgressbar(const std::string &paName,
                                                  const std::string &paLabel,
                                                  int32_t paMinRange,
                                                  int32_t paMaxRange) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *bar = lv_bar_create(wrapper);
   lv_bar_set_range(bar, paMinRange, paMaxRange);
@@ -78,6 +90,7 @@ lv_obj_t *HMIAutoUIConnector::connectSlider(const std::string &paName,
                                             const std::string &paLabel,
                                             int32_t paMinRange,
                                             int32_t paMaxRange) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *slider = lv_slider_create(wrapper);
   lv_slider_set_range(slider, paMinRange, paMaxRange);
@@ -88,6 +101,7 @@ lv_obj_t *HMIAutoUIConnector::connectSpinbox(const std::string &paName,
                                              const std::string &paLabel,
                                              int32_t paMinRange,
                                              int32_t paMaxRange) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *row = lv_obj_create(wrapper);
   lv_obj_set_size(row, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
@@ -100,7 +114,6 @@ lv_obj_t *HMIAutoUIConnector::connectSpinbox(const std::string &paName,
   lv_obj_set_style_bg_image_src(inc_button, LV_SYMBOL_PLUS, LV_STATE_DEFAULT);
   lv_obj_t *spinbox = lv_spinbox_create(row);
   lv_spinbox_set_range(spinbox, paMinRange, paMaxRange);
-  lv_spinbox_set_digit_format(spinbox, 3, 0);
   lv_obj_t *dec_button = lv_button_create(row);
   lv_obj_set_size(dec_button, 28, 28);
   lv_obj_set_style_bg_image_src(dec_button, LV_SYMBOL_MINUS, LV_STATE_DEFAULT);
@@ -122,11 +135,13 @@ lv_obj_t *HMIAutoUIConnector::connectSpinbox(const std::string &paName,
 }
 
 lv_subject_t *HMIAutoUIConnector::connectSubject(const std::string &paName) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   // TODO
   return nullptr;
 }
 
 lv_obj_t *HMIAutoUIConnector::connectSwitch(const std::string &paName, const std::string &paLabel) {
+  CCriticalRegion criticalRegion(HMIDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *swtch = lv_switch_create(wrapper);
   return swtch;
@@ -154,4 +169,16 @@ lv_obj_t *HMIAutoUIConnector::createWidgetWrapper(const std::string &paLabel) co
   }
 
   return wrapper;
+}
+
+std::string HMIAutoUIConnector::replaceEscapedNewline(const std::string &input) {
+  std::string result = input;
+  std::string::size_type pos = 0;
+
+  while ((pos = result.find("\\n", pos)) != std::string::npos) {
+    result.replace(pos, 2, "\n");
+    ++pos;
+  }
+
+  return result;
 }

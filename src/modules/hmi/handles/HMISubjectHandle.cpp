@@ -16,20 +16,12 @@ HMISubjectHandle::HMISubjectHandle(IODeviceController *paController,
 
 void HMISubjectHandle::get(CIEC_ANY &paState) {
   int32_t value = lv_subject_get_int(mSubject);
-  if (std::in_range<TForteDWord>(value)) {
-    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(value);
-  } else {
-    // TODO: How to handle this?
-  }
+  static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(value);
 }
 
 void HMISubjectHandle::set(const CIEC_ANY &paState) {
   TForteDWord dword = static_cast<const CIEC_DWORD &>(paState);
-  if (std::in_range<int32_t>(dword)) {
-    HMIDriver::runLater([this, value = static_cast<int32_t>(dword)] { lv_subject_set_int(mSubject, value); });
-  } else {
-    // TODO: How to handle this?
-  }
+  HMIDriver::runLater([this, value = static_cast<int32_t>(dword)] { lv_subject_set_int(mSubject, value); });
 }
 
 void HMISubjectHandle::changeHandler(lv_observer_t *observer, lv_subject_t *subject) {

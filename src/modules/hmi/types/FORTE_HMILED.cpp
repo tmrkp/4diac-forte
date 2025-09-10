@@ -178,7 +178,6 @@ void FORTE_HMILED::initHandles() {
                          .connectLED(var_WidgetName.getStorage(), var_Label.getStorage());
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

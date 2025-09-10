@@ -13,6 +13,8 @@ class HMIDriver {
 
     static void runLater(std::function<void()> task);
 
+    static CSyncObject timerMutex;
+
   private:
     static std::atomic<bool> running;
 

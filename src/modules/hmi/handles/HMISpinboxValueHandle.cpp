@@ -19,7 +19,7 @@ void HMISpinboxValueHandle::set(const CIEC_ANY &paState) {
 
 void HMISpinboxValueHandle::get(CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    static_cast<CIEC_WORD &>(paState) = static_cast<CIEC_WORD>(lv_spinbox_get_value(mWidget));
+    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(lv_spinbox_get_value(mWidget));
   }
 }
 

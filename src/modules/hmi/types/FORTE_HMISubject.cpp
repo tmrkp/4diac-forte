@@ -163,7 +163,6 @@ void FORTE_HMISubject::initHandles() {
       static_cast<HMIDeviceController &>(getController()).getConnector().connectSubject(var_SubjectName.getStorage());
 
   if (!subject) {
-    // TODO: set status
     return;
   }
 

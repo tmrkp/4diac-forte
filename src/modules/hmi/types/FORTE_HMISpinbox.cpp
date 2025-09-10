@@ -10,7 +10,7 @@ USE_STRING_ID(MaxRange);
 USE_STRING_ID(WidgetName);
 USE_STRING_ID(IntegerInput);
 USE_STRING_ID(BOOL);
-USE_STRING_ID(UDINT);
+USE_STRING_ID(DINT);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
 USE_STRING_ID(QO);
@@ -30,7 +30,7 @@ const CStringDictionary::TStringId FORTE_HMISpinbox::scmDataInputNames[] = {
     STRID(QI), STRID(Label), STRID(MinRange), STRID(MaxRange), STRID(WidgetName), STRID(IntegerInput),
 };
 const CStringDictionary::TStringId FORTE_HMISpinbox::scmDataInputTypeIds[] = {
-    STRID(BOOL), STRID(STRING), STRID(UDINT), STRID(UDINT), STRID(STRING), STRID(STRING),
+    STRID(BOOL), STRID(STRING), STRID(DINT), STRID(DINT), STRID(STRING), STRID(STRING),
 };
 const CStringDictionary::TStringId FORTE_HMISpinbox::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMISpinbox::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
@@ -100,8 +100,8 @@ FORTE_HMISpinbox::FORTE_HMISpinbox(const CStringDictionary::TStringId paInstance
 void FORTE_HMISpinbox::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
-  var_MinRange = 0_UDINT;
-  var_MaxRange = 100_UDINT;
+  var_MinRange = 0_DINT;
+  var_MaxRange = 100_DINT;
   var_WidgetName = ""_STRING;
   var_IntegerInput = ""_STRING;
   var_QO = 0_BOOL;
@@ -183,22 +183,14 @@ CDataConnection *FORTE_HMISpinbox::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISpinbox::initHandles() {
-  auto minRange = static_cast<TForteUInt32>(var_MinRange);
-  auto maxRange = static_cast<TForteUInt32>(var_MaxRange);
-
-  if (!std::in_range<int32_t>(minRange) || !std::in_range<int32_t>(maxRange)) {
-    DEVLOG_WARNING("[FORTE_HMISpinbox] MinRange or MaxRange is too large\n");
-    // TODO: set status
-    return;
-  }
+  auto minRange = static_cast<TForteInt32>(var_MinRange);
+  auto maxRange = static_cast<TForteInt32>(var_MaxRange);
 
   lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
                          .getConnector()
-                         .connectSpinbox(var_WidgetName.getStorage(), var_Label.getStorage(),
-                                         static_cast<int32_t>(minRange), static_cast<int32_t>(maxRange));
+                         .connectSpinbox(var_WidgetName.getStorage(), var_Label.getStorage(), minRange, maxRange);
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

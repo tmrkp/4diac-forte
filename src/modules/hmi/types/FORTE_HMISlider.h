@@ -16,8 +16,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
-    CIEC_UDINT var_MinRange;
-    CIEC_UDINT var_MaxRange;
+    CIEC_DINT var_MinRange;
+    CIEC_DINT var_MaxRange;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_ChangedIntegerInput;
     CIEC_STRING var_ReleasedIntegerInput;
@@ -51,8 +51,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
-                 const CIEC_UDINT &paMinRange,
-                 const CIEC_UDINT &paMaxRange,
+                 const CIEC_DINT &paMinRange,
+                 const CIEC_DINT &paMaxRange,
                  const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paChangedIntegerInput,
                  const CIEC_STRING &paReleasedIntegerInput,
@@ -72,8 +72,8 @@ class FORTE_HMISlider final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
-                    const CIEC_UDINT &paMinRange,
-                    const CIEC_UDINT &paMaxRange,
+                    const CIEC_DINT &paMinRange,
+                    const CIEC_DINT &paMaxRange,
                     const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paChangedIntegerInput,
                     const CIEC_STRING &paReleasedIntegerInput,

@@ -21,11 +21,7 @@ void HMISliderValueHandle::set(const CIEC_ANY &paState) {
 void HMISliderValueHandle::get(CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
     int32_t value = lv_slider_get_value(mWidget);
-    if (std::in_range<TForteDWord>(value)) {
-      static_cast<CIEC_WORD &>(paState) = static_cast<CIEC_WORD>(value);
-    } else {
-      // TODO: How to handle this?
-    }
+    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(value);
   }
 }
 

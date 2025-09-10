@@ -13,6 +13,7 @@ USE_STRING_ID(IntegerOutput);
 USE_STRING_ID(BOOL);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
+USE_STRING_ID(DINT);
 USE_STRING_ID(UDINT);
 USE_STRING_ID(QO);
 USE_STRING_ID(STATUS);
@@ -32,7 +33,7 @@ const CStringDictionary::TStringId FORTE_HMIChart::scmDataInputNames[] = {
     STRID(PointCount), STRID(WidgetName), STRID(IntegerOutput),
 };
 const CStringDictionary::TStringId FORTE_HMIChart::scmDataInputTypeIds[] = {
-    STRID(BOOL), STRID(STRING), STRID(UDINT), STRID(UDINT), STRID(UDINT), STRID(STRING), STRID(STRING),
+    STRID(BOOL), STRID(STRING), STRID(UDINT), STRID(DINT), STRID(DINT), STRID(STRING), STRID(STRING),
 };
 const CStringDictionary::TStringId FORTE_HMIChart::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMIChart::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
@@ -104,8 +105,8 @@ FORTE_HMIChart::FORTE_HMIChart(const CStringDictionary::TStringId paInstanceName
 void FORTE_HMIChart::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
-  var_MinYRange = 0_UDINT;
-  var_MaxYRange = 100_UDINT;
+  var_MinYRange = 0_DINT;
+  var_MaxYRange = 100_DINT;
   var_PointCount = 0_UDINT;
   var_WidgetName = ""_STRING;
   var_IntegerOutput = ""_STRING;
@@ -191,23 +192,16 @@ CDataConnection *FORTE_HMIChart::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMIChart::initHandles() {
-  auto minYRange = static_cast<TForteUInt32>(var_MinYRange);
-  auto maxYRange = static_cast<TForteUInt32>(var_MaxYRange);
+  auto minYRange = static_cast<TForteInt32>(var_MinYRange);
+  auto maxYRange = static_cast<TForteInt32>(var_MaxYRange);
   auto pointCount = static_cast<TForteUInt32>(var_PointCount);
 
-  if (!std::in_range<int32_t>(minYRange) || !std::in_range<int32_t>(maxYRange)) {
-    DEVLOG_WARNING("[FORTE_HMIChart] MinYRange or MaxYRange is too large\n");
-    // TODO: set status
-    return;
-  }
-
-  lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
-                         .getConnector()
-                         .connectChart(var_WidgetName.getStorage(), var_Label.getStorage(),
-                                       static_cast<int32_t>(minYRange), static_cast<int32_t>(maxYRange), pointCount);
+  lv_obj_t *widget =
+      static_cast<HMIDeviceController &>(getController())
+          .getConnector()
+          .connectChart(var_WidgetName.getStorage(), var_Label.getStorage(), minYRange, maxYRange, pointCount);
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

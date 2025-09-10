@@ -163,7 +163,6 @@ void FORTE_HMIObserver::initHandles() {
       static_cast<HMIDeviceController &>(getController()).getConnector().connectObserver(var_SubjectName.getStorage());
 
   if (!subject) {
-    // TODO: set status
     return;
   }
 

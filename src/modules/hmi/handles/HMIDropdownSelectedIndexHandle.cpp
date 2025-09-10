@@ -19,7 +19,8 @@ void HMIDropdownSelectedIndexHandle::set(const CIEC_ANY &paState) {
 
 void HMIDropdownSelectedIndexHandle::get(CIEC_ANY &paState) {
   if (mType == CIEC_ANY::e_DWORD) {
-    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(lv_dropdown_get_selected(mWidget));
+    uint32_t value = lv_dropdown_get_selected(mWidget);
+    static_cast<CIEC_DWORD &>(paState) = static_cast<CIEC_DWORD>(value);
   }
 }
 

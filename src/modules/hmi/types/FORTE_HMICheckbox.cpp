@@ -178,7 +178,6 @@ void FORTE_HMICheckbox::initHandles() {
                          .connectCheckbox(var_WidgetName.getStorage(), var_Label.getStorage());
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

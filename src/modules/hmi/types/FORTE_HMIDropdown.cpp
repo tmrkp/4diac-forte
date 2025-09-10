@@ -179,7 +179,6 @@ void FORTE_HMIDropdown::initHandles() {
           .connectDropdown(var_WidgetName.getStorage(), var_Label.getStorage(), var_Options.getStorage());
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

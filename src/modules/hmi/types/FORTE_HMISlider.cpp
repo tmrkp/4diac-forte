@@ -11,7 +11,7 @@ USE_STRING_ID(WidgetName);
 USE_STRING_ID(ChangedIntegerInput);
 USE_STRING_ID(ReleasedIntegerInput);
 USE_STRING_ID(BOOL);
-USE_STRING_ID(UDINT);
+USE_STRING_ID(DINT);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
 USE_STRING_ID(QO);
@@ -37,7 +37,7 @@ const CStringDictionary::TStringId FORTE_HMISlider::scmDataInputNames[] = {
     STRID(ReleasedIntegerInput),
 };
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataInputTypeIds[] = {
-    STRID(BOOL), STRID(STRING), STRID(UDINT), STRID(UDINT), STRID(STRING), STRID(STRING), STRID(STRING),
+    STRID(BOOL), STRID(STRING), STRID(DINT), STRID(DINT), STRID(STRING), STRID(STRING), STRID(STRING),
 };
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_HMISlider::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
@@ -109,8 +109,8 @@ FORTE_HMISlider::FORTE_HMISlider(const CStringDictionary::TStringId paInstanceNa
 void FORTE_HMISlider::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
-  var_MinRange = 0_UDINT;
-  var_MaxRange = 100_UDINT;
+  var_MinRange = 0_DINT;
+  var_MaxRange = 100_DINT;
   var_WidgetName = ""_STRING;
   var_ChangedIntegerInput = ""_STRING;
   var_QO = 0_BOOL;
@@ -195,18 +195,12 @@ CDataConnection *FORTE_HMISlider::getDOConUnchecked(const TPortId paIndex) {
 }
 
 void FORTE_HMISlider::initHandles() {
-  auto minRange = static_cast<TForteUInt32>(var_MinRange);
-  auto maxRange = static_cast<TForteUInt32>(var_MaxRange);
-
-  if (!std::in_range<int32_t>(minRange) || !std::in_range<int32_t>(maxRange)) {
-    DEVLOG_WARNING("[FORTE_HMISlider] MinRange or MaxRange is too large\n");
-    return;
-  }
+  auto minRange = static_cast<TForteInt32>(var_MinRange);
+  auto maxRange = static_cast<TForteInt32>(var_MaxRange);
 
   lv_obj_t *widget = static_cast<HMIDeviceController &>(getController())
                          .getConnector()
-                         .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage(),
-                                        static_cast<int32_t>(minRange), static_cast<int32_t>(maxRange));
+                         .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage(), minRange, maxRange);
 
   if (!widget) {
     return;

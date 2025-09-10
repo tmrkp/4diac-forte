@@ -171,7 +171,6 @@ void FORTE_HMINumber::initHandles() {
                          .connectNumber(var_WidgetName.getStorage(), var_Label.getStorage());
 
   if (!widget) {
-    // TODO: set status
     return;
   }
 

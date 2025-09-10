@@ -15,8 +15,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
-    CIEC_UDINT var_MinYRange;
-    CIEC_UDINT var_MaxYRange;
+    CIEC_DINT var_MinYRange;
+    CIEC_DINT var_MaxYRange;
     CIEC_UDINT var_PointCount;
     CIEC_STRING var_WidgetName;
     CIEC_STRING var_IntegerOutput;
@@ -50,8 +50,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
-                 const CIEC_UDINT &paMinYRange,
-                 const CIEC_UDINT &paMaxYRange,
+                 const CIEC_DINT &paMinYRange,
+                 const CIEC_DINT &paMaxYRange,
                  const CIEC_UDINT &paPointCount,
                  const CIEC_STRING &paWidgetName,
                  const CIEC_STRING &paIntegerOutput,
@@ -71,8 +71,8 @@ class FORTE_HMIChart final : public IOConfigFBMultiSlave {
 
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
-                    const CIEC_UDINT &paMinYRange,
-                    const CIEC_UDINT &paMaxYRange,
+                    const CIEC_DINT &paMinYRange,
+                    const CIEC_DINT &paMaxYRange,
                     const CIEC_UDINT &paPointCount,
                     const CIEC_STRING &paWidgetName,
                     const CIEC_STRING &paIntegerOutput,
