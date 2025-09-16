@@ -1,0 +1,215 @@
+#include "FORTE_LVGLSlider.h"
+
+#include "LVGLDeviceController.h"
+
+USE_STRING_ID(LVGLSlider);
+USE_STRING_ID(QI);
+USE_STRING_ID(Label);
+USE_STRING_ID(MinRange);
+USE_STRING_ID(MaxRange);
+USE_STRING_ID(WidgetName);
+USE_STRING_ID(ChangedIntegerInput);
+USE_STRING_ID(ReleasedIntegerInput);
+USE_STRING_ID(BOOL);
+USE_STRING_ID(DINT);
+USE_STRING_ID(WSTRING);
+USE_STRING_ID(STRING);
+USE_STRING_ID(QO);
+USE_STRING_ID(STATUS);
+USE_STRING_ID(MAP);
+USE_STRING_ID(MAPO);
+USE_STRING_ID(IND);
+USE_STRING_ID(IND);
+USE_STRING_ID(LVGLBusAdapter);
+USE_STRING_ID(BusAdapterIn);
+USE_STRING_ID(BusAdapterOut);
+USE_STRING_ID(Event);
+
+DEFINE_FIRMWARE_FB(FORTE_LVGLSlider, STRID(LVGLSlider))
+
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmDataInputNames[] = {
+    STRID(QI),
+    STRID(Label),
+    STRID(MinRange),
+    STRID(MaxRange),
+    STRID(WidgetName),
+    STRID(ChangedIntegerInput),
+    STRID(ReleasedIntegerInput),
+};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmDataInputTypeIds[] = {
+    STRID(BOOL), STRID(STRING), STRID(DINT), STRID(DINT), STRID(STRING), STRID(STRING), STRID(STRING),
+};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
+const TDataIOID FORTE_LVGLSlider::scmEIWith[] = {0, 1, 2, 3, 4, 5, 6, scmWithListDelimiter};
+const TForteInt16 FORTE_LVGLSlider::scmEIWithIndexes[] = {0};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmChangedIntegerInputNames[] = {STRID(MAP)};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmChangedIntegerInputTypeIds[] = {STRID(Event)};
+const TDataIOID FORTE_LVGLSlider::scmEOWith[] = {0, scmWithListDelimiter, 0, 1, scmWithListDelimiter};
+const TForteInt16 FORTE_LVGLSlider::scmEOWithIndexes[] = {0, 2};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmEventOutputNames[] = {STRID(MAPO), STRID(IND)};
+const CStringDictionary::TStringId FORTE_LVGLSlider::scmEventOutputTypeIds[] = {STRID(Event), STRID(Event)};
+const SAdapterInstanceDef FORTE_LVGLSlider::scmAdapterInstances[] = {
+    {STRID(LVGLBusAdapter), STRID(BusAdapterOut), true},
+    {STRID(LVGLBusAdapter), STRID(BusAdapterIn), false},
+};
+const SFBInterfaceSpec FORTE_LVGLSlider::scmFBInterfaceSpec = {
+    1,
+    scmChangedIntegerInputNames,
+    nullptr,
+    scmEIWith,
+    scmEIWithIndexes,
+    2,
+    scmEventOutputNames,
+    nullptr,
+    scmEOWith,
+    scmEOWithIndexes,
+    7,
+    scmDataInputNames,
+    scmDataInputTypeIds,
+    2,
+    scmDataOutputNames,
+    scmDataOutputTypeIds,
+    0,
+    nullptr,
+    2,
+    scmAdapterInstances,
+};
+
+const TForteUInt8 FORTE_LVGLSlider::scmSlaveConfigurationIO[] = {};
+const TForteUInt8 FORTE_LVGLSlider::scmSlaveConfigurationIONum = 0;
+
+FORTE_LVGLSlider::FORTE_LVGLSlider(const CStringDictionary::TStringId paInstanceNameId, CFBContainer &paContainer) :
+    IOConfigFBMultiSlave(
+        scmSlaveConfigurationIO, scmSlaveConfigurationIONum, 0, paContainer, scmFBInterfaceSpec, paInstanceNameId),
+    var_QI(0_BOOL),
+    var_Label(""_STRING),
+    var_MinRange(0_UDINT),
+    var_MaxRange(100_UDINT),
+    var_WidgetName(""_STRING),
+    var_ChangedIntegerInput(""_STRING),
+    var_ReleasedIntegerInput(""_STRING),
+    var_QO(0_BOOL),
+    var_STATUS(u""_WSTRING),
+    var_conn_QO(var_QO),
+    var_conn_STATUS(var_STATUS),
+    conn_MAPO(*this, 0),
+    conn_IND(*this, 1),
+    conn_QI(nullptr),
+    conn_Label(nullptr),
+    conn_MinRange(nullptr),
+    conn_MaxRange(nullptr),
+    conn_WidgetName(nullptr),
+    conn_ChangedIntegerInput(nullptr),
+    conn_ReleasedIntegerInput(nullptr),
+    conn_QO(*this, 0, var_conn_QO),
+    conn_STATUS(*this, 1, var_conn_STATUS) {
+}
+
+void FORTE_LVGLSlider::setInitialValues() {
+  var_QI = 0_BOOL;
+  var_Label = ""_STRING;
+  var_MinRange = 0_DINT;
+  var_MaxRange = 100_DINT;
+  var_WidgetName = ""_STRING;
+  var_ChangedIntegerInput = ""_STRING;
+  var_QO = 0_BOOL;
+  var_STATUS = u""_WSTRING;
+}
+
+void FORTE_LVGLSlider::readInputData(const TEventID paEIID) {
+  switch (paEIID) {
+    case scmEventMAPID: {
+      readData(0, var_QI, conn_QI);
+      readData(5, var_ChangedIntegerInput, conn_ChangedIntegerInput);
+      readData(4, var_WidgetName, conn_WidgetName);
+      readData(1, var_Label, conn_Label);
+      readData(6, var_ReleasedIntegerInput, conn_ReleasedIntegerInput);
+      readData(3, var_MaxRange, conn_MaxRange);
+      readData(2, var_MinRange, conn_MinRange);
+      break;
+    }
+    default: break;
+  }
+}
+
+void FORTE_LVGLSlider::writeOutputData(const TEventID paEIID) {
+  switch (paEIID) {
+    case scmEventMAPOID: {
+      writeData(0, var_QO, conn_QO);
+      writeData(1, var_STATUS, conn_STATUS);
+      break;
+    }
+    default: break;
+  }
+}
+
+CIEC_ANY *FORTE_LVGLSlider::getDI(const size_t paIndex) {
+  switch (paIndex) {
+    case 0: return &var_QI;
+    case 1: return &var_Label;
+    case 2: return &var_MinRange;
+    case 3: return &var_MaxRange;
+    case 4: return &var_WidgetName;
+    case 5: return &var_ChangedIntegerInput;
+    case 6: return &var_ReleasedIntegerInput;
+  }
+  return nullptr;
+}
+
+CIEC_ANY *FORTE_LVGLSlider::getDO(const size_t paIndex) {
+  switch (paIndex) {
+    case 0: return &var_QO;
+    case 1: return &var_STATUS;
+  }
+  return nullptr;
+}
+
+CEventConnection *FORTE_LVGLSlider::getEOConUnchecked(const TPortId paIndex) {
+  switch (paIndex) {
+    case 0: return &conn_MAPO;
+    case 1: return &conn_IND;
+  }
+  return nullptr;
+}
+
+CDataConnection **FORTE_LVGLSlider::getDIConUnchecked(const TPortId paIndex) {
+  switch (paIndex) {
+    case 0: return &conn_QI;
+    case 1: return &conn_Label;
+    case 2: return &conn_MinRange;
+    case 3: return &conn_MaxRange;
+    case 4: return &conn_WidgetName;
+    case 5: return &conn_ChangedIntegerInput;
+    case 6: return &conn_ReleasedIntegerInput;
+  }
+  return nullptr;
+}
+
+CDataConnection *FORTE_LVGLSlider::getDOConUnchecked(const TPortId paIndex) {
+  switch (paIndex) {
+    case 0: return &conn_QO;
+    case 1: return &conn_STATUS;
+  }
+  return nullptr;
+}
+
+void FORTE_LVGLSlider::initHandles() {
+  auto minRange = static_cast<TForteInt32>(var_MinRange);
+  auto maxRange = static_cast<TForteInt32>(var_MaxRange);
+
+  lv_obj_t *widget = static_cast<LVGLDeviceController &>(getController())
+                         .getConnector()
+                         .connectSlider(var_WidgetName.getStorage(), var_Label.getStorage(), minRange, maxRange);
+
+  if (!widget) {
+    return;
+  }
+
+  LVGLDeviceController::LVGLSliderValueHandleDescriptor changedDesc(var_ChangedIntegerInput.getStorage(), IOMapper::In, 0,
+                                                                  CIEC_ANY::e_DWORD, widget, LV_EVENT_VALUE_CHANGED);
+  initHandle(changedDesc);
+  LVGLDeviceController::LVGLSliderValueHandleDescriptor releasedDesc(var_ReleasedIntegerInput.getStorage(), IOMapper::In,
+                                                                   1, CIEC_ANY::e_DWORD, widget, LV_EVENT_RELEASED);
+  initHandle(releasedDesc);
+}

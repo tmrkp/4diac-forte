@@ -1,0 +1,8 @@
+<screen>
+    <view width="100%">
+        <lv_slider name="my_slider" />
+    </view>
+</screen>
+
+
+
