@@ -1,12 +1,14 @@
 #include "FORTE_LVGLSwitch.h"
 
 #include "LVGLDeviceController.h"
+#include "lvgl/lvgl.h"
 
 USE_STRING_ID(LVGLSwitch);
 USE_STRING_ID(QI);
 USE_STRING_ID(Label);
 USE_STRING_ID(WidgetName);
-USE_STRING_ID(BooleanInput);
+USE_STRING_ID(CheckedBooleanInput);
+USE_STRING_ID(DisabledBooleanOutput);
 USE_STRING_ID(BOOL);
 USE_STRING_ID(WSTRING);
 USE_STRING_ID(STRING);
@@ -23,13 +25,15 @@ USE_STRING_ID(Event);
 
 DEFINE_FIRMWARE_FB(FORTE_LVGLSwitch, STRID(LVGLSwitch))
 
-const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataInputNames[] = {STRID(QI), STRID(Label), STRID(WidgetName),
-                                                                           STRID(BooleanInput)};
-const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataInputTypeIds[] = {STRID(BOOL), STRID(STRING), STRID(STRING),
-                                                                             STRID(STRING)};
+const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataInputNames[] = {
+    STRID(QI), STRID(Label), STRID(WidgetName), STRID(CheckedBooleanInput), STRID(DisabledBooleanOutput),
+};
+const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataInputTypeIds[] = {
+    STRID(BOOL), STRID(STRING), STRID(STRING), STRID(STRING), STRID(STRING),
+};
 const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_LVGLSwitch::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
-const TDataIOID FORTE_LVGLSwitch::scmEIWith[] = {0, 1, 2, 3, scmWithListDelimiter};
+const TDataIOID FORTE_LVGLSwitch::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
 const TForteInt16 FORTE_LVGLSwitch::scmEIWithIndexes[] = {0};
 const CStringDictionary::TStringId FORTE_LVGLSwitch::scmBooleanInputNames[] = {STRID(MAP)};
 const CStringDictionary::TStringId FORTE_LVGLSwitch::scmBooleanInputTypeIds[] = {STRID(Event)};
@@ -52,7 +56,7 @@ const SFBInterfaceSpec FORTE_LVGLSwitch::scmFBInterfaceSpec = {
     nullptr,
     scmEOWith,
     scmEOWithIndexes,
-    4,
+    5,
     scmDataInputNames,
     scmDataInputTypeIds,
     2,
@@ -73,7 +77,8 @@ FORTE_LVGLSwitch::FORTE_LVGLSwitch(const CStringDictionary::TStringId paInstance
     var_QI(0_BOOL),
     var_Label(""_STRING),
     var_WidgetName(""_STRING),
-    var_BooleanInput(""_STRING),
+    var_CheckedBooleanInput(""_STRING),
+    var_DisabledBooleanOutput(""_STRING),
     var_QO(0_BOOL),
     var_STATUS(u""_WSTRING),
     var_conn_QO(var_QO),
@@ -83,7 +88,8 @@ FORTE_LVGLSwitch::FORTE_LVGLSwitch(const CStringDictionary::TStringId paInstance
     conn_QI(nullptr),
     conn_Label(nullptr),
     conn_WidgetName(nullptr),
-    conn_BooleanInput(nullptr),
+    conn_CheckedBooleanInput(nullptr),
+    conn_DisabledBooleanOutput(nullptr),
     conn_QO(*this, 0, var_conn_QO),
     conn_STATUS(*this, 1, var_conn_STATUS) {
 }
@@ -92,7 +98,8 @@ void FORTE_LVGLSwitch::setInitialValues() {
   var_QI = 0_BOOL;
   var_Label = ""_STRING;
   var_WidgetName = ""_STRING;
-  var_BooleanInput = ""_STRING;
+  var_CheckedBooleanInput = ""_STRING;
+  var_DisabledBooleanOutput = ""_STRING;
   var_QO = 0_BOOL;
   var_STATUS = u""_WSTRING;
 }
@@ -103,7 +110,8 @@ void FORTE_LVGLSwitch::readInputData(const TEventID paEIID) {
       readData(0, var_QI, conn_QI);
       readData(1, var_Label, conn_Label);
       readData(2, var_WidgetName, conn_WidgetName);
-      readData(3, var_BooleanInput, conn_BooleanInput);
+      readData(3, var_CheckedBooleanInput, conn_CheckedBooleanInput);
+      readData(4, var_DisabledBooleanOutput, conn_DisabledBooleanOutput);
       break;
     }
     default: break;
@@ -126,7 +134,8 @@ CIEC_ANY *FORTE_LVGLSwitch::getDI(const size_t paIndex) {
     case 0: return &var_QI;
     case 1: return &var_Label;
     case 2: return &var_WidgetName;
-    case 3: return &var_BooleanInput;
+    case 3: return &var_CheckedBooleanInput;
+    case 4: return &var_DisabledBooleanOutput;
   }
   return nullptr;
 }
@@ -152,7 +161,8 @@ CDataConnection **FORTE_LVGLSwitch::getDIConUnchecked(const TPortId paIndex) {
     case 0: return &conn_QI;
     case 1: return &conn_Label;
     case 2: return &conn_WidgetName;
-    case 3: return &conn_BooleanInput;
+    case 3: return &conn_CheckedBooleanInput;
+    case 4: return &conn_DisabledBooleanOutput;
   }
   return nullptr;
 }
@@ -174,8 +184,13 @@ void FORTE_LVGLSwitch::initHandles() {
     return;
   }
 
-  LVGLDeviceController::LVGLWidgetStateHandleDescriptor desc(var_BooleanInput.getStorage(), IOMapper::In, 0,
-                                                           CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
-                                                           LV_EVENT_VALUE_CHANGED);
-  initHandle(desc);
+  LVGLDeviceController::LVGLWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In,
+                                                                    0, CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                                    LV_EVENT_VALUE_CHANGED);
+  initHandle(checkedDesc);
+
+  LVGLDeviceController::LVGLWidgetStateHandleDescriptor disabledDesc(var_DisabledBooleanOutput.getStorage(),
+                                                                     IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
+                                                                     LV_STATE_DISABLED, LV_EVENT_ALL);
+  initHandle(disabledDesc);
 }

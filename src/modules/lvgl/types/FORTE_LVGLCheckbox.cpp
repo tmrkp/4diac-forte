@@ -1,6 +1,7 @@
 #include "FORTE_LVGLCheckbox.h"
 
 #include "LVGLDeviceController.h"
+#include "lvgl/lvgl.h"
 
 USE_STRING_ID(LVGLCheckbox);
 USE_STRING_ID(QI);
@@ -25,9 +26,11 @@ USE_STRING_ID(Event);
 DEFINE_FIRMWARE_FB(FORTE_LVGLCheckbox, STRID(LVGLCheckbox))
 
 const CStringDictionary::TStringId FORTE_LVGLCheckbox::scmDataInputNames[] = {
-    STRID(QI), STRID(Label), STRID(WidgetName), STRID(CheckedBooleanInput), STRID(DisabledBooleanOutput)};
+    STRID(QI), STRID(Label), STRID(WidgetName), STRID(CheckedBooleanInput), STRID(DisabledBooleanOutput),
+};
 const CStringDictionary::TStringId FORTE_LVGLCheckbox::scmDataInputTypeIds[] = {
-    STRID(BOOL), STRID(STRING), STRID(STRING), STRID(STRING), STRID(STRING)};
+    STRID(BOOL), STRID(STRING), STRID(STRING), STRID(STRING), STRID(STRING),
+};
 const CStringDictionary::TStringId FORTE_LVGLCheckbox::scmDataOutputNames[] = {STRID(QO), STRID(STATUS)};
 const CStringDictionary::TStringId FORTE_LVGLCheckbox::scmDataOutputTypeIds[] = {STRID(BOOL), STRID(WSTRING)};
 const TDataIOID FORTE_LVGLCheckbox::scmEIWith[] = {0, 1, 2, 3, 4, scmWithListDelimiter};
@@ -181,13 +184,13 @@ void FORTE_LVGLCheckbox::initHandles() {
     return;
   }
 
-  LVGLDeviceController::LVGLWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In, 0,
-                                                                  CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
-                                                                  LV_EVENT_VALUE_CHANGED);
+  LVGLDeviceController::LVGLWidgetStateHandleDescriptor checkedDesc(var_CheckedBooleanInput.getStorage(), IOMapper::In,
+                                                                    0, CIEC_ANY::e_BOOL, widget, LV_STATE_CHECKED,
+                                                                    LV_EVENT_VALUE_CHANGED);
   initHandle(checkedDesc);
 
   LVGLDeviceController::LVGLWidgetStateHandleDescriptor disabledDesc(var_DisabledBooleanOutput.getStorage(),
-                                                                   IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
-                                                                   LV_STATE_DISABLED, LV_EVENT_ALL);
+                                                                     IOMapper::Out, 1, CIEC_ANY::e_BOOL, widget,
+                                                                     LV_STATE_DISABLED, LV_EVENT_ALL);
   initHandle(disabledDesc);
 }

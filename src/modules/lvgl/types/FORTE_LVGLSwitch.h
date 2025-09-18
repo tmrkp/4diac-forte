@@ -16,7 +16,8 @@ class FORTE_LVGLSwitch final : public IOConfigFBMultiSlave {
     CIEC_BOOL var_QI;
     CIEC_STRING var_Label;
     CIEC_STRING var_WidgetName;
-    CIEC_STRING var_BooleanInput;
+    CIEC_STRING var_CheckedBooleanInput;
+    CIEC_STRING var_DisabledBooleanOutput;
 
     CIEC_BOOL var_QO;
     CIEC_WSTRING var_STATUS;
@@ -30,7 +31,8 @@ class FORTE_LVGLSwitch final : public IOConfigFBMultiSlave {
     CDataConnection *conn_QI;
     CDataConnection *conn_Label;
     CDataConnection *conn_WidgetName;
-    CDataConnection *conn_BooleanInput;
+    CDataConnection *conn_CheckedBooleanInput;
+    CDataConnection *conn_DisabledBooleanOutput;
 
     COutDataConnection<CIEC_BOOL> conn_QO;
     COutDataConnection<CIEC_WSTRING> conn_STATUS;
@@ -45,13 +47,15 @@ class FORTE_LVGLSwitch final : public IOConfigFBMultiSlave {
     void evt_MAP(const CIEC_BOOL &paQI,
                  const CIEC_STRING &paLabel,
                  const CIEC_STRING &paWidgetName,
-                 const CIEC_STRING &paBooleanInput,
+                 const CIEC_STRING &paCheckedBooleanInput,
+                 const CIEC_STRING &paDisabledBooleanOutput,
                  CIEC_BOOL &paQO,
                  CIEC_WSTRING &paSTATUS) {
       var_QI = paQI;
       var_Label = paLabel;
       var_WidgetName = paWidgetName;
-      var_BooleanInput = paBooleanInput;
+      var_CheckedBooleanInput = paCheckedBooleanInput;
+      var_DisabledBooleanOutput = paDisabledBooleanOutput;
       executeEvent(scmEventMAPID, nullptr);
       paQO = var_QO;
       paSTATUS = var_STATUS;
@@ -60,10 +64,11 @@ class FORTE_LVGLSwitch final : public IOConfigFBMultiSlave {
     void operator()(const CIEC_BOOL &paQI,
                     const CIEC_STRING &paLabel,
                     const CIEC_STRING &paWidgetName,
-                    const CIEC_STRING &paBooleanInput,
+                    const CIEC_STRING &paCheckedBooleanInput,
+                    const CIEC_STRING &paDisabledBooleanOutput,
                     CIEC_BOOL &paQO,
                     CIEC_WSTRING &paSTATUS) {
-      evt_MAP(paQI, paLabel, paWidgetName, paBooleanInput, paQO, paSTATUS);
+      evt_MAP(paQI, paLabel, paWidgetName, paCheckedBooleanInput, paDisabledBooleanOutput, paQO, paSTATUS);
     }
 
   protected:
