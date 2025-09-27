@@ -1,7 +1,6 @@
 #include "LVGLLEDBrightnessHandle.h"
 
 #include "LVGLDeviceController.h"
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLLEDBrightnessHandle::LVGLLEDBrightnessHandle(IODeviceController *paController,

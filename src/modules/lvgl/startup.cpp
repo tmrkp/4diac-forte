@@ -1,11 +1,14 @@
 #include "startup.h"
 
-#include "LVGLDriver.h"
+#include "driver/SDL2Driver.h"
+
+SDL2Driver sdl2driver;
+LVGLDriverInterface *driver = &sdl2driver;
 
 void lvglStartupHook(int argc, char *arg[]) {
-  LVGLDriver::init();
+  sdl2driver.init();
 }
 
 void lvglMainFunctionHook() {
-  LVGLDriver::main();
+  sdl2driver.runLoop();
 }

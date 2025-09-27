@@ -1,7 +1,6 @@
 #include "LVGLChartSeriesHandle.h"
 
 #include "LVGLDeviceController.h"
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLChartSeriesHandle::LVGLChartSeriesHandle(IODeviceController *paController,

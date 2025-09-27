@@ -6,7 +6,10 @@ if (FORTE_IO_LVGL)
     forte_add_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     forte_add_sourcefile_hcpp(
             LVGLDeviceController
-            LVGLDriver
+    )
+    forte_add_sourcefile_hcpp(
+            driver/LVGLDriverInterface
+            driver/SDL2Driver
     )
     forte_add_sourcefile_hcpp(
             connector/LVGLConnectorInterface
@@ -18,7 +21,7 @@ if (FORTE_IO_LVGL)
             handles/LVGLWidgetStateHandle
             handles/LVGLDropdownSelectedIndexHandle
             handles/LVGLLEDBrightnessHandle
-            handles/LVGLLabelTextHandle
+            handles/LVGLNumberTextHandle
             handles/LVGLSliderValueHandle
             handles/LVGLSpinboxValueHandle
             handles/LVGLBarValueHandle

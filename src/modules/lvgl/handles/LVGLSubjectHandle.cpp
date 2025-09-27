@@ -3,7 +3,6 @@
 #include "LVGLDeviceController.h"
 #include "forte_any.h"
 #include "forte_dword.h"
-#include "LVGLDriver.h"
 
 LVGLSubjectHandle::LVGLSubjectHandle(IODeviceController *paController,
                                      IOMapper::Direction paDirection,

@@ -1,6 +1,5 @@
 #include "LVGLSpinboxValueHandle.h"
 
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLSpinboxValueHandle::LVGLSpinboxValueHandle(IODeviceController *paController,

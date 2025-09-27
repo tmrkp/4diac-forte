@@ -134,7 +134,7 @@ class LVGLDeviceController : public IODeviceMultiController {
         }
 
         IOHandle *createIOHandle(LVGLDeviceController *paController) override {
-          return new LVGLNumberTextHandle(paController, mDirection, mType, mWidget, "%d");
+          return new LVGLNumberTextHandle(paController, mDirection, mType, mWidget);
         }
 
       private:

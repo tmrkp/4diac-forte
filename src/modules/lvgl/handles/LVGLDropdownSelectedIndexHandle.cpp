@@ -1,6 +1,5 @@
 #include "LVGLDropdownSelectedIndexHandle.h"
 
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLDropdownSelectedIndexHandle::LVGLDropdownSelectedIndexHandle(IODeviceController *paController,

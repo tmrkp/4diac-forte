@@ -1,6 +1,6 @@
 #include "LVGLDeviceController.h"
 
-#include "LVGLDriver.h"
+#include "startup.h"
 
 #include <iostream>
 #include <utility>
@@ -15,7 +15,7 @@ void LVGLDeviceController::setConfig(Config *paConfig) {
 }
 
 void LVGLDeviceController::runLater(std::function<void()> task) {
-  LVGLDriver::runLater(std::move(task));
+  driver->runLater(std::move(task));
 }
 
 const char *LVGLDeviceController::init() {

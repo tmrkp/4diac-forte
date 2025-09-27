@@ -1,7 +1,6 @@
 #include "LVGLBarValueHandle.h"
 
 #include "LVGLDeviceController.h"
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLBarValueHandle::LVGLBarValueHandle(IODeviceController *paController,

@@ -1,6 +1,5 @@
 #include "LVGLSliderValueHandle.h"
 
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLSliderValueHandle::LVGLSliderValueHandle(IODeviceController *paController,

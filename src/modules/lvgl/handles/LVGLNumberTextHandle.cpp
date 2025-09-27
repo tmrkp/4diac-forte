@@ -1,7 +1,6 @@
 #include "LVGLNumberTextHandle.h"
 
 #include "LVGLDeviceController.h"
-#include "LVGLDriver.h"
 #include "forte_dword.h"
 
 LVGLNumberTextHandle::LVGLNumberTextHandle(IODeviceController *paController,

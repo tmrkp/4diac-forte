@@ -1,7 +1,6 @@
 #include "LVGLWidgetStateHandle.h"
 
 #include "LVGLDeviceController.h"
-#include "LVGLDriver.h"
 
 LVGLWidgetStateHandle::LVGLWidgetStateHandle(IODeviceController *paController,
                                              IOMapper::Direction paDirection,

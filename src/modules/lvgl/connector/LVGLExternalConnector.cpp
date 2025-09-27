@@ -1,6 +1,6 @@
 #include "LVGLExternalConnector.h"
 
-#include "LVGLDriver.h"
+#include "startup.h"
 #include "devlog.h"
 
 void LVGLExternalConnector::init() {
@@ -11,12 +11,12 @@ lv_obj_t *LVGLExternalConnector::connectButton(const std::string &paName, const 
 }
 
 lv_obj_t *LVGLExternalConnector::connectChart(const std::string &paName,
-                                             const std::string &paLabel,
-                                             int32_t paMinYRange,
-                                             int32_t paMaxYRange,
-                                             uint32_t paPointCount) {
+                                              const std::string &paLabel,
+                                              int32_t paMinYRange,
+                                              int32_t paMaxYRange,
+                                              uint32_t paPointCount) {
   if (lv_obj_t *widget = findWidget(paName, &lv_chart_class)) {
-    LVGLDriver::runLater([widget, paMinYRange, paMaxYRange, paPointCount] {
+    driver->runLater([widget, paMinYRange, paMaxYRange, paPointCount] {
       lv_chart_set_point_count(widget, paPointCount);
       lv_chart_set_axis_range(widget, LV_CHART_AXIS_PRIMARY_Y, paMinYRange, paMaxYRange);
     });
@@ -29,8 +29,8 @@ lv_obj_t *LVGLExternalConnector::connectCheckbox(const std::string &paName, cons
 }
 
 lv_obj_t *LVGLExternalConnector::connectDropdown(const std::string &paName,
-                                                const std::string &paLabel,
-                                                const std::string &paOptions) {
+                                                 const std::string &paLabel,
+                                                 const std::string &paOptions) {
   return findWidget(paName, &lv_dropdown_class);
 }
 
@@ -47,33 +47,33 @@ lv_subject_t *LVGLExternalConnector::connectObserver(const std::string &paName) 
 }
 
 lv_obj_t *LVGLExternalConnector::connectProgressbar(const std::string &paName,
-                                                   const std::string &paLabel,
-                                                   int32_t paMinRange,
-                                                   int32_t paMaxRange) {
+                                                    const std::string &paLabel,
+                                                    int32_t paMinRange,
+                                                    int32_t paMaxRange) {
   if (lv_obj_t *widget = findWidget(paName, &lv_bar_class)) {
-    LVGLDriver::runLater([widget, paMinRange, paMaxRange] { lv_bar_set_range(widget, paMinRange, paMaxRange); });
+    driver->runLater([widget, paMinRange, paMaxRange] { lv_bar_set_range(widget, paMinRange, paMaxRange); });
     return widget;
   }
   return nullptr;
 }
 
 lv_obj_t *LVGLExternalConnector::connectSlider(const std::string &paName,
-                                              const std::string &paLabel,
-                                              int32_t paMinRange,
-                                              int32_t paMaxRange) {
+                                               const std::string &paLabel,
+                                               int32_t paMinRange,
+                                               int32_t paMaxRange) {
   if (lv_obj_t *widget = findWidget(paName, &lv_slider_class)) {
-    LVGLDriver::runLater([widget, paMinRange, paMaxRange] { lv_slider_set_range(widget, paMinRange, paMaxRange); });
+    driver->runLater([widget, paMinRange, paMaxRange] { lv_slider_set_range(widget, paMinRange, paMaxRange); });
     return widget;
   }
   return nullptr;
 }
 
 lv_obj_t *LVGLExternalConnector::connectSpinbox(const std::string &paName,
-                                               const std::string &paLabel,
-                                               int32_t paMinRange,
-                                               int32_t paMaxRange) {
+                                                const std::string &paLabel,
+                                                int32_t paMinRange,
+                                                int32_t paMaxRange) {
   if (lv_obj_t *widget = findWidget(paName, &lv_spinbox_class)) {
-    LVGLDriver::runLater([widget, paMinRange, paMaxRange] { lv_spinbox_set_range(widget, paMinRange, paMaxRange); });
+    driver->runLater([widget, paMinRange, paMaxRange] { lv_spinbox_set_range(widget, paMinRange, paMaxRange); });
     return widget;
   }
   return nullptr;

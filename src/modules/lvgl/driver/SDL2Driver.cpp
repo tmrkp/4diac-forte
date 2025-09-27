@@ -1,4 +1,4 @@
-#include "LVGLDriver.h"
+#include "SDL2Driver.h"
 
 #include <unistd.h>
 #include "devlog.h"
@@ -6,14 +6,7 @@
 #include "ui/ui.h"
 #include "ui/screens/main_gen.h"
 
-std::atomic<bool> LVGLDriver::running{true};
-
-CSyncObject LVGLDriver::taskQueueMutex;
-std::queue<std::function<void()>> LVGLDriver::taskQueue;
-
-CSyncObject LVGLDriver::timerMutex;
-
-void LVGLDriver::init() {
+void SDL2Driver::init() {
   lv_init();
 
   lv_log_register_print_cb([](lv_log_level_t level, const char *buf) {
@@ -28,8 +21,8 @@ void LVGLDriver::init() {
   // initUI();
 }
 
-void LVGLDriver::main() {
-  while (running.load(std::memory_order_relaxed)) {
+void SDL2Driver::runLoop() {
+  while (true) {
     std::queue<std::function<void()>> tasks;
 
     {
@@ -51,16 +44,7 @@ void LVGLDriver::main() {
   }
 }
 
-void LVGLDriver::stop() {
-  running.store(false, std::memory_order_relaxed);
-}
-
-void LVGLDriver::runLater(std::function<void()> task) {
-  CCriticalRegion criticalRegion(taskQueueMutex);
-  taskQueue.push(std::move(task));
-}
-
-lv_display_t *LVGLDriver::initHAL(int32_t w, int32_t h) {
+lv_display_t *SDL2Driver::initHAL(int32_t w, int32_t h) {
   lv_group_set_default(lv_group_create());
 
   lv_display_t *disp = lv_sdl_window_create(w, h);
@@ -77,7 +61,7 @@ lv_display_t *LVGLDriver::initHAL(int32_t w, int32_t h) {
   return disp;
 }
 
-void LVGLDriver::initUI() {
+void SDL2Driver::initUI() {
   ui_init(nullptr);
   lv_obj_t *main = main_create();
   lv_obj_t *led = lv_led_create(lv_obj_find_by_name(main, "led_inject_1"));
