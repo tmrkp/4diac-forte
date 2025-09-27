@@ -9,7 +9,7 @@
 #include "handles/LVGLWidgetStateHandle.h"
 #include "handles/LVGLLEDBrightnessHandle.h"
 #include "handles/LVGLSubjectHandle.h"
-#include "handles/LVGLLabelTextHandle.h"
+#include "handles/LVGLNumberTextHandle.h"
 #include "handles/LVGLSpinboxValueHandle.h"
 #include "handles/LVGLSliderValueHandle.h"
 #include "handles/LVGLBarValueHandle.h"
@@ -134,7 +134,7 @@ class LVGLDeviceController : public IODeviceMultiController {
         }
 
         IOHandle *createIOHandle(LVGLDeviceController *paController) override {
-          return new LVGLLabelTextHandle(paController, mDirection, mType, mWidget, "%d");
+          return new LVGLNumberTextHandle(paController, mDirection, mType, mWidget, "%d");
         }
 
       private:
@@ -238,6 +238,8 @@ class LVGLDeviceController : public IODeviceMultiController {
     LVGLConnectorInterface &getConnector() {
       return mConnector;
     }
+
+    void runLater(std::function<void()> task);
 
   protected:
     const char *init() override;

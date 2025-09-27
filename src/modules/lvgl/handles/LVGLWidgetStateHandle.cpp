@@ -1,13 +1,14 @@
 #include "LVGLWidgetStateHandle.h"
 
+#include "LVGLDeviceController.h"
 #include "LVGLDriver.h"
 
 LVGLWidgetStateHandle::LVGLWidgetStateHandle(IODeviceController *paController,
-                                           IOMapper::Direction paDirection,
-                                           CIEC_ANY::EDataTypeID paType,
-                                           lv_obj_t *paWidget,
-                                           lv_state_t paState,
-                                           lv_event_code_t paEventCode) :
+                                             IOMapper::Direction paDirection,
+                                             CIEC_ANY::EDataTypeID paType,
+                                             lv_obj_t *paWidget,
+                                             lv_state_t paState,
+                                             lv_event_code_t paEventCode) :
     IOHandle(paController, paDirection, paType),
     mWidget(paWidget),
     mState(paState) {
@@ -17,9 +18,10 @@ LVGLWidgetStateHandle::LVGLWidgetStateHandle(IODeviceController *paController,
 }
 
 void LVGLWidgetStateHandle::set(const CIEC_ANY &paState) {
+  auto *controller = static_cast<LVGLDeviceController *>(mController);
   if (mType == CIEC_ANY::e_BOOL) {
     bool on = static_cast<const CIEC_BOOL &>(paState);
-    LVGLDriver::runLater([this, on] { lv_obj_set_state(mWidget, mState, on); });
+    controller->runLater([this, on] { lv_obj_set_state(mWidget, mState, on); });
   }
 }
 

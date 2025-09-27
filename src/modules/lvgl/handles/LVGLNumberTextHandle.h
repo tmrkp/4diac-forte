@@ -5,15 +5,14 @@
 
 using namespace forte::core::io;
 
-class LVGLLabelTextHandle : public IOHandle {
+class LVGLNumberTextHandle : public IOHandle {
   public:
-    LVGLLabelTextHandle(IODeviceController *paController,
+    LVGLNumberTextHandle(IODeviceController *paController,
                        IOMapper::Direction paDirection,
                        CIEC_ANY::EDataTypeID paType,
-                       lv_obj_t *paWidget,
-                       const char *paFmt);
+                       lv_obj_t *paWidget);
 
-    ~LVGLLabelTextHandle() override = default;
+    ~LVGLNumberTextHandle() override = default;
 
     void set(const CIEC_ANY &) override;
 
@@ -21,5 +20,4 @@ class LVGLLabelTextHandle : public IOHandle {
 
   private:
     lv_obj_t *mWidget;
-    const char *mFmt;
 };

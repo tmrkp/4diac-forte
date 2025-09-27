@@ -3,6 +3,7 @@
 #include "LVGLDriver.h"
 
 #include <iostream>
+#include <utility>
 #include "lvgl/lvgl.h"
 
 LVGLDeviceController::LVGLDeviceController(CDeviceExecution &paDeviceExecution) :
@@ -11,6 +12,10 @@ LVGLDeviceController::LVGLDeviceController(CDeviceExecution &paDeviceExecution) 
 
 void LVGLDeviceController::setConfig(Config *paConfig) {
   this->mConfig = *static_cast<LVGLConfig *>(paConfig);
+}
+
+void LVGLDeviceController::runLater(std::function<void()> task) {
+  LVGLDriver::runLater(std::move(task));
 }
 
 const char *LVGLDeviceController::init() {
