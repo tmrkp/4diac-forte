@@ -4,12 +4,12 @@
 #include <queue>
 #include "criticalregion.h"
 
-class LVGLDriverInterface {
+class LVGLBaseDriver {
   public:
-    virtual ~LVGLDriverInterface() = default;
+    virtual ~LVGLBaseDriver() = default;
 
-    virtual void init() = 0;
-    virtual void runLoop() = 0;
+    virtual void init();
+    virtual void runLoop();
 
     void runLater(std::function<void()> task);
 

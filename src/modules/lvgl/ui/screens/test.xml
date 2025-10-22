@@ -1,9 +1,0 @@
-<screen>
-    <view width="100%">
-        <lv_slider name="my_slider" disabled="disabled"></lv_slider>
-        <lv_dropdown></lv_dropdown>
-    </view>
-</screen>
-
-
-

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "driver/LVGLDriverInterface.h"
+#include "driver/LVGLBaseDriver.h"
 
-extern LVGLDriverInterface *driver;
+extern LVGLBaseDriver *driver;
 
 void lvglStartupHook(int argc, char *arg[]);
 void lvglMainFunctionHook();

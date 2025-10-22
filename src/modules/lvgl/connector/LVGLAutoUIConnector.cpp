@@ -3,7 +3,7 @@
 #include "startup.h"
 
 void LVGLAutoUIConnector::init() {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   mMain = lv_obj_create(nullptr);
   lv_obj_set_layout(mMain, LV_LAYOUT_FLEX);
   lv_obj_set_flex_flow(mMain, LV_FLEX_FLOW_ROW_WRAP);
@@ -13,7 +13,7 @@ void LVGLAutoUIConnector::init() {
 }
 
 lv_obj_t *LVGLAutoUIConnector::connectButton(const std::string &paName, const std::string &paLabel) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper();
   lv_obj_t *button = lv_button_create(wrapper);
   if (!paLabel.empty()) {
@@ -28,7 +28,7 @@ lv_obj_t *LVGLAutoUIConnector::connectChart(const std::string &paName,
                                             int32_t paMinYRange,
                                             int32_t paMaxYRange,
                                             uint32_t paPointCount) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *chart = lv_chart_create(wrapper);
   lv_obj_set_size(chart, 200, 150);
@@ -39,7 +39,7 @@ lv_obj_t *LVGLAutoUIConnector::connectChart(const std::string &paName,
 }
 
 lv_obj_t *LVGLAutoUIConnector::connectCheckbox(const std::string &paName, const std::string &paLabel) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *checkbox = lv_checkbox_create(wrapper);
   return checkbox;
@@ -48,7 +48,7 @@ lv_obj_t *LVGLAutoUIConnector::connectCheckbox(const std::string &paName, const 
 lv_obj_t *LVGLAutoUIConnector::connectDropdown(const std::string &paName,
                                                const std::string &paLabel,
                                                const std::string &paOptions) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *dropdown = lv_dropdown_create(wrapper);
   lv_dropdown_set_options(dropdown, replaceEscapedNewline(paOptions).c_str());
@@ -56,21 +56,21 @@ lv_obj_t *LVGLAutoUIConnector::connectDropdown(const std::string &paName,
 }
 
 lv_obj_t *LVGLAutoUIConnector::connectLED(const std::string &paName, const std::string &paLabel) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *led = lv_led_create(wrapper);
   return led;
 }
 
 lv_obj_t *LVGLAutoUIConnector::connectNumber(const std::string &paName, const std::string &paLabel) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *number = lv_label_create(wrapper);
   return number;
 }
 
 lv_subject_t *LVGLAutoUIConnector::connectObserver(const std::string &paName) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   // TODO
   return nullptr;
 }
@@ -79,7 +79,7 @@ lv_obj_t *LVGLAutoUIConnector::connectProgressbar(const std::string &paName,
                                                   const std::string &paLabel,
                                                   int32_t paMinRange,
                                                   int32_t paMaxRange) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *bar = lv_bar_create(wrapper);
   lv_bar_set_range(bar, paMinRange, paMaxRange);
@@ -90,7 +90,7 @@ lv_obj_t *LVGLAutoUIConnector::connectSlider(const std::string &paName,
                                              const std::string &paLabel,
                                              int32_t paMinRange,
                                              int32_t paMaxRange) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *slider = lv_slider_create(wrapper);
   lv_slider_set_range(slider, paMinRange, paMaxRange);
@@ -101,7 +101,7 @@ lv_obj_t *LVGLAutoUIConnector::connectSpinbox(const std::string &paName,
                                               const std::string &paLabel,
                                               int32_t paMinRange,
                                               int32_t paMaxRange) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *row = lv_obj_create(wrapper);
   lv_obj_set_size(row, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
@@ -135,13 +135,13 @@ lv_obj_t *LVGLAutoUIConnector::connectSpinbox(const std::string &paName,
 }
 
 lv_subject_t *LVGLAutoUIConnector::connectSubject(const std::string &paName) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   // TODO
   return nullptr;
 }
 
 lv_obj_t *LVGLAutoUIConnector::connectSwitch(const std::string &paName, const std::string &paLabel) {
-  CCriticalRegion criticalRegion(LVGLDriverInterface::timerMutex);
+  CCriticalRegion criticalRegion(LVGLBaseDriver::timerMutex);
   lv_obj_t *wrapper = createWidgetWrapper(paLabel);
   lv_obj_t *swtch = lv_switch_create(wrapper);
   return swtch;

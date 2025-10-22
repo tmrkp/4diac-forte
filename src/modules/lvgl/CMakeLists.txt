@@ -8,7 +8,7 @@ if (FORTE_IO_LVGL)
             LVGLDeviceController
     )
     forte_add_sourcefile_hcpp(
-            driver/LVGLDriverInterface
+            driver/LVGLBaseDriver
             driver/SDL2Driver
     )
     forte_add_sourcefile_hcpp(
@@ -44,10 +44,10 @@ if (FORTE_IO_LVGL)
             types/FORTE_LVGLSwitch
     )
 
+    forte_add_sourcefile_hcpp(fbs/ConveyorSim_fbt)
+
     forte_add_startup_hook(lvglStartupHook)
     forte_add_sourcefile_hcpp(startup)
-
-    forte_add_subdirectory(ui)
 
     find_package(SDL2 REQUIRED)
     message(STATUS "SDL2 include dirs: ${SDL2_INCLUDE_DIRS}")
@@ -61,6 +61,12 @@ if (FORTE_IO_LVGL)
     target_link_libraries(lvgl PRIVATE ${SDL2_LIBRARIES})
     forte_add_link_library(lvgl)
 
+    forte_add_subdirectory(lvgl_editor_ui)
+    target_link_libraries(lib-ui PUBLIC lvgl)
+    forte_add_link_library(lib-ui)
+    target_include_directories(lib-ui PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/lvgl_editor_ui
+    )
 endif (FORTE_IO_LVGL)
 
 

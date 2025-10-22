@@ -1,47 +1,13 @@
 #include "SDL2Driver.h"
 
-#include <unistd.h>
-#include "devlog.h"
-
-#include "ui/ui.h"
-#include "ui/screens/main_gen.h"
+#include "lvgl_editor_ui/lvgl_editor_ui.h"
+#include "lvgl_editor_ui/screens/demo1_gen.h"
 
 void SDL2Driver::init() {
-  lv_init();
-
-  lv_log_register_print_cb([](lv_log_level_t level, const char *buf) {
-    switch (level) {
-      case LV_LOG_LEVEL_ERROR: DEVLOG_ERROR("[LVGL] %s", buf); break;
-      case LV_LOG_LEVEL_WARN: DEVLOG_WARNING("[LVGL] %s", buf); break;
-      default: DEVLOG_DEBUG("[LVGL] %s", buf); break;
-    }
-  });
+  LVGLBaseDriver::init();
 
   initHAL(640, 480);
-  // initUI();
-}
-
-void SDL2Driver::runLoop() {
-  while (true) {
-    std::queue<std::function<void()>> tasks;
-
-    {
-      CCriticalRegion criticalRegion(taskQueueMutex);
-      std::swap(tasks, taskQueue);
-    }
-
-    while (!tasks.empty()) {
-      tasks.front()();
-      tasks.pop();
-    }
-
-    uint32_t delay;
-    {
-      CCriticalRegion criticalRegion(timerMutex);
-      delay = lv_timer_handler();
-    }
-    usleep(delay * 1000);
-  }
+  initUI();
 }
 
 lv_display_t *SDL2Driver::initHAL(int32_t w, int32_t h) {
@@ -62,13 +28,7 @@ lv_display_t *SDL2Driver::initHAL(int32_t w, int32_t h) {
 }
 
 void SDL2Driver::initUI() {
-  ui_init(nullptr);
-  lv_obj_t *main = main_create();
-  lv_obj_t *led = lv_led_create(lv_obj_find_by_name(main, "led_inject_1"));
-  lv_obj_set_name(led, "lvled1");
-  lv_led_off(led);
-  lv_obj_t *swtch = lv_switch_create(lv_obj_find_by_name(main, "switch_inject_1"));
-  lv_obj_set_name(swtch, "lvswitch1");
-
+  lvgl_editor_ui_init(nullptr);
+  lv_obj_t *main = demo1_create();
   lv_screen_load(main);
 }

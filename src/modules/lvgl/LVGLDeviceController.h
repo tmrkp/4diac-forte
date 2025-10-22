@@ -5,6 +5,7 @@
 
 #include "connector/LVGLConnectorInterface.h"
 #include "connector/LVGLAutoUIConnector.h"
+#include "connector/LVGLExternalConnector.h"
 #include "handles/LVGLDropdownSelectedIndexHandle.h"
 #include "handles/LVGLWidgetStateHandle.h"
 #include "handles/LVGLLEDBrightnessHandle.h"
@@ -253,7 +254,7 @@ class LVGLDeviceController : public IODeviceMultiController {
     LVGLConfig mConfig;
 
   private:
-    LVGLAutoUIConnector mConnector;
+    LVGLExternalConnector mConnector;
 
     bool isSlaveAvailable(size_t paIndex) override;
 
