@@ -1,0 +1,49 @@
+<screen>
+	<view style_bg_color="0xF5F7FA">
+		<box align="top_mid" y="170" x="-100">
+			<bind_flag_if_not_eq flag="hidden" subject="l1" ref_value="1" />
+		</box>
+		<box align="top_mid" y="170" x="100">
+			<bind_flag_if_not_eq flag="hidden" subject="l2" ref_value="1" />
+		</box>
+
+		<belt align="top_mid" y="260" />
+
+		<lv_obj align="top_mid" y="220" x="-100">
+			<style name="light" />
+			<bind_style name="light_active" subject="l1" ref_value="1" />
+			<bind_style name="light_inactive" subject="l1" ref_value="0" />
+		</lv_obj>
+
+		<lv_obj align="top_mid" y="220" x="100">
+			<style name="light" />
+			<bind_style name="light_active" subject="l2" ref_value="1" />
+			<bind_style name="light_inactive" subject="l2" ref_value="0" />
+		</lv_obj>
+
+		<lv_obj
+			style_bg_color="0xE4E7EB"
+			style_border_color="0xCBD2D9"
+			style_border_width="4"
+			style_border_side="top"
+			style_radius="0"
+			width="100%"
+			height="content"
+			align="bottom_mid"
+			style_layout="flex"
+			style_pad_top="20"
+			style_pad_bottom="30"
+			style_pad_hor="20"
+			style_flex_main_place="space_between"
+		>
+			<lv_button name="move_left_btn">
+				<style name="btn" />
+				<lv_label text="Move Left" />
+			</lv_button>
+			<lv_button name="move_right_btn">
+				<style name="btn" />
+				<lv_label text="Move Right" />
+			</lv_button>
+		</lv_obj>
+	</view>
+</screen>
