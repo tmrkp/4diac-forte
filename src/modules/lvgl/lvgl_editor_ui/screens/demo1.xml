@@ -12,13 +12,11 @@
 		<lv_obj align="top_mid" y="220" x="-100">
 			<style name="light" />
 			<bind_style name="light_active" subject="l1" ref_value="1" />
-			<bind_style name="light_inactive" subject="l1" ref_value="0" />
 		</lv_obj>
 
 		<lv_obj align="top_mid" y="220" x="100">
 			<style name="light" />
 			<bind_style name="light_active" subject="l2" ref_value="1" />
-			<bind_style name="light_inactive" subject="l2" ref_value="0" />
 		</lv_obj>
 
 		<lv_obj

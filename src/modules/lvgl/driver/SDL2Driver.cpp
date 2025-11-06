@@ -7,7 +7,7 @@ void SDL2Driver::init() {
   LVGLBaseDriver::init();
 
   initHAL(640, 480);
-  initUI();
+  // initUI();
 }
 
 lv_display_t *SDL2Driver::initHAL(int32_t w, int32_t h) {

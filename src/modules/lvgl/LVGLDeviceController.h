@@ -18,6 +18,8 @@
 
 using namespace forte::core::io;
 
+using LVGLConnector = LVGLAutoUIConnector; // Select Connector implementation here
+
 class LVGLDeviceController : public IODeviceMultiController {
   public:
     explicit LVGLDeviceController(CDeviceExecution &paDeviceExecution);
@@ -254,7 +256,7 @@ class LVGLDeviceController : public IODeviceMultiController {
     LVGLConfig mConfig;
 
   private:
-    LVGLExternalConnector mConnector;
+    LVGLConnector mConnector;
 
     bool isSlaveAvailable(size_t paIndex) override;
 

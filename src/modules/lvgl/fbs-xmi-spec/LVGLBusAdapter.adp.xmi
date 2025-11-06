@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:data="org.eclipse.fordiac.ide.model.datatype" xmlns:libraryElement="org.eclipse.fordiac.ide.model.libraryElement" xmlns:xmiexport="http://www.eclipse.org/fordiac/ide/xmiexport/XMIExport">
+  <libraryElement:AdapterType name="LVGLBusAdapter" comment="Adapter Interface">
+    <versionInfo author="tim" date="2025-05-16" version="1.0"/>
+    <identification standard="61499-1"/>
+    <compilerInfo/>
+    <interfaceList>
+      <eventInputs name="INITO" isInput="true">
+        <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+        <with variables="/0/@interfaceList/@inputVars.0"/>
+      </eventInputs>
+      <eventOutputs name="INIT">
+        <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+        <with variables="/0/@interfaceList/@outputVars.0"/>
+        <with variables="/0/@interfaceList/@outputVars.1"/>
+        <with variables="/0/@interfaceList/@outputVars.2"/>
+      </eventOutputs>
+      <inputVars name="QO" isInput="true" withs="/0/@interfaceList/@eventInputs.0/@with.0">
+        <type xsi:type="data:BoolType" href="data.lib#/12"/>
+      </inputVars>
+      <outputVars name="QI" withs="/0/@interfaceList/@eventOutputs.0/@with.0">
+        <type xsi:type="data:BoolType" href="data.lib#/12"/>
+      </outputVars>
+      <outputVars name="MasterId" withs="/0/@interfaceList/@eventOutputs.0/@with.1">
+        <type xsi:type="data:UintType" href="data.lib#/3"/>
+      </outputVars>
+      <outputVars name="Index" withs="/0/@interfaceList/@eventOutputs.0/@with.2">
+        <type xsi:type="data:UintType" href="data.lib#/3"/>
+      </outputVars>
+    </interfaceList>
+    <service>
+      <rightInterface name="SOCKET"/>
+      <leftInterface name="PLUG"/>
+      <serviceSequence name="request_confirm">
+        <serviceTransaction>
+          <inputPrimitive event="REQ" parameters="REQD" interface="/0/@service/@rightInterface"/>
+          <outputPrimitive event="REQ" parameters="REQD" interface="/0/@service/@leftInterface"/>
+        </serviceTransaction>
+        <serviceTransaction>
+          <inputPrimitive event="CNF" parameters="CNFD" interface="/0/@service/@leftInterface"/>
+          <outputPrimitive event="CNF" parameters="CNFD" interface="/0/@service/@rightInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="indication_response">
+        <serviceTransaction>
+          <inputPrimitive event="IND" parameters="INDD" interface="/0/@service/@leftInterface"/>
+          <outputPrimitive event="IND" parameters="INDD" interface="/0/@service/@rightInterface"/>
+        </serviceTransaction>
+        <serviceTransaction>
+          <inputPrimitive event="RSP" parameters="RSPD" interface="/0/@service/@rightInterface"/>
+          <outputPrimitive event="RSP" parameters="RSPD" interface="/0/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+    </service>
+  </libraryElement:AdapterType>
+  <xmiexport:XMIExportInitialValues/>
+  <xmiexport:XMIExportTypeDeclarations/>
+  <xmiexport:XMIExportAttributeValues/>
+</xmi:XMI>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:data="org.eclipse.fordiac.ide.model.datatype" xmlns:libraryElement="org.eclipse.fordiac.ide.model.libraryElement" xmlns:stalgorithm="http://www.eclipse.org/fordiac/ide/structuredtextalgorithm/STAlgorithm" xmlns:stcore="http://www.eclipse.org/fordiac/ide/structuredtextcore/STCore" xmlns:xmiexport="http://www.eclipse.org/fordiac/ide/xmiexport/XMIExport">
+  <stalgorithm:STAlgorithmSource/>
+  <libraryElement:ServiceInterfaceFBType name="LVGLChart" comment="Service Interface Function Block Type">
+    <versionInfo author="tim" date="2025-06-11" version="1.0"/>
+    <identification standard="61499-2"/>
+    <compilerInfo/>
+    <interfaceList>
+      <eventInputs name="MAP" isInput="true">
+        <type xsi:type="data:EventType" href="Event.eventlib.dtp#/"/>
+        <with variables="/1/@interfaceList/@inputVars.0"/>
+        <with variables="/1/@interfaceList/@inputVars.6"/>
+        <with variables="/1/@interfaceList/@inputVars.5"/>
+        <with variables="/1/@interfaceList/@inputVars.1"/>
+        <with variables="/1/@interfaceList/@inputVars.4"/>
+        <with variables="/1/@interfaceList/@inputVars.2"/>
+        <with variables="/1/@interfaceList/@inputVars.3"/>
+      </eventInputs>
+      <eventOutputs name="MAPO">
+        <type xsi:type="data:EventType" href="Event.eventlib.dtp#/"/>
+        <with variables="/1/@interfaceList/@outputVars.0"/>
+      </eventOutputs>
+      <eventOutputs name="IND">
+        <type xsi:type="data:EventType" href="Event.eventlib.dtp#/"/>
+        <with variables="/1/@interfaceList/@outputVars.1"/>
+        <with variables="/1/@interfaceList/@outputVars.0"/>
+      </eventOutputs>
+      <inputVars name="QI" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.0">
+        <type xsi:type="data:BoolType" href="data.lib#/12"/>
+      </inputVars>
+      <inputVars name="Label" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.3">
+        <type xsi:type="data:StringType" href="data.lib#/17"/>
+      </inputVars>
+      <inputVars name="MinYRange" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.5">
+        <type xsi:type="data:DintType" href="data.lib#/8"/>
+        <value value="0"/>
+      </inputVars>
+      <inputVars name="MaxYRange" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.6">
+        <type xsi:type="data:DintType" href="data.lib#/8"/>
+        <value value="100"/>
+      </inputVars>
+      <inputVars name="PointCount" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.4">
+        <type xsi:type="data:UdintType" href="data.lib#/4"/>
+      </inputVars>
+      <inputVars name="WidgetName" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.2">
+        <type xsi:type="data:StringType" href="data.lib#/17"/>
+      </inputVars>
+      <inputVars name="IntegerOutput" isInput="true" withs="/1/@interfaceList/@eventInputs.0/@with.1">
+        <type xsi:type="data:StringType" href="data.lib#/17"/>
+      </inputVars>
+      <outputVars name="QO" withs="/1/@interfaceList/@eventOutputs.0/@with.0 /1/@interfaceList/@eventOutputs.1/@with.1">
+        <type xsi:type="data:BoolType" href="data.lib#/12"/>
+      </outputVars>
+      <outputVars name="STATUS" withs="/1/@interfaceList/@eventOutputs.1/@with.0">
+        <type xsi:type="data:WstringType" href="data.lib#/18"/>
+      </outputVars>
+      <plugs name="BusAdapterOut" adapterFB="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB">
+        <type xsi:type="libraryElement:AdapterType" href="platform:/resource/HMITypesDemo/Type%20Library/LVGLBusAdapter.adp#/"/>
+        <interfaceOnlyAdapterFB name="BusAdapterOut" adapterDecl="/1/@interfaceList/@plugs.0">
+          <position/>
+          <interface>
+            <eventInputs name="INIT" isInput="true">
+              <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+              <with variables="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@inputVars.0"/>
+              <with variables="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@inputVars.1"/>
+              <with variables="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@inputVars.2"/>
+            </eventInputs>
+            <eventOutputs name="INITO">
+              <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+              <with variables="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@outputVars.0"/>
+            </eventOutputs>
+            <inputVars name="QI" isInput="true" withs="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@eventInputs.0/@with.0">
+              <type xsi:type="data:BoolType" href="data.lib#/12"/>
+              <value/>
+            </inputVars>
+            <inputVars name="MasterId" isInput="true" withs="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@eventInputs.0/@with.1">
+              <type xsi:type="data:UintType" href="data.lib#/3"/>
+              <value/>
+            </inputVars>
+            <inputVars name="Index" isInput="true" withs="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@eventInputs.0/@with.2">
+              <type xsi:type="data:UintType" href="data.lib#/3"/>
+              <value/>
+            </inputVars>
+            <outputVars name="QO" withs="/1/@interfaceList/@plugs.0/@interfaceOnlyAdapterFB/@interface/@eventOutputs.0/@with.0">
+              <type xsi:type="data:BoolType" href="data.lib#/12"/>
+              <value/>
+            </outputVars>
+          </interface>
+        </interfaceOnlyAdapterFB>
+      </plugs>
+      <sockets name="BusAdapterIn" isInput="true" adapterFB="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB">
+        <type xsi:type="libraryElement:AdapterType" href="platform:/resource/HMITypesDemo/Type%20Library/LVGLBusAdapter.adp#/"/>
+        <interfaceOnlyAdapterFB name="BusAdapterIn" adapterDecl="/1/@interfaceList/@sockets.0">
+          <position/>
+          <interface>
+            <eventInputs name="INITO" isInput="true">
+              <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+              <with variables="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@inputVars.0"/>
+            </eventInputs>
+            <eventOutputs name="INIT">
+              <type xsi:type="data:EventType" href="EInit.eventlib.dtp#/"/>
+              <with variables="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@outputVars.0"/>
+              <with variables="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@outputVars.1"/>
+              <with variables="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@outputVars.2"/>
+            </eventOutputs>
+            <inputVars name="QO" isInput="true" withs="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@eventInputs.0/@with.0">
+              <type xsi:type="data:BoolType" href="data.lib#/12"/>
+              <value/>
+            </inputVars>
+            <outputVars name="QI" withs="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@eventOutputs.0/@with.0">
+              <type xsi:type="data:BoolType" href="data.lib#/12"/>
+              <value/>
+            </outputVars>
+            <outputVars name="MasterId" withs="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@eventOutputs.0/@with.1">
+              <type xsi:type="data:UintType" href="data.lib#/3"/>
+              <value/>
+            </outputVars>
+            <outputVars name="Index" withs="/1/@interfaceList/@sockets.0/@interfaceOnlyAdapterFB/@interface/@eventOutputs.0/@with.2">
+              <type xsi:type="data:UintType" href="data.lib#/3"/>
+              <value/>
+            </outputVars>
+          </interface>
+        </interfaceOnlyAdapterFB>
+      </sockets>
+    </interfaceList>
+    <service>
+      <rightInterface name="RESOURCE"/>
+      <leftInterface name="APPLICATION"/>
+      <serviceSequence name="normal_establishment">
+        <serviceTransaction>
+          <inputPrimitive event="INIT+" parameters="PARAMS" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="initialize" parameters="PARAMS" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="INITO+" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="unsuccessful_establishment">
+        <serviceTransaction>
+          <inputPrimitive event="INIT+" parameters="PARAMS" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="initialize" parameters="PARAMS" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="INITO-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="request_confirm">
+        <serviceTransaction>
+          <inputPrimitive event="REQ+" parameters="SD" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="request" parameters="SD" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="CNF+" parameters="RD" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="request_inhibited">
+        <serviceTransaction>
+          <inputPrimitive event="REQ-" parameters="SD" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="CNF-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="request_error">
+        <serviceTransaction>
+          <inputPrimitive event="REQ+" parameters="SD" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="request" parameters="SD" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="CNF-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="indication_response">
+        <serviceTransaction>
+          <inputPrimitive event="indicate" parameters="RD" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="IND+" parameters="RD" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+        <serviceTransaction>
+          <inputPrimitive event="RSP" parameters="QI,SD" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="response" parameters="QI,SD" interface="/1/@service/@rightInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="indication_inhibited">
+        <serviceTransaction>
+          <inputPrimitive event="indicate" parameters="RD,QI=FALSE" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="inhibited" interface="/1/@service/@rightInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="error_indication">
+        <serviceTransaction>
+          <inputPrimitive event="error" parameters="STATUS" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="IND-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="application_initiated_termination">
+        <serviceTransaction>
+          <inputPrimitive event="INIT-" interface="/1/@service/@leftInterface"/>
+          <outputPrimitive event="terminate" interface="/1/@service/@rightInterface"/>
+          <outputPrimitive event="INITO-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+      <serviceSequence name="resource_initiated_termination">
+        <serviceTransaction>
+          <outputPrimitive event="INITO-" parameters="STATUS" interface="/1/@service/@leftInterface"/>
+        </serviceTransaction>
+      </serviceSequence>
+    </service>
+  </libraryElement:ServiceInterfaceFBType>
+  <xmiexport:XMIExportInitialValues>
+    <initialValues variable="/1/@interfaceList/@inputVars.2" value="0">
+      <expression xsi:type="stcore:STElementaryInitializerExpression">
+        <value xsi:type="stcore:STNumericLiteral" value="ACED0005737200146A6176612E6D6174682E426967496E74656765728CFC9F1FA93BFB1D030006490008626974436F756E744900096269744C656E67746849001366697273744E6F6E7A65726F427974654E756D49000C6C6F776573745365744269744900067369676E756D5B00096D61676E69747564657400025B42787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFE00000000757200025B42ACF317F8060854E002000078700000000078"/>
+      </expression>
+    </initialValues>
+    <initialValues variable="/1/@interfaceList/@inputVars.3" value="100">
+      <expression xsi:type="stcore:STElementaryInitializerExpression">
+        <value xsi:type="stcore:STNumericLiteral" value="ACED0005737200146A6176612E6D6174682E426967496E74656765728CFC9F1FA93BFB1D030006490008626974436F756E744900096269744C656E67746849001366697273744E6F6E7A65726F427974654E756D49000C6C6F776573745365744269744900067369676E756D5B00096D61676E69747564657400025B42787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFE00000001757200025B42ACF317F8060854E00200007870000000016478"/>
+      </expression>
+    </initialValues>
+  </xmiexport:XMIExportInitialValues>
+  <xmiexport:XMIExportTypeDeclarations/>
+  <xmiexport:XMIExportAttributeValues/>
+</xmi:XMI>

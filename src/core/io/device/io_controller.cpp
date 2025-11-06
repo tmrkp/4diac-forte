@@ -178,7 +178,7 @@ void IODeviceController::dropHandles() {
   mDiverseHandles.clear();
 }
 
-bool IODeviceController::isHandleValueEqual(IOHandle &paHandle) {
+bool IODeviceController::isHandleValueEqual(IOHandle &) {
   return true;
 }
 

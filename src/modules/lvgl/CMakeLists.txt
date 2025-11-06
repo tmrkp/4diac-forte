@@ -1,4 +1,4 @@
-forte_add_io(LVGL "Human Machine Interface")
+forte_add_io(LVGL "Integrating and Interacting with LVGL Widgets")
 
 if (FORTE_IO_LVGL)
     set(FORTE_IO ON CACHE BOOL "Enable IO Modules" FORCE)
@@ -61,6 +61,7 @@ if (FORTE_IO_LVGL)
     target_link_libraries(lvgl PRIVATE ${SDL2_LIBRARIES})
     forte_add_link_library(lvgl)
 
+    # Custom UI
     forte_add_subdirectory(lvgl_editor_ui)
     target_link_libraries(lib-ui PUBLIC lvgl)
     forte_add_link_library(lib-ui)
